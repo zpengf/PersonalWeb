@@ -6,8 +6,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="PerosonalWeb" />
+        <module name="mybatis-generator-database" />
+        <module name="PersonalWeb-service-user" />
+        <module name="PersonalWeb-common" />
+        <module name="PersonalWeb-service-api" />
+        <module name="PersonalWeb-model" />
+        <module name="PersonalWeb-service-admin" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="PersonalWeb-common" options="-parameters" />
+      <module name="PersonalWeb-model" options="-parameters" />
+      <module name="PersonalWeb-service-admin" options="-parameters" />
+      <module name="PersonalWeb-service-api" options="-parameters" />
+      <module name="PersonalWeb-service-user" options="-parameters" />
+    </option>
   </component>
 </project>

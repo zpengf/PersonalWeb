@@ -1,0 +1,4 @@
+com/capture/user/mapper/AppUserMapper.class
+com/capture/user/mapper/FansMapper.class
+com/capture/user/Application.class
+com/capture/user/controller/HelloController.class

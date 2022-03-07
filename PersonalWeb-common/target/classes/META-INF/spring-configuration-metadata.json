@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "aliyun",
+      "type": "com.capture.utils.extend.AliyunResource",
+      "sourceType": "com.capture.utils.extend.AliyunResource"
+    }
+  ],
+  "properties": [
+    {
+      "name": "aliyun.access-key-i-d",
+      "type": "java.lang.String",
+      "sourceType": "com.capture.utils.extend.AliyunResource"
+    },
+    {
+      "name": "aliyun.access-key-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.capture.utils.extend.AliyunResource"
+    }
+  ],
+  "hints": []
+}
