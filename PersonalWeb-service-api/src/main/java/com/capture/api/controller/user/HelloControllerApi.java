@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @Api(value = "HelloControllerApi标题",tags = {"hello功能的controller"})
+@RestController
 public interface HelloControllerApi {
 
 

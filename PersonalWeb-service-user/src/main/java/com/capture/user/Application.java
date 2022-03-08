@@ -2,6 +2,8 @@ package com.capture.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * @ClassName: Application
@@ -10,7 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date: 2022/3/7 下午7:48
  * @Version: 1.0
  */
+@EnableSwagger2
 @SpringBootApplication
+@MapperScan(basePackages = "com.capture.user.mapper")
 public class Application {
 
 
