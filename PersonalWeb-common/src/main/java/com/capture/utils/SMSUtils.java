@@ -26,13 +26,13 @@ public class SMSUtils {
 
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
-        request.setSysDomain("dysmsapi.aliyuncs.com");
+        request.setSysDomain("dysmsapi.aliyuncs.com"); //固定
         request.setSysVersion("2017-05-25");
-        request.setSysAction("SendSms");
+        request.setSysAction("SendSms");//写死
         request.putQueryParameter("RegionId", "cn-hangzhou");
 
         request.putQueryParameter("PhoneNumbers", mobile);
-        request.putQueryParameter("SignName", "风间影月");
+        request.putQueryParameter("SignName", "capture");
         request.putQueryParameter("TemplateCode", "SMS_183761535");
         request.putQueryParameter("TemplateParam", "{\"code\":\"" + code + "\"}");
 

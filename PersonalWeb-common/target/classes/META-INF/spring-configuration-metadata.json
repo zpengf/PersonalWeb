@@ -4,6 +4,11 @@
       "name": "aliyun",
       "type": "com.capture.utils.extend.AliyunResource",
       "sourceType": "com.capture.utils.extend.AliyunResource"
+    },
+    {
+      "name": "mail",
+      "type": "com.capture.utils.extend.MailResource",
+      "sourceType": "com.capture.utils.extend.MailResource"
     }
   ],
   "properties": [
@@ -16,6 +21,16 @@
       "name": "aliyun.access-key-secret",
       "type": "java.lang.String",
       "sourceType": "com.capture.utils.extend.AliyunResource"
+    },
+    {
+      "name": "mail.auth-code",
+      "type": "java.lang.String",
+      "sourceType": "com.capture.utils.extend.MailResource"
+    },
+    {
+      "name": "mail.my-mail",
+      "type": "java.lang.String",
+      "sourceType": "com.capture.utils.extend.MailResource"
     }
   ],
   "hints": []

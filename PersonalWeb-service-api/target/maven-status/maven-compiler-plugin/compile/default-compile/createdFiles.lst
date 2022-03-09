@@ -1,3 +1,14 @@
-com/capture/my/mapper/MyMapper.class
+com/capture/api/interceptors/BaseInterceptor.class
 com/capture/api/config/Swagger2.class
+com/capture/api/config/CorsConfig.class
+com/capture/my/mapper/MyMapper.class
+com/capture/api/interceptors/ArticleReadInterceptor.class
+com/capture/api/interceptors/AdminTokenInterceptor.class
+com/capture/api/config/InterceptorConfig.class
+com/capture/api/interceptors/AdminCookieTokenInterceptor.class
+com/capture/api/interceptors/UserTokenInterceptor.class
 com/capture/api/controller/user/HelloControllerApi.class
+com/capture/api/controller/user/PassportControllerApi.class
+com/capture/api/interceptors/PassportInterceptor.class
+com/capture/api/interceptors/UserActiveInterceptor.class
+com/capture/api/BaseController.class

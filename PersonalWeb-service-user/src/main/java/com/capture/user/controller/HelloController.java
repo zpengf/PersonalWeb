@@ -1,9 +1,13 @@
 package com.capture.user.controller;
 
 import com.capture.api.controller.user.HelloControllerApi;
+import com.capture.grace.result.GraceJSONResult;
 import com.capture.grace.result.IMOOCJSONResult;
+import com.capture.utils.RedisOperator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,6 +22,9 @@ public class HelloController implements HelloControllerApi {
 
     final static Logger logger = LoggerFactory.getLogger(HelloController.class);
 
+    @Autowired
+    private RedisOperator redisOperator;
+
     public Object hello(){
         logger.debug("debug");
         logger.info("info");
@@ -26,5 +33,10 @@ public class HelloController implements HelloControllerApi {
         return IMOOCJSONResult.ok();
     }
 
+    @GetMapping("/redis")
+    public Object getRedis(){
+        redisOperator.set("age","18");
+        return GraceJSONResult.ok(redisOperator.get("age"));
+    }
 
 }

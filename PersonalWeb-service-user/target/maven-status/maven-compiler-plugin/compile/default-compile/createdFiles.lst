@@ -1,4 +1,9 @@
 com/capture/user/mapper/AppUserMapper.class
+com/capture/user/service/MyFanService.class
 com/capture/user/mapper/FansMapper.class
+com/capture/user/service/AppUserMngService.class
 com/capture/user/Application.class
+com/capture/user/service/impl/UserServiceImpl.class
+com/capture/user/controller/PassportController.class
+com/capture/user/service/UserService.class
 com/capture/user/controller/HelloController.class
