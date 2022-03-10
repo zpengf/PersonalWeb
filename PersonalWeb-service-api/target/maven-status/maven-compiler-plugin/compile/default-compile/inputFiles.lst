@@ -8,6 +8,7 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/UserActiveInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/UserTokenInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/InterceptorConfig.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/user/UserControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/CorsConfig.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/ArticleReadInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/user/PassportControllerApi.java

@@ -1,6 +1,7 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/controller/PassportController.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/service/AppUserMngService.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/mapper/AppUserMapper.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/controller/UserController.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/controller/HelloController.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/service/impl/AppUserMngServiceImpl.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/mapper/FansMapper.java

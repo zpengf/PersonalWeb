@@ -8,3 +8,14 @@ spring:
     port: 6379
     database: 0  #使用redis中第几个库
     host: 127.0.0.1
+
+# dev环境开启mybatis的日志打印
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+
+website:
+  domain-name: imoocnews.com

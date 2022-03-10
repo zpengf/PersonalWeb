@@ -18,6 +18,10 @@ public class UpdateUserInfoBO {
     @NotBlank(message = "用户头像不能为空")
     private String face;
 
+
+    @NotBlank(message = "手机号不能为空")
+    private String mobile;
+
     @NotBlank(message = "真实姓名不能为空")
     private String realname;
 
@@ -34,13 +38,13 @@ public class UpdateUserInfoBO {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd") // 解决前端日期字符串传到后端后，转换为Date类型
     private Date birthday;
 
-    @NotBlank(message = "请选择所在城市")
+    @NotBlank(message = "请选择所在省份")
     private String province;
 
     @NotBlank(message = "请选择所在城市")
     private String city;
 
-    @NotBlank(message = "请选择所在城市")
+    @NotBlank(message = "请选择所在区域")
     private String district;
 
     public String getId() {
@@ -121,5 +125,13 @@ public class UpdateUserInfoBO {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }
