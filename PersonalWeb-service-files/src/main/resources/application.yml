@@ -1,0 +1,36 @@
+############################################################
+#
+# 文件微服务
+# web访问端口号  约定：8004
+#
+############################################################
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-swallow-size: -1  # tomcat默认大小2M，超过2M的文件不会被捕获，需要调整此处大小为100MB或者-1即可
+
+############################################################
+#
+# 配置项目信息
+#
+############################################################
+spring:
+  application:
+    name: service-files
+  profiles:
+    active: dev   # yml中配置文件的环境配置，dev：开发环境，test：测试环境，prod：生产环境
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 5120000  #请求的文件大小限制为5M
+      max-request-size: 5120000
+
+########################################
+# fastdfs配置
+########################################
+fdfs:
+  connect-timeout: 30
+  so-timeout: 30
+  tracker-list: 10.211.55.9:22122

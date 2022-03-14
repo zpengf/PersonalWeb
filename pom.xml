@@ -13,6 +13,7 @@
         <module>PersonalWeb-service-admin</module>
         <module>PersonalWeb-service-api</module>
         <module>PersonalWeb-service-user</module>
+        <module>PersonalWeb-service-files</module>
     </modules>
 
     <!--

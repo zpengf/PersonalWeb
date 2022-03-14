@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="mybatis-generator-database" />
         <module name="PersonalWeb-service-user" />
+        <module name="PersonalWeb-service-files" />
         <module name="PersonalWeb-common" />
         <module name="PersonalWeb-service-api" />
         <module name="PersonalWeb-model" />
@@ -21,6 +22,7 @@
       <module name="PersonalWeb-model" options="-parameters" />
       <module name="PersonalWeb-service-admin" options="-parameters" />
       <module name="PersonalWeb-service-api" options="-parameters" />
+      <module name="PersonalWeb-service-files" options="-parameters" />
       <module name="PersonalWeb-service-user" options="-parameters" />
     </option>
   </component>
