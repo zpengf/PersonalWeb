@@ -31,15 +31,15 @@ public class Swagger2 {
     // 配置swagger2核心配置 docket
     @Bean
     public Docket createRestApi() {
-        //Predicate<RequestHandler> adminPredicate = RequestHandlerSelectors.basePackage("com.capture.admin.controller");
-        //Predicate<RequestHandler> articlePredicate = RequestHandlerSelectors.basePackage("com.capture.article.controller");
+        Predicate<RequestHandler> adminPredicate = RequestHandlerSelectors.basePackage("com.capture.admin.controller");
+        Predicate<RequestHandler> articlePredicate = RequestHandlerSelectors.basePackage("com.capture.article.controller");
         Predicate<RequestHandler> userPredicate = RequestHandlerSelectors.basePackage("com.capture.user.controller");
-        //Predicate<RequestHandler> filesPredicate = RequestHandlerSelectors.basePackage("com.capture.files.controller");
+        Predicate<RequestHandler> filesPredicate = RequestHandlerSelectors.basePackage("com.capture.files.controller");
 
         return new Docket(DocumentationType.SWAGGER_2)  // 指定api类型为swagger2
                 .apiInfo(apiInfo())                 // 用于定义api文档汇总信息
                 .select()
-                .apis(Predicates.or(userPredicate))
+                .apis(Predicates.or(userPredicate,adminPredicate,articlePredicate,filesPredicate))
                 .paths(PathSelectors.any())         // 所有controller
                 .build();
     }
