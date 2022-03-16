@@ -38,7 +38,10 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-
+  data:
+    mongodb:
+      uri: mongodb://root:root@10.211.55.9:27017
+      database: personal_web  #数据库的名字
 ############################################################
 #
 # mybatis 配置

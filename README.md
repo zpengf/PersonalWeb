@@ -6,11 +6,11 @@
     2.redis 配置详见 service-user模块application.yml系列文件
     (注：application.yml是总配置文件 在不同的环境执行各自的配置 -dev位开发环境 -prd为生产正式环境 -test为测试环境)
     
-    3.fastDFS与ngix结合 配置文件详见files模块配置文件 主要修改对应的ip地址 
+    3.fastDFS与ngix结合 配置文件详见service-files模块配置文件 主要修改对应的ip地址 
     
     4.mq 
     
-    5.mongoDB 存放人脸数据
+    5.mongoDB 存放amdin人脸数据 配置详见service-files模块application.yml文件
     
     
 

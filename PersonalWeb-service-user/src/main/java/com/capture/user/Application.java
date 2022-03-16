@@ -2,6 +2,7 @@ package com.capture.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import tk.mybatis.spring.annotation.MapperScan;
@@ -16,7 +17,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableSwagger2
 @MapperScan(basePackages = "com.capture.user.mapper")
 @ComponentScan(basePackages = {"com.capture","org.n3r.idworker"})
-@SpringBootApplication
+@SpringBootApplication(exclude = MongoAutoConfiguration.class)
 public class Application {
 
 

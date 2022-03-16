@@ -110,11 +110,11 @@ public class AdminMngController extends BaseController implements AdminMngContro
                                        HttpServletRequest request,
                                        HttpServletResponse response) {
 
-        // 0. TODO 验证BO中的用户名和密码不为空
-        if(null == newAdminBO || StringUtils.isBlank(newAdminBO.getUsername())
-                || StringUtils.isBlank(newAdminBO.getPassword())){
+        // 0. TODO 验证BO中的用户名不为空
+        if(null == newAdminBO || StringUtils.isBlank(newAdminBO.getUsername())){
             return GraceJSONResult.errorCustom(ResponseStatusEnum.ADMIN_NOT_EXIT_ERROR);
         }
+
         // 1. base64为空，则代表不是人脸入库，否则需要用户输入密码和确认密码
         if (StringUtils.isBlank(newAdminBO.getImg64())) {
             if (StringUtils.isBlank(newAdminBO.getPassword()) ||
@@ -194,6 +194,7 @@ public class AdminMngController extends BaseController implements AdminMngContro
         }
 
         // 2. 请求文件服务，获得人脸数据的base64数据
+        //这里因为与 fiels 是不同的文件服务 所以需要远程调借口
         String fileServerUrlExecute
                 = "http://files.imoocnews.com:8004/fs/readFace64InGridFS?faceId=" + adminFaceId;
         ResponseEntity<GraceJSONResult> responseEntity
