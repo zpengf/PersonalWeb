@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capture.user.mapper.AppUserMapperCustom">
+
+  <select id="getUserList" parameterType="Map" resultType="com.capture.pojo.vo.PublisherVO">
+
+    select
+        au.id as userId,
+        au.nickname as nickname,
+        au.face as face
+    from
+        app_user au
+    where
+        au.id in
+        <foreach item="item" index="index" collection="userIdList" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+
+  </select>
+
+</mapper>

@@ -63,7 +63,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/friendLinkMng/getFriendLinkList")
                 .addPathPatterns("/friendLinkMng/delete")
                 .addPathPatterns("/categoryMng/saveOrUpdateCategory")
-                .addPathPatterns("/categoryMng/getCatList");
+                .addPathPatterns("/categoryMng/getCatList")
+                .addPathPatterns("/categoryMng/delCategory");
 
         registry.addInterceptor(articleReadInterceptor())
                 .addPathPatterns("/portal/article/readArticle");

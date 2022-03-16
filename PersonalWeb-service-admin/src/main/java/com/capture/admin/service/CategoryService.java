@@ -26,4 +26,10 @@ public interface CategoryService {
      */
     public List<Category> queryCategoryList();
 
+
+    /**
+     * 删除文章分类
+     */
+    public void delete(String categoryId);
+
 }

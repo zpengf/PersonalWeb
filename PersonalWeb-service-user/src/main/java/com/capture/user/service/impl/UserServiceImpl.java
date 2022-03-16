@@ -8,7 +8,7 @@ import com.capture.pojo.AppUser;
 import com.capture.pojo.bo.UpdateUserInfoBO;
 import com.capture.pojo.vo.PublisherVO;
 import com.capture.user.mapper.AppUserMapper;
-//import com.capture.user.mapper.AppUserMapperCustom;
+import com.capture.user.mapper.AppUserMapperCustom;
 import com.capture.user.service.UserService;
 import com.capture.utils.DateUtil;
 import com.capture.utils.DesensitizationUtil;
@@ -31,9 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public AppUserMapper appUserMapper;
-//
-//    @Autowired
-//    public AppUserMapperCustom appUserMapperCustom;
+
+    @Autowired
+    public AppUserMapperCustom appUserMapperCustom;
 
     @Autowired
     public Sid sid;
@@ -126,13 +126,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    @Override
-//    public List<PublisherVO> getUserList(List<String> userIdList) {
-//
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("userIdList", userIdList);
-//        List<PublisherVO> publisherList = appUserMapperCustom.getUserList(map);
-//
-//        return publisherList;
-//    }
+    @Override
+    public List<PublisherVO>  getUserList(List<String> userIdList) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userIdList", userIdList);
+        List<PublisherVO> publisherList = appUserMapperCustom.getUserList(map);
+
+        return publisherList;
+    }
 }

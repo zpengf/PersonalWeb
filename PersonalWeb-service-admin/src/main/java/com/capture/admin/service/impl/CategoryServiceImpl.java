@@ -85,4 +85,9 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         return categoryMapper.selectAll();
     }
 
+    @Override
+    public void delete(String categoryId) {
+        categoryMapper.deleteByPrimaryKey(categoryId);
+    }
+
 }

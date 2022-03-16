@@ -4,6 +4,7 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/PassportInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/BaseController.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/Swagger2.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/user/AppUserMngControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/my/mapper/MyMapper.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/files/FileUploaderControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/DateConverterConfig.java

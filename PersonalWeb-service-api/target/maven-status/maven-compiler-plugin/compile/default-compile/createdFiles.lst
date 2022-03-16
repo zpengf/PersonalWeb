@@ -9,6 +9,7 @@ com/capture/api/config/CloudConfig.class
 com/capture/api/controller/files/FileUploaderControllerApi.class
 com/capture/api/interceptors/AdminTokenInterceptor.class
 com/capture/api/config/InterceptorConfig.class
+com/capture/api/controller/user/AppUserMngControllerApi.class
 com/capture/api/interceptors/AdminCookieTokenInterceptor.class
 com/capture/api/interceptors/UserTokenInterceptor.class
 com/capture/api/controller/user/UserControllerApi.class

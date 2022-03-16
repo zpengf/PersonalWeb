@@ -5,10 +5,7 @@ import com.capture.pojo.bo.SaveCategoryBO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -20,6 +17,12 @@ public interface CategoryMngControllerApi {
     @ApiOperation(value = "新增或修改分类", notes = "新增或修改分类", httpMethod = "POST")
     public GraceJSONResult saveOrUpdateCategory(@RequestBody @Valid SaveCategoryBO newCategoryBO,
                                                 BindingResult result);
+
+    @PostMapping("delCategory")
+    @ApiOperation(value = "删除分类", notes = "删除分类", httpMethod = "POST")
+    public GraceJSONResult delCategory(@RequestParam String categoryId);
+
+
     @PostMapping("getCatList")
     @ApiOperation(value = "查询分类列表", notes = "查询分类列表", httpMethod = "POST")
     public GraceJSONResult getCatList();

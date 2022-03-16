@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -62,6 +63,12 @@ public class CategoryMngController extends BaseController implements CategoryMng
             }
         }
 
+        return GraceJSONResult.ok();
+    }
+
+    @Override
+    public GraceJSONResult delCategory(@RequestParam String categoryId) {
+        categoryService.delete(categoryId);
         return GraceJSONResult.ok();
     }
 
