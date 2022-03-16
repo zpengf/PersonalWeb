@@ -26,10 +26,4 @@ public class UrlUtil {
 
     }
 
-    public static void main(String[] args) {
-        boolean res =
-                verifyUrl("http://admin.imoocnews.com:9090/imooc-news/admin/friendLinks.html");
-        System.out.println(res);
-    }
-
 }

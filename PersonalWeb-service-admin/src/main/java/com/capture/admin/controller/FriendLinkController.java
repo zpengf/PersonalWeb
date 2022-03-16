@@ -36,8 +36,7 @@ public class FriendLinkController extends BaseController implements FriendLinkCo
             return GraceJSONResult.errorMap(map);
         }
 
-//        saveFriendLinkBO -> ***MO
-
+        //和 mongodb 交互的对象叫 MO
         FriendLinkMO saveFriendLinkMO = new FriendLinkMO();
         BeanUtils.copyProperties(saveFriendLinkBO, saveFriendLinkMO);
         saveFriendLinkMO.setCreateTime(new Date());
