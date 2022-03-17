@@ -57,101 +57,38 @@ public class ArticlePortalController extends BaseController implements ArticlePo
                                                             category,
                                                             page,
                                                             pageSize);
-// START
-
-        /*List<Article> list = (List<Article>)gridResult.getRows();
-
-        // 1. 构建发布者id列表
-        Set<String> idSet = new HashSet<>();
-        for (Article a : list) {
-//            System.out.println(a.getPublishUserId());
-            idSet.add(a.getPublishUserId());
-        }
-        System.out.println(idSet.toString());
-
-        // 2. 发起远程调用（restTemplate），请求用户服务获得用户（idSet 发布者）的列表
-        String userServerUrlExecute
-                = "http://user.imoocnews.com:8003/user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
-        ResponseEntity<GraceJSONResult> responseEntity
-                = restTemplate.getForEntity(userServerUrlExecute, GraceJSONResult.class);
-        GraceJSONResult bodyResult = responseEntity.getBody();
-        List<AppUserVO> publisherList = null;
-        if (bodyResult.getStatus() == 200) {
-            String userJson = JsonUtils.objectToJson(bodyResult.getData());
-            publisherList = JsonUtils.jsonToList(userJson, AppUserVO.class);
-        }
-//        for (AppUserVO u : publisherList) {
-//            System.out.println(u.toString());
-//        }
-
-        // 3. 拼接两个list，重组文章列表
-        List<IndexArticleVO> indexArticleList = new ArrayList<>();
-        for (Article a : list) {
-            IndexArticleVO indexArticleVO = new IndexArticleVO();
-            BeanUtils.copyProperties(a, indexArticleVO);
-
-            // 3.1 从publisherList中获得发布者的基本信息
-            AppUserVO publisher  = getUserIfPublisher(a.getPublishUserId(), publisherList);
-            indexArticleVO.setPublisherVO(publisher);
-            indexArticleList.add(indexArticleVO);
-        }
-        gridResult.setRows(indexArticleList);*/
-// END
         gridResult = rebuildArticleGrid(gridResult);
         return GraceJSONResult.ok(gridResult);
     }
 
+    /**
+     * 首页文章 构建出 发布者名字 头像
+     * @param gridResult
+     * @return
+     */
     private PagedGridResult rebuildArticleGrid(PagedGridResult gridResult) {
-        // START
 
         List<Article> list = (List<Article>)gridResult.getRows();
 
         // 1. 构建发布者id列表
+        //set可以做到去重  一个用户发布了多个文章
         Set<String> idSet = new HashSet<>();
         List<String> idList = new ArrayList<>();
         for (Article a : list) {
-//            System.out.println(a.getPublishUserId());
             // 1.1 构建发布者的set
             idSet.add(a.getPublishUserId());
+
             // 1.2 构建文章id的list
             idList.add(REDIS_ARTICLE_READ_COUNTS + ":" + a.getId());
         }
-        System.out.println(idSet.toString());
         // 发起redis的mget批量查询api，获得对应的值
         List<String> readCountsRedisList = redis.mget(idList);
 
         // 2. 发起远程调用（restTemplate），请求用户服务获得用户（idSet 发布者）的列表
-//        String userServerUrlExecute
-//                = "http://user.imoocnews.com:8003/user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
-//        ResponseEntity<GraceJSONResult> responseEntity
-//                = restTemplate.getForEntity(userServerUrlExecute, GraceJSONResult.class);
-//        GraceJSONResult bodyResult = responseEntity.getBody();
-//        List<AppUserVO> publisherList = null;
-//        if (bodyResult.getStatus() == 200) {
-//            String userJson = JsonUtils.objectToJson(bodyResult.getData());
-//            publisherList = JsonUtils.jsonToList(userJson, AppUserVO.class);
-//        }
         List<AppUserVO> publisherList = getPublisherList(idSet);
-//        for (AppUserVO u : publisherList) {
-//            System.out.println(u.toString());
-//        }
 
         // 3. 拼接两个list，重组文章列表
         List<IndexArticleVO> indexArticleList = new ArrayList<>();
-//        for (Article a : list) {
-//            IndexArticleVO indexArticleVO = new IndexArticleVO();
-//            BeanUtils.copyProperties(a, indexArticleVO);
-//
-//            // 3.1 从publisherList中获得发布者的基本信息
-//            AppUserVO publisher  = getUserIfPublisher(a.getPublishUserId(), publisherList);
-//            indexArticleVO.setPublisherVO(publisher);
-//
-//            // 3.2 重新组装设置文章列表中的阅读量
-//            int readCounts = getCountsFromRedis(REDIS_ARTICLE_READ_COUNTS + ":" + a.getId());
-//            indexArticleVO.setReadCounts(readCounts);
-//
-//            indexArticleList.add(indexArticleVO);
-//        }
         for (int i = 0 ; i < list.size() ; i ++) {
             IndexArticleVO indexArticleVO = new IndexArticleVO();
             Article a = list.get(i);
@@ -178,6 +115,12 @@ public class ArticlePortalController extends BaseController implements ArticlePo
         return gridResult;
     }
 
+    /**
+     * 发布者id 与 用户对应起来 通过发布者id拿用户信息
+     * @param publisherId
+     * @param publisherList
+     * @return
+     */
     private AppUserVO getUserIfPublisher(String publisherId,
                                          List<AppUserVO> publisherList) {
         for (AppUserVO user : publisherList) {

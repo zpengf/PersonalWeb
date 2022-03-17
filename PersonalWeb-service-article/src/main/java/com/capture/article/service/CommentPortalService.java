@@ -8,10 +8,11 @@ public interface CommentPortalService {
      * 发表评论
      */
     public void createComment(String articleId,
-                                                 String fatherCommentId,
-                                                 String content,
-                                                 String userId,
-                                                 String nickname);
+                              String fatherCommentId,
+                              String content,
+                              String userId,
+                              String nickname,
+                              String commentUserFace);
 
     /**
      * 查询文章评论列表

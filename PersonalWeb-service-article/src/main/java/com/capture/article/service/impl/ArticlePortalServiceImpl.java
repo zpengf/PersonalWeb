@@ -49,7 +49,8 @@ public class ArticlePortalServiceImpl extends BaseService implements ArticlePort
 
         /**
          * 查询首页文章的自带隐性查询条件：
-         * isAppoint=即使发布，表示文章已经直接发布的，或者定时任务到点发布的
+         * isAppoint=即使发布，表示文章已经直接发布的，
+         *   或者定时任务到点(定时任务到点会把isAppoint改成即时发布)发布的
          * isDelete=未删除，表示文章只能够显示未删除
          * articleStatus=审核通过，表示只有文章经过机审/人工审核之后才能展示
          */

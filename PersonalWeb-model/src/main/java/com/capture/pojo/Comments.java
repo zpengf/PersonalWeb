@@ -45,6 +45,12 @@ public class Comments {
     private String commentUserId;
 
     /**
+     * 发布留言的用户头像
+     */
+    @Column(name = "comment_user_face")
+    private String commentUserFace;
+
+    /**
      * 冗余用户昵称，非一致性字段，用户修改昵称后可以不用同步
      */
     @Column(name = "comment_user_nickname")
@@ -217,6 +223,14 @@ public class Comments {
      */
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCommentUserFace() {
+        return commentUserFace;
+    }
+
+    public void setCommentUserFace(String commentUserFace) {
+        this.commentUserFace = commentUserFace;
     }
 
     /**

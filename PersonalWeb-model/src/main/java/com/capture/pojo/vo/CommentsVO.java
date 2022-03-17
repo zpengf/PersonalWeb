@@ -9,10 +9,19 @@ public class CommentsVO {
     private String articleId;
     private String commentUserId;
     private String commentUserNickname;
+    private String commentUserFace;
     private String content;
     private Date createTime;
     private String quoteUserNickname;
     private String quoteContent;
+
+    public String getCommentUserFace() {
+        return commentUserFace;
+    }
+
+    public void setCommentUserFace(String commentUserFace) {
+        this.commentUserFace = commentUserFace;
+    }
 
     public String getCommentId() {
         return commentId;

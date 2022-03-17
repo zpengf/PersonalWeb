@@ -46,10 +46,11 @@ public class CommentPortalServiceImpl extends BaseService implements CommentPort
     @Transactional
     @Override
     public void createComment(String articleId,
-                                                 String fatherCommentId,
-                                                 String content,
-                                                 String userId,
-                                                 String nickname) {
+                              String fatherCommentId,
+                              String content,
+                              String userId,
+                              String nickname,
+                              String commentUserFace) {
 
         String commentId = sid.nextShort();
 
@@ -67,6 +68,7 @@ public class CommentPortalServiceImpl extends BaseService implements CommentPort
         comments.setFatherId(fatherCommentId);
         comments.setCommentUserId(userId);
         comments.setCommentUserNickname(nickname);
+        comments.setCommentUserFace(commentUserFace);
 
         comments.setContent(content);
         comments.setCreateTime(new Date());

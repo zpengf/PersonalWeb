@@ -11,6 +11,7 @@
         c.father_id as fatherId,
         c.comment_user_id as commentUserId,
         c.comment_user_nickname as commentUserNickname,
+        c.comment_user_face as commentUserFace,
         c.article_id as articleId,
         c.content as content,
         c.create_time as createTime,

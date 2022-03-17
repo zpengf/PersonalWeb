@@ -7,6 +7,7 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/article/ArticlePortalControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/AdminTokenInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/admin/AdminMngControllerApi.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/user/MyFansControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/article/CommentControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/service/BaseService.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/UserActiveInterceptor.java

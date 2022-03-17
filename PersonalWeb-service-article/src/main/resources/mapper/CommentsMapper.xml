@@ -13,6 +13,7 @@
     <result column="article_cover" property="articleCover" jdbcType="VARCHAR" />
     <result column="comment_user_id" property="commentUserId" jdbcType="VARCHAR" />
     <result column="comment_user_nickname" property="commentUserNickname" jdbcType="VARCHAR" />
+    <result column="comment_user_face" property="commentUserFace" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>

@@ -13,6 +13,7 @@ com/capture/api/BaseController.class
 com/capture/api/controller/article/ArticlePortalControllerApi.class
 com/capture/api/controller/admin/FriendLinkControllerApi.class
 com/capture/api/service/BaseService.class
+com/capture/api/controller/user/MyFansControllerApi.class
 com/capture/api/controller/article/ArticleControllerApi.class
 com/capture/api/controller/admin/AdminMngControllerApi.class
 com/capture/my/mapper/MyMapper.class
