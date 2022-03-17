@@ -69,6 +69,9 @@ public class CategoryMngController extends BaseController implements CategoryMng
     @Override
     public GraceJSONResult delCategory(@RequestParam String categoryId) {
         categoryService.delete(categoryId);
+
+        //刷缓存
+        redis.del(REDIS_ALL_CATEGORY);
         return GraceJSONResult.ok();
     }
 

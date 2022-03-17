@@ -14,6 +14,7 @@
         <module>PersonalWeb-service-api</module>
         <module>PersonalWeb-service-user</module>
         <module>PersonalWeb-service-files</module>
+        <module>PersonalWeb-service-article</module>
     </modules>
 
     <!--

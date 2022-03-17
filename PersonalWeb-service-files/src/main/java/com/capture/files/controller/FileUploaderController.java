@@ -121,25 +121,27 @@ public class FileUploaderController implements FileUploaderControllerApi {
                                 !suffix.equalsIgnoreCase("jpg") &&
                                 !suffix.equalsIgnoreCase("jpeg")
                         ) {
+                            //某个文件出现错误 跳过继续上传
                             continue;
                         }
 
                         // 执行上传
-//                        path = uploaderService.uploadFdfs(file, suffix);
-                        path = uploaderService.uploadOSS(file, userId, suffix);
+                        path = uploaderService.uploadFdfs(file, suffix);
+                        //path = uploaderService.uploadOSS(file, userId, suffix);
 
                     } else {
+                        //某个文件出现错误 跳过继续上传
                         continue;
                     }
                 } else {
+                    //某个文件出现错误 跳过继续上传
                     continue;
                 }
 
                 String finalPath = "";
                 if (StringUtils.isNotBlank(path)) {
-//                    finalPath = fileResource.getHost() + path;
-                    finalPath = fileResource.getOssHost() + path;
-                    // FIXME: 放入到imagelist之前，需要对图片做一次审核
+                    finalPath = fileResource.getHost() + path;
+                    //finalPath = fileResource.getOssHost() + path;
                     imageUrlList.add(finalPath);
                 } else {
                     continue;
