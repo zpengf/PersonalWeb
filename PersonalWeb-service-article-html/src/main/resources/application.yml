@@ -1,0 +1,47 @@
+############################################################
+#
+# article 静态化微服务
+# web访问端口号  约定：8002
+#
+############################################################
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-swallow-size: -1  # tomcat默认大小2M，超过2M的文件不会被捕获，需要调整此处大小为100MB或者-1即可
+
+############################################################
+#
+# 配置项目信息
+#
+############################################################
+spring:
+  profiles:
+    active: dev   # yml中配置文件的环境配置，dev：开发环境，test：测试环境，prod：生产环境
+  application:
+    name: service-article-html
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  data:
+    mongodb:
+      uri: mongodb://root:root@10.211.55.9:27017
+      database: personal_web
+  freemarker:
+    charset: UTF-8
+    content-type: text/html
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: capture
+
+# 定义freemarker生成的html位置
+freemarker:
+  html:
+    target: /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/freemarker_html/ #做初次使用freemarker 测试用的路径
+    article: /Users/apache-tomcat-8.5.50/webapps/imooc-news/portal/a
+
+

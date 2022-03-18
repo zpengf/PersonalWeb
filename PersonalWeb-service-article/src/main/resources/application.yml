@@ -41,7 +41,11 @@ spring:
     mongodb:
       uri: mongodb://root:root@10.211.55.9:27017
       database: personal_web  #数据库的名字
-
+  freemarker: #freemarker 相关配置
+    charset: UTF-8
+    content-type: text/html
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
 ############################################################
 #
 # mybatis 配置
@@ -65,3 +69,8 @@ mapper:
 pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
+# 定义freemarker生成的html位置
+freemarker:
+  html:
+    target: /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/freemarker_html/ #做初次使用freemarker 测试用的路径
+    article: /Users/apache-tomcat-8.5.50/webapps/imooc-news/portal/a

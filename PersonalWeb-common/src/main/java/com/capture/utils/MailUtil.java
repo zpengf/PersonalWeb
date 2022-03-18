@@ -61,7 +61,7 @@ public class MailUtil {
         // 6.设置邮件标题
         message.setSubject("来自capture.xyz的安全验证码");
         // 7.设置正文
-        message.setContent("capture个人论坛:\n\n您的验证码为：" + code+"\n请尽快填写！", "text/html;charset=UTF-8");
+        message.setContent("capture欢迎胡说八道:\n\n您的验证码为：" + code+"\n请尽快填写！", "text/html;charset=UTF-8");
 
         // 8.准备发送，得到火箭
         Transport transport = session.getTransport("smtp");

@@ -42,6 +42,13 @@ public interface ArticlePortalControllerApi {
     @ApiOperation(value = "文章详情查询", notes = "文章详情查询", httpMethod = "GET")
     public GraceJSONResult detail(@RequestParam String articleId);
 
+
+    @GetMapping("readCounts")
+    @ApiOperation(value = "获得文章阅读数", notes = "获得文章阅读数", httpMethod = "GET")
+    public Integer readCounts(@RequestParam String articleId);
+
+
+
     @PostMapping("readArticle")
     @ApiOperation(value = "阅读文章，文章阅读量累加", notes = "阅读文章，文章阅读量累加", httpMethod = "POST")
     public GraceJSONResult readArticle(@RequestParam String articleId, HttpServletRequest request);

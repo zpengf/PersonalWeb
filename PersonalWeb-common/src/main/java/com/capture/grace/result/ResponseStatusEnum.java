@@ -62,6 +62,7 @@ public enum ResponseStatusEnum {
     ARTICLE_WITHDRAW_ERROR(585, false, "文章撤回失败！"),
     ARTICLE_REVIEW_ERROR(585, false, "文章审核出错！"),
     ARTICLE_ALREADY_READ_ERROR(586, false, "文章重复阅读！"),
+    ARTICLE_REVIEW_UPLOAD_ERROR(585, false, "文章审核通过后,更新mongoId出错！"),
 
     // 人脸识别错误代码
     FACE_VERIFY_TYPE_ERROR(600, false, "人脸比对验证类型不正确！"),

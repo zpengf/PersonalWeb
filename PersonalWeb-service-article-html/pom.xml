@@ -9,9 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>PersonalWeb-service-article</artifactId>
-
-
+    <artifactId>PersonalWeb-service-article-html</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.capture</groupId>
@@ -19,12 +17,11 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-
+        <!-- freemarker 依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

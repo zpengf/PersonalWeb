@@ -31,7 +31,7 @@ public class BaseController {
     public RedisOperator redis;
 
     @Autowired
-    private RestTemplate restTemplate;
+    public RestTemplate restTemplate;
 
     public static final String EMAIL_CODE = "emailCode";
     public static final String REDIS_USER_TOKEN = "redis_user_token";

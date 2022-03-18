@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @ClassName: HelloController
+ * @ClassName: HelloController  纯做测试用看接口能否跑通
  * @Author: pengfeizhang
  * @Description: 测试
  * @Date: 2022/3/7 下午7:41

@@ -115,6 +115,18 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
 
     @Transactional
     @Override
+    public void updateArticleToGridFS(String articleId, String articleMongoId) {
+        Article pendingArticle = new Article();
+        pendingArticle.setId(articleId);
+        pendingArticle.setMongoFileId(articleMongoId);
+        int res = articleMapper.updateByPrimaryKeySelective(pendingArticle);
+        if (res != 1) {
+            GraceException.display(ResponseStatusEnum.ARTICLE_REVIEW_UPLOAD_ERROR);
+        }
+    }
+
+    @Transactional
+    @Override
     public void updateAppointToPublish() {
         articleMapperCustom.updateAppointToPublish();
     }

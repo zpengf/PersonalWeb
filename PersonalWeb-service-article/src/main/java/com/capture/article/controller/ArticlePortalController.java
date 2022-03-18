@@ -193,6 +193,13 @@ public class ArticlePortalController extends BaseController implements ArticlePo
         return GraceJSONResult.ok(detailVO);
     }
 
+
+    @Override
+    public Integer readCounts(String articleId) {
+        return getCountsFromRedis(REDIS_ARTICLE_READ_COUNTS + ":" + articleId);
+    }
+
+
     @Override
     public GraceJSONResult readArticle(String articleId, HttpServletRequest request) {
 

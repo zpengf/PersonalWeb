@@ -15,6 +15,7 @@
         <module>PersonalWeb-service-user</module>
         <module>PersonalWeb-service-files</module>
         <module>PersonalWeb-service-article</module>
+        <module>PersonalWeb-service-article-html</module>
     </modules>
 
     <!--
@@ -42,6 +43,8 @@
         <mybatis-spring-boot-starter.version>2.1.0</mybatis-spring-boot-starter.version>
         <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.2.12</pagehelper-spring-boot-starter.version>
+        <springboot-freemarker.version>2.2.5.RELEASE</springboot-freemarker.version>
+
 
         <okhttp.version>4.2.2</okhttp.version>
         <jackson.version>2.10.2</jackson.version>
@@ -96,6 +99,17 @@
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis-spring-boot-starter.version}</version>
             </dependency>
+
+            <!-- freemarker 依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-freemarker</artifactId>
+                <version>${springboot-freemarker.version}</version>
+            </dependency>
+
+
+
+
             <!-- 通用mapper逆向工具 -->
             <dependency>
                 <groupId>tk.mybatis</groupId>
