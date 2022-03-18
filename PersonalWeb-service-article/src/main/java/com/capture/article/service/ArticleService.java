@@ -35,6 +35,13 @@ public interface ArticleService {
      */
     public void updateArticleStatus(String articleId, Integer pendingStatus);
 
+
+    /**
+     * 更新单条文章为即时发布
+     */
+    public void updateArticleToPublish(String articleId);
+
+
     /**
      * 关联文章和gridfs的html文件id
      */

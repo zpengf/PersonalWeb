@@ -12,4 +12,3 @@ com/capture/user/controller/UserController.class
 com/capture/user/service/impl/AppUserMngServiceImpl.class
 com/capture/user/service/impl/MyFanServiceImpl.class
 com/capture/user/service/UserService.class
-com/capture/user/controller/HelloController.class

@@ -46,6 +46,12 @@ spring:
     content-type: text/html
     suffix: .ftl
     template-loader-path: classpath:/templates/
+  rabbitmq:
+    host: 10.211.55.9
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: capture
 ############################################################
 #
 # mybatis 配置
@@ -69,3 +75,8 @@ mapper:
 pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
+# 定义freemarker生成的html位置
+freemarker:
+  html:
+    target: /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/freemarker_html/ #做初次使用freemarker 测试用的路径
+    article: /Users/apache-tomcat-8.5.50/webapps/imooc-news/portal/a

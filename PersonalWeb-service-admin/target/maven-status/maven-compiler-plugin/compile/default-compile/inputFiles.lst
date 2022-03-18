@@ -8,7 +8,6 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-admin/src/main/java/com/capture/admin/service/AdminUserService.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-admin/src/main/java/com/capture/admin/repository/FriendLinkRepository.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-admin/src/main/java/com/capture/admin/controller/FriendLinkController.java
-/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-admin/src/main/java/com/capture/admin/controller/HelloController.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-admin/src/main/java/com/capture/admin/service/CategoryService.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-admin/src/main/java/com/capture/admin/mapper/CategoryMapper.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-admin/src/main/java/com/capture/admin/service/impl/AdminUserServiceImpl.java

@@ -20,10 +20,12 @@ public class RabbitMQConsumer {
         String routingKey = message.getMessageProperties().getReceivedRoutingKey();
         if (routingKey.equalsIgnoreCase("article.publish.download.do")) {
             System.out.println("article.publish.download.do");
+
         } else if (routingKey.equalsIgnoreCase("article.success.do")) {
             System.out.println("article.success.do");
+
         } else if (routingKey.equalsIgnoreCase("article.download.do")) {
-//            articleId + "," + articleMongoId
+            // 消息队列发过来的是 articleId + "," + articleMongoId
             String articleId = payload.split(",")[0];
             String articleMongoId = payload.split(",")[1];
 
@@ -33,7 +35,7 @@ public class RabbitMQConsumer {
                 e.printStackTrace();
             }
 
-        } else if (routingKey.equalsIgnoreCase("article.html.download.do")) {
+        } else if (routingKey.equalsIgnoreCase("article.html.delete.do")) {
 
             String articleId = payload;
             try {

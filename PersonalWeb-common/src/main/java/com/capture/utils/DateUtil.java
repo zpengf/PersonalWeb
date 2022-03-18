@@ -25,7 +25,7 @@ public class DateUtil {
      */
     public static String DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
     public static String DATE_PATTERN = "yyyyMMddHHmmss";
-   
+
     /**
      * 则个
      */
@@ -131,6 +131,30 @@ public class DateUtil {
     }
 
     /**
+     * 计算时间差
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static final String timeBetween(Date startDate, Date endDate) {
+        long nd = 1000 * 24 * 60 * 60;
+        long nh = 1000 * 60 * 60;
+        long nm = 1000 * 60;
+        // long ns = 1000;
+        // 获得两个时间的毫秒时间差异
+        long diff = endDate.getTime() - startDate.getTime();
+        // 计算差多少天
+        long day = diff / nd;
+        // 计算差多少小时
+        long hour = diff % nd / nh;
+        // 计算差多少分钟
+        long min = diff % nd % nh / nm;
+        // 计算差多少秒//输出结果
+        // long sec = diff % nd % nh % nm / ns;
+        return day + "天" + hour + "小时" + min + "分钟";
+    }
+
+    /**
      * Return a Julian date based on the input parameter. This is
      * based from calculations found at
      * <a href="http://quasar.as.utexas.edu/BillInfo/JulianDatesG.html">Julian Day Calculations
@@ -170,10 +194,10 @@ public class DateUtil {
     }
 
     /**
-     * @param isoString  
-     * @param fmt 
+     * @param isoString
+     * @param fmt
      * @param field   Calendar.YEAR/Calendar.MONTH/Calendar.DATE
-     * @param amount 
+     * @param amount
      * @return
      * @throws ParseException
      */
@@ -231,9 +255,9 @@ public class DateUtil {
 
     /**
      *  java.util.Date
-     * @param dateText  
-     * @param format  
-     * @param lenient  
+     * @param dateText
+     * @param format
+     * @param lenient
      * @return
      */
     public static Date stringToDate(String dateText, String format,
@@ -273,8 +297,8 @@ public class DateUtil {
     }
 
     /** java.util.Date
-     * @param dateText  
-     * @param format  
+     * @param dateText
+     * @param format
      * @return
      */
     public static Date stringToDate(String dateString, String format) {
@@ -284,16 +308,16 @@ public class DateUtil {
 
     /**
      * java.util.Date
-     * @param dateText  
+     * @param dateText
      */
     public static Date stringToDate(String dateString) {
         return stringToDate(dateString, ISO_EXPANDED_DATE_FORMAT, LENIENT_DATE);
     }
 
-    /**  
-     * @return 
-     * @param pattern 
-     * @param date  
+    /**
+     * @return
+     * @param pattern
+     * @param date
      */
     public static String dateToString(Date date, String pattern) {
 
@@ -323,8 +347,8 @@ public class DateUtil {
         return dateToString(date, ISO_EXPANDED_DATE_FORMAT);
     }
 
-    /**  
-     * @return  
+    /**
+     * @return
      */
     public static Date getCurrentDateTime() {
         Calendar calNow = Calendar.getInstance();
@@ -334,8 +358,8 @@ public class DateUtil {
     }
 
     /**
-     *  
-     * @param pattern  
+     *
+     * @param pattern
      * @return
      */
     public static String getCurrentDateString(String pattern) {
@@ -361,7 +385,7 @@ public class DateUtil {
         return dateToString(new Date(), DATETIME_PATTERN);
     }
 
-    
+
     /**
      *   yyyy-MM-dd hh:mm:ss
      * @param date
@@ -373,7 +397,7 @@ public class DateUtil {
     }
 
     /**
-     *  
+     *
      * @param date
      * @param days
      * @return java.util.Date
@@ -389,7 +413,7 @@ public class DateUtil {
     }
 
     /**
-     *  
+     *
      * @param date
      * @param days
      * @return java.util.Date
@@ -405,7 +429,7 @@ public class DateUtil {
     }
 
     /**
-     *  
+     *
      * @param date
      * @param mnt
      * @return java.util.Date
@@ -421,7 +445,7 @@ public class DateUtil {
     }
 
     /**
-     *  
+     *
      * @param date   yyyy-MM-dd
      * @param days
      * @return  yyyy-MM-dd
@@ -431,8 +455,8 @@ public class DateUtil {
     }
 
     /**
-     * @param date  
-     * @param fmt  
+     * @param date
+     * @param fmt
      * @param days
      * @return
      */
@@ -441,10 +465,10 @@ public class DateUtil {
     }
 
     /**
-     *  
-     * @param src  
-     * @param srcfmt  
-     * @param desfmt 
+     *
+     * @param src
+     * @param srcfmt
+     * @param desfmt
      * @return
      */
     public static String stringToString(String src, String srcfmt,
@@ -453,8 +477,8 @@ public class DateUtil {
     }
 
     /**
-     *  
-     * @param date  
+     *
+     * @param date
      * @return string
      */
     public static String getYear(Date date) {
@@ -465,8 +489,8 @@ public class DateUtil {
     }
 
     /**
-     *  
-     * @param date  
+     *
+     * @param date
      * @return string
      */
     public static String getMonth(Date date) {
@@ -477,7 +501,7 @@ public class DateUtil {
     }
 
     /**
-     * @param date  
+     * @param date
      * @return string
      */
     public static String getDay(Date date) {
@@ -486,16 +510,16 @@ public class DateUtil {
         String cur_day = formater.format(date);
         return cur_day;
     }
-    
+
     public static int getDayInt(Date date) {
         SimpleDateFormat formater = new SimpleDateFormat(
                 "dd");
         String cur_day = formater.format(date);
         return Integer.valueOf(cur_day);
     }
-    
+
     /**
-     * @param date  
+     * @param date
      * @return string
      */
     public static String getHour(Date date) {
@@ -503,7 +527,7 @@ public class DateUtil {
                 "HH");
         String cur_day = formater.format(date);
         return cur_day;
-    }    
+    }
 
     public static int getMinsFromDate(Date dt) {
         GregorianCalendar cal = new GregorianCalendar();
@@ -559,98 +583,98 @@ public class DateUtil {
         int hour = minute / 60;
         int min = minute % 60;
         dateFormat = String.valueOf(year)
-                     +
-                     (month > 9 ? String.valueOf(month) :
-                      "0" + String.valueOf(month))
-                     +
-                     (day > 9 ? String.valueOf(day) : "0" + String.valueOf(day))
-                     + " "
-                     +
-                     (hour > 9 ? String.valueOf(hour) : "0" + String.valueOf(hour))
-                     +
-                     (min > 9 ? String.valueOf(min) : "0" + String.valueOf(min))
-                     + "00";
+                +
+                (month > 9 ? String.valueOf(month) :
+                        "0" + String.valueOf(month))
+                +
+                (day > 9 ? String.valueOf(day) : "0" + String.valueOf(day))
+                + " "
+                +
+                (hour > 9 ? String.valueOf(hour) : "0" + String.valueOf(hour))
+                +
+                (min > 9 ? String.valueOf(min) : "0" + String.valueOf(min))
+                + "00";
         return dateFormat;
     }
-    
+
     public static String sDateFormat() {
-    	return new SimpleDateFormat(DATE_PATTERN).format(Calendar.getInstance().getTime());	
+        return new SimpleDateFormat(DATE_PATTERN).format(Calendar.getInstance().getTime());
     }
-    
+
     /**
-     * 
+     *
      * @Description: 获得本月的第一天日期
      * @return
-     * 
+     *
      * @author leechenxiang
      * @date 2017年5月31日 下午1:37:34
      */
     public static String getFirstDateOfThisMonth() {
-    	
-    	SimpleDateFormat format = new SimpleDateFormat(ISO_EXPANDED_DATE_FORMAT);
-		
-		Calendar calendarFirst = Calendar.getInstance();
-		calendarFirst = Calendar.getInstance();  
-        calendarFirst.add(Calendar.MONTH, 0);  
-        calendarFirst.set(Calendar.DAY_OF_MONTH, 1);  
-        String firstDate = format.format(calendarFirst.getTime()); 
-        
+
+        SimpleDateFormat format = new SimpleDateFormat(ISO_EXPANDED_DATE_FORMAT);
+
+        Calendar calendarFirst = Calendar.getInstance();
+        calendarFirst = Calendar.getInstance();
+        calendarFirst.add(Calendar.MONTH, 0);
+        calendarFirst.set(Calendar.DAY_OF_MONTH, 1);
+        String firstDate = format.format(calendarFirst.getTime());
+
         return firstDate;
     }
-    
+
     /**
-     * 
+     *
      * @Description: 获得本月的最后一天日期
      * @return
-     * 
+     *
      * @author leechenxiang
      * @date 2017年5月31日 下午1:37:50
      */
     public static String getLastDateOfThisMonth() {
-    	SimpleDateFormat format = new SimpleDateFormat(ISO_EXPANDED_DATE_FORMAT);  
-		
-		Calendar calendarLast = Calendar.getInstance();
-		calendarLast.setTime(new Date());
-		calendarLast.getActualMaximum(Calendar.DAY_OF_MONTH);
-		
-		String lastDate = format.format(calendarLast.getTime());  
-		return lastDate;
+        SimpleDateFormat format = new SimpleDateFormat(ISO_EXPANDED_DATE_FORMAT);
+
+        Calendar calendarLast = Calendar.getInstance();
+        calendarLast.setTime(new Date());
+        calendarLast.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        String lastDate = format.format(calendarLast.getTime());
+        return lastDate;
     }
-    
+
     /**
      * @Description: 判断字符串日期是否匹配指定的格式化日期
      */
-	public static boolean isValidDate(String strDate, String formatter) {
-		SimpleDateFormat sdf = null;
-		ParsePosition pos = new ParsePosition(0);
+    public static boolean isValidDate(String strDate, String formatter) {
+        SimpleDateFormat sdf = null;
+        ParsePosition pos = new ParsePosition(0);
 
-		if (StringUtils.isBlank(strDate) || StringUtils.isBlank(formatter)) {
-			return false;
-		}
-		try {
-			sdf = new SimpleDateFormat(formatter);
-			sdf.setLenient(false);
-			Date date = sdf.parse(strDate, pos);
-			if (date == null) {
-				return false;
-			} else {
-				if (pos.getIndex() > sdf.format(date).length()) {
-					return false;
-				}
-				return true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-    
+        if (StringUtils.isBlank(strDate) || StringUtils.isBlank(formatter)) {
+            return false;
+        }
+        try {
+            sdf = new SimpleDateFormat(formatter);
+            sdf.setLenient(false);
+            Date date = sdf.parse(strDate, pos);
+            if (date == null) {
+                return false;
+            } else {
+                if (pos.getIndex() > sdf.format(date).length()) {
+                    return false;
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args)
-	{
+    {
 //    	String timeDir=DateUtil.dateToString(new Date(),DateUtil.ISO_EXPANDED_DATE_FORMAT);
 //		System.out.println(timeDir);
-    	boolean flag = DateUtil.isValidDate("1990-10-32", DateUtil.ISO_EXPANDED_DATE_FORMAT);
-    	System.out.println(flag);
-	}
-    
+        boolean flag = DateUtil.isValidDate("1990-10-32", DateUtil.ISO_EXPANDED_DATE_FORMAT);
+        System.out.println(flag);
+    }
+
 }

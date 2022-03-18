@@ -7,7 +7,7 @@
     
     3.fastDFS与ngix的结合 存一些头像图片等数据 配置文件详见各模块配置文件
     
-    4.mq 做一些文章延时发布 执行下载组装html页面
+    4.mq 做一些文章延时发布 执行下载组装html页面 配置在article article-html配置文件
     
     5.mongoDB 存放amdin人脸数据 配置详见各模块application.yml文件
     

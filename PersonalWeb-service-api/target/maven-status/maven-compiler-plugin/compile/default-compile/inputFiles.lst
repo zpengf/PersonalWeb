@@ -4,6 +4,7 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/Swagger2.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/my/mapper/MyMapper.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/DateConverterConfig.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/RabbitMQDelayConfig.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/article/ArticlePortalControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/AdminTokenInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/admin/AdminMngControllerApi.java
@@ -14,6 +15,7 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/InterceptorConfig.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/CorsConfig.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/user/PassportControllerApi.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/RabbitMQConfig.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/admin/FriendLinkControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/aspect/ServiceLogAspect.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/BaseInterceptor.java
@@ -26,3 +28,4 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/user/UserControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/ArticleReadInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/CloudConfig.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/article/ArticleHTMLControllerApi.java

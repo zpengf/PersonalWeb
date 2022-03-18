@@ -1,8 +1,10 @@
 package com.capture.article.service.impl;
 
 import com.capture.api.config.RabbitMQConfig;
+import com.capture.api.config.RabbitMQDelayConfig;
 import com.capture.grace.result.GraceJSONResult;
 import com.capture.pojo.vo.ArticleDetailVO;
+import com.capture.utils.DateUtil;
 import com.capture.utils.JsonUtils;
 import com.github.pagehelper.PageHelper;
 import com.capture.api.service.BaseService;
@@ -26,8 +28,11 @@ import freemarker.template.Template;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
-import org.checkerframework.checker.units.qual.A;
 import org.n3r.idworker.Sid;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +110,40 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
         if (res != 1) {
             GraceException.display(ResponseStatusEnum.ARTICLE_CREATE_ERROR);
         }
+        //文章延迟发送
+
+        // 发送延迟消息到mq，计算定时发布时间和当前时间的时间差，则为往后延迟的时间
+        if (article.getIsAppoint() == ArticleAppointType.TIMING.type) {
+
+            Date endDate = newArticleBO.getPublishTime();
+            Date startDate = new Date();
+
+            System.out.println(DateUtil.timeBetween(startDate, endDate));
+            int delayTimes = (int)(endDate.getTime() - startDate.getTime());
+            // FIXME: 为了测试方便，写死10s
+           // int delayTimes = 10 * 1000;
+            MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
+                @Override
+                public Message postProcessMessage(Message message) throws AmqpException {
+                    // 设置消息的持久
+                    message.getMessageProperties()
+                            .setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                    // 设置消息延迟的时间，单位ms毫秒
+                    message.getMessageProperties()
+                            .setDelay(delayTimes);
+                    return message;
+                }
+            };
+
+            rabbitTemplate.convertAndSend(
+                    RabbitMQDelayConfig.EXCHANGE_DELAY,
+                    "publish.delay.display",
+                    articleId,
+                    messagePostProcessor);
+
+            System.out.println("延迟消息-定时发布文章：" + new Date());
+        }
+
 
         /**
          * FIXME: 我们只检测正常的词汇，非正常词汇大家课后去检测
@@ -163,12 +202,12 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
                 this.updateArticleToGridFS(articleId, articleMongoId);
 
                 //前端直接下载刚刚保存到mongodb里的html
-                doDownloadArticleHTML(articleId, articleMongoId);
+                //doDownloadArticleHTML(articleId, articleMongoId);
 
                 /**#######################################################
                  * mq调接口下载到相应地址 发送消息到mq队列，让消费者监听并且执行下载html
                  #########################################################*/
-                //doDownloadArticleHTMLByMQ(articleId, articleMongoId);
+                doDownloadArticleHTMLByMQ(articleId, articleMongoId);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -177,6 +216,18 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
 
 
     }
+
+
+
+    @Transactional
+    @Override
+    public void updateArticleToPublish(String articleId) {
+        Article article = new Article();
+        article.setId(articleId);
+        article.setIsAppoint(ArticleAppointType.IMMEDIATELY.type);
+        articleMapper.updateByPrimaryKeySelective(article);
+    }
+
 
     @Transactional
     @Override
@@ -448,7 +499,7 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
 
     private void doDeleteArticleHTMLByMQ(String articleId) {
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_ARTICLE,
-                "article.html.download.do", articleId);
+                "article.html.delete.do", articleId);
     }
 
 }

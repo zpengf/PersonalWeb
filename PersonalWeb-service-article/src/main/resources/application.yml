@@ -46,6 +46,12 @@ spring:
     content-type: text/html
     suffix: .ftl
     template-loader-path: classpath:/templates/
+  rabbitmq:
+    host: 10.211.55.9
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: capture
 ############################################################
 #
 # mybatis 配置
