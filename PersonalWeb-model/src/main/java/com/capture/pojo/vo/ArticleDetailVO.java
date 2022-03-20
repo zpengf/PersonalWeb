@@ -1,5 +1,7 @@
 package com.capture.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class ArticleDetailVO {
@@ -10,6 +12,7 @@ public class ArticleDetailVO {
     private Integer categoryId;
     private String categoryName;
     private String publishUserId;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date publishTime;
     private String content;
 

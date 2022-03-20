@@ -1,5 +1,6 @@
 package com.capture.files.controller;
 
+import com.capture.api.BaseController;
 import com.capture.api.controller.files.FileUploaderControllerApi;
 import com.capture.exception.GraceException;
 import com.capture.files.resource.FileResource;
@@ -19,6 +20,7 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
@@ -33,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class FileUploaderController implements FileUploaderControllerApi {
+public class FileUploaderController extends BaseController implements FileUploaderControllerApi {
 
     final static Logger logger = LoggerFactory.getLogger(FileUploaderController.class);
 
@@ -48,6 +50,9 @@ public class FileUploaderController implements FileUploaderControllerApi {
 
     @Autowired
     private GridFSBucket gridFSBucket;
+
+    @Value("${adminFace.temp_path}")
+    public String adminFacePath;
 
     @Override
     public GraceJSONResult uploadFace(String userId,
@@ -231,12 +236,12 @@ public class FileUploaderController implements FileUploaderControllerApi {
         System.out.println(fileName);
 
         // 获取文件流，保存文件到本地或者服务器的临时目录
-        File fileTemp = new File("/Users/pengfeizhang/Desktop/javaProject/personalWeb_temp_face");
+        File fileTemp = new File(adminFacePath);
         if (!fileTemp.exists()) {
             fileTemp.mkdirs();
         }
 
-        File myFile = new File("/Users/pengfeizhang/Desktop/javaProject/personalWeb_temp_face" + fileName);
+        File myFile = new File(adminFacePath + fileName);
 
         // 创建文件输出流
         OutputStream os = new FileOutputStream(myFile);

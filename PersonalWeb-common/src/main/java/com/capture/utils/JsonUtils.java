@@ -1,5 +1,7 @@
 package com.capture.utils;
 
+import com.capture.exception.GraceException;
+import com.capture.grace.result.ResponseStatusEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +50,7 @@ public class JsonUtils {
             T t = MAPPER.readValue(jsonData, beanType);
             return t;
         } catch (Exception e) {
-        	e.printStackTrace();
+            GraceException.display(ResponseStatusEnum.SYSTEM_CONVERT_ERROR_INFO);
         }
         return null;
     }

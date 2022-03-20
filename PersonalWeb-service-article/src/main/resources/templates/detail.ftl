@@ -40,9 +40,6 @@
                         <!-- menu-selected -->
                         <a href="javascript:void(0);" class="white-header-left" style="text-decoration:none;" v-bind:class="{'menu-selected': (cat.id==selectedCatId)}" @click="queryByCategory(cat.id)">{{cat.name}}</a>
                     </div>
-                    <div class="single-default">
-                        <a href="https://class.imooc.com/sale/javaarchitect" target="_blank" class="white-header-left">架构师</a>
-                    </div>
                 </div>
             </div>
 
@@ -188,8 +185,11 @@
 <script src="../libs/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- include summernote css/js -->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css"rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
+<#--<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css"rel="stylesheet">-->
+<#--<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>-->
+
+<link href="../libs/summernote/dist/summernote.css" rel="stylesheet">
+<script src="../libs/summernote/dist/summernote.js"></script>
 
 <script src="../libs/summernote/lang/summernote-zh-CN.js"></script>
 <script src="../libs/vuePaging/VuePaging/zpageNav.js"></script>
@@ -226,12 +226,6 @@
             var me = this;
             // 通过cookie判断用户是否登录
             app.judgeUserLoginStatus(me);
-
-            // 查询文章详情
-            // var articleId = app.getUrlParam("articleId");
-            // console.log(articleId);
-            // this.articleId = articleId;
-            // this.getArticleDetail(articleId);
 
             // 根据当前页面的名称，定义为文章的articleId，作为我们的静态化页面名称
             // 比如 1001.html, 200221.html
@@ -391,7 +385,6 @@
 
             // 用户留言或回复
             doComment(fatherCommentId) {
-                console.log(fatherCommentId);
                 var articleContent = $('#summernote').summernote('code');
                 this.commentDisplay(fatherCommentId, articleContent);
             },

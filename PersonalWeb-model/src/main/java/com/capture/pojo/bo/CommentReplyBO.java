@@ -15,7 +15,7 @@ public class CommentReplyBO {
     @NotBlank(message = "留言信息不完整")
     private String fatherId;
 
-    @NotBlank(message = "当前用户信息不正确，请尝试重新登录")
+    @NotBlank(message = "请先登录！")
     private String commentUserId;
 
     @NotBlank(message = "留言内容不能为空")

@@ -17,6 +17,7 @@ import com.capture.utils.RedisOperator;
 import org.n3r.idworker.Sid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -42,9 +43,8 @@ public class UserServiceImpl implements UserService {
     public RedisOperator redis;
     public static final String REDIS_USER_INFO = "redis_user_info";
 
-    private static final String USER_FACE0 = "http://122.152.205.72:88/group1/M00/00/05/CpoxxFw_8_qAIlFXAAAcIhVPdSg994.png";
-    private static final String USER_FACE1 = "http://122.152.205.72:88/group1/M00/00/05/CpoxxF6ZUySASMbOAABBAXhjY0Y649.png";
-    private static final String USER_FACE2 = "http://122.152.205.72:88/group1/M00/00/05/CpoxxF6ZUx6ANoEMAABTntpyjOo395.png";
+    @Value("${userFace.temp-face}")
+    public String userTempFace;
 
 
     @Override
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         user.setMobile("123456");
         user.setNickname("用户:" + DesensitizationUtil.commonDisplay(email));
-        user.setFace(USER_FACE0);
+        user.setFace(userTempFace);
 
         user.setBirthday(DateUtil.stringToDate("1900-01-01"));
         user.setSex(Sex.secret.type);

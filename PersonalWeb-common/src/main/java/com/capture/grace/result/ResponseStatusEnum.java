@@ -57,12 +57,14 @@ public enum ResponseStatusEnum {
     ARTICLE_COVER_NOT_EXIST_ERROR(580, false, "文章封面不存在，请选择一个！"),
     ARTICLE_CATEGORY_NOT_EXIST_ERROR(581, false, "请选择正确的文章领域！"),
     ARTICLE_CREATE_ERROR(582, false, "创建文章失败，请重试或联系管理员！"),
+    ARTICLE_CREATE_ERROR_TIME(582, false, "创建文章失败，定时发布时间设置应大于当前时间！"),
     ARTICLE_QUERY_PARAMS_ERROR(583, false, "文章列表查询参数错误！"),
     ARTICLE_DELETE_ERROR(584, false, "文章删除失败！"),
     ARTICLE_WITHDRAW_ERROR(585, false, "文章撤回失败！"),
     ARTICLE_REVIEW_ERROR(585, false, "文章审核出错！"),
     ARTICLE_ALREADY_READ_ERROR(586, false, "文章重复阅读！"),
     ARTICLE_REVIEW_UPLOAD_ERROR(585, false, "文章审核通过后,更新mongoId出错！"),
+    ARTICLE_REVIEW_RABBIT_ERROR(585, false, "文章审核通过后,生成静态文章页面出错！"),
 
     // 人脸识别错误代码
     FACE_VERIFY_TYPE_ERROR(600, false, "人脸比对验证类型不正确！"),
@@ -71,7 +73,9 @@ public enum ResponseStatusEnum {
     // 系统错误，未预期的错误 555
     SYSTEM_ERROR(555, false, "系统繁忙，请稍后再试！"),
     SYSTEM_OPERATION_ERROR(556, false, "操作失败，请重试或联系管理员"),
-    SYSTEM_RESPONSE_NO_INFO(557, false, "");
+    SYSTEM_RESPONSE_NO_INFO(557, false, ""),
+
+    SYSTEM_CONVERT_ERROR_INFO(557, false, "JSON转换出错！");
 
 
     // 响应业务状态

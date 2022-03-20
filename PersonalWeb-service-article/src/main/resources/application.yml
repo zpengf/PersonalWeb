@@ -49,8 +49,8 @@ spring:
   rabbitmq:
     host: 10.211.55.9
     port: 5672
-    username: admin
-    password: admin
+    username: guest
+    password: guest
     virtual-host: capture
 ############################################################
 #
@@ -80,3 +80,13 @@ freemarker:
   html:
     target: /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/freemarker_html/ #做初次使用freemarker 测试用的路径
     article: /Users/apache-tomcat-8.5.50/webapps/imooc-news/portal/a
+
+# 定义项目各服务地址前缀
+transferInterface:
+  article: http://www.imoocnews.com:8001/
+  article_html: http://www.imoocnews.com:8002/
+  user: http://www.imoocnews.com:8003/
+  files: http://www.imoocnews.com:8004/
+  admin: http://www.imoocnews.com:8005/
+
+

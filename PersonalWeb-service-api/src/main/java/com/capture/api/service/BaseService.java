@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.capture.utils.PagedGridResult;
 import com.capture.utils.RedisOperator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -18,6 +19,21 @@ public class BaseService {
 
     @Autowired
     public RedisOperator redis;
+
+    @Value("${transferInterface.article}")
+    public String articleServiceInterface;
+
+    @Value("${transferInterface.user}")
+    public String userServiceInterface;
+
+    @Value("${transferInterface.article_html}")
+    public String articleHtmlInterface;
+
+    @Value("${transferInterface.files}")
+    public String filesServiceInterface;
+
+    @Value("${transferInterface.admin}")
+    public String adminServiceInterface;
 
     public PagedGridResult setterPagedGrid(List<?> list,
                                             Integer page) {

@@ -38,3 +38,15 @@ fdfs:
   connect-timeout: 30
   so-timeout: 30
   tracker-list: 10.211.55.9:22122
+
+# 定义管理员人脸图片数据临时存储的目录
+adminFace:
+  temp_path: /Users/pengfeizhang/Desktop/javaProject/personalWeb_temp_face
+
+# 定义接口地址
+transferInterface:
+  article: http://www.imoocnews.com:8001/
+  article_html: http://www.imoocnews.com:8002/
+  user: http://www.imoocnews.com:8003/
+  files: http://www.imoocnews.com:8004/
+  admin: http://www.imoocnews.com:8005/

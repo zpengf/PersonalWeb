@@ -51,6 +51,21 @@ public class BaseController {
     @Value("${website.domain-name}")
     public String DOMAIN_NAME;
 
+    @Value("${transferInterface.article}")
+    public String articleServiceInterface;
+
+    @Value("${transferInterface.user}")
+    public String userServiceInterface;
+
+    @Value("${transferInterface.article_html}")
+    public String articleHtmlInterface;
+
+    @Value("${transferInterface.files}")
+    public String filesServiceInterface;
+
+    @Value("${transferInterface.admin}")
+    public String adminServiceInterface;
+
 
 
     public static final Integer COOKIE_MONTH = 30 * 24 * 60 * 60;
@@ -132,7 +147,7 @@ public class BaseController {
 
     public List<AppUserVO> getBasicUserList(Set idSet) {
         String userServerUrlExecute
-                = "http://user.imoocnews.com:8003/user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
+                = userServiceInterface + "user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
         ResponseEntity<GraceJSONResult> responseEntity
                 = restTemplate.getForEntity(userServerUrlExecute, GraceJSONResult.class);
         GraceJSONResult bodyResult = responseEntity.getBody();

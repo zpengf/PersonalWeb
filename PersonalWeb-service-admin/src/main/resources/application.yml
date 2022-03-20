@@ -65,3 +65,10 @@ mapper:
 pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
+# 定义接口地址
+transferInterface:
+  article: http://www.imoocnews.com:8001/
+  article_html: http://www.imoocnews.com:8002/
+  user: http://www.imoocnews.com:8003/
+  files: http://www.imoocnews.com:8004/
+  admin: http://www.imoocnews.com:8005/

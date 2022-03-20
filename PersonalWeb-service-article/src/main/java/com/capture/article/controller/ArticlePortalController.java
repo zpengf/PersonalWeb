@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -134,7 +135,7 @@ public class ArticlePortalController extends BaseController implements ArticlePo
     // 发起远程调用，获得用户的基本信息
     private List<AppUserVO> getPublisherList(Set idSet) {
         String userServerUrlExecute
-                = "http://user.imoocnews.com:8003/user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
+                = userServiceInterface + "user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
         ResponseEntity<GraceJSONResult> responseEntity
                 = restTemplate.getForEntity(userServerUrlExecute, GraceJSONResult.class);
         GraceJSONResult bodyResult = responseEntity.getBody();

@@ -6,13 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="PersonalWeb-service-api" />
         <module name="PersonalWeb-service-article" />
         <module name="mybatis-generator-database" />
         <module name="PersonalWeb-service-user" />
         <module name="PersonalWeb-service-files" />
         <module name="PersonalWeb-common" />
         <module name="PersonalWeb-service-article-html" />
-        <module name="PersonalWeb-service-api" />
         <module name="PersonalWeb-model" />
         <module name="PersonalWeb-service-admin" />
       </profile>

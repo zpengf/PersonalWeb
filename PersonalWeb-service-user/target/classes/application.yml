@@ -62,3 +62,7 @@ mapper:
 pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
+
+# 新增用户定义临时头像
+userFace:
+  temp-face: http://10.211.55.9:8888/capture/M00/00/00/CtM3CWIvMtCAaJ4NABXepLJGK4o162.png

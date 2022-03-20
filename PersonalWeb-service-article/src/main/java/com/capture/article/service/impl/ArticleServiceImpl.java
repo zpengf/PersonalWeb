@@ -110,7 +110,6 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
         if (res != 1) {
             GraceException.display(ResponseStatusEnum.ARTICLE_CREATE_ERROR);
         }
-        //文章延迟发送
 
         // 发送延迟消息到mq，计算定时发布时间和当前时间的时间差，则为往后延迟的时间
         if (article.getIsAppoint() == ArticleAppointType.TIMING.type) {
@@ -120,8 +119,11 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
 
             System.out.println(DateUtil.timeBetween(startDate, endDate));
             int delayTimes = (int)(endDate.getTime() - startDate.getTime());
-            // FIXME: 为了测试方便，写死10s
-           // int delayTimes = 10 * 1000;
+
+            //判断发布时间是否合理
+            if(delayTimes < 0){
+                GraceException.display(ResponseStatusEnum.ARTICLE_CREATE_ERROR_TIME);
+            }
             MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
                 @Override
                 public Message postProcessMessage(Message message) throws AmqpException {
@@ -135,6 +137,7 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
                 }
             };
 
+            //设置延迟队列
             rabbitTemplate.convertAndSend(
                     RabbitMQDelayConfig.EXCHANGE_DELAY,
                     "publish.delay.display",
@@ -205,11 +208,11 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
                 //doDownloadArticleHTML(articleId, articleMongoId);
 
                 /**#######################################################
-                 * mq调接口下载到相应地址 发送消息到mq队列，让消费者监听并且执行下载html
+                 * mq调接口下载到相应地址 发送消息到mq队列，让消费者监听下载静态页面到对应的地址
                  #########################################################*/
                 doDownloadArticleHTMLByMQ(articleId, articleMongoId);
             } catch (Exception e) {
-                e.printStackTrace();
+                GraceException.display(ResponseStatusEnum.ARTICLE_REVIEW_RABBIT_ERROR);
             }
         }
 
@@ -411,7 +414,7 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
 
         Template template = cfg.getTemplate("detail.ftl", "utf-8");
 
-        // 获得文章的详情数据
+        // 获得文章的详情数据  这里调取的接口是默认文章是已经审核成功更新到了数据库
         ArticleDetailVO detailVO = getArticleDetail(articleId);
         Map<String, Object> map = new HashMap<>();
         map.put("articleDetail", detailVO);
@@ -435,8 +438,7 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
      */
     private void doDownloadArticleHTML(String articleId, String articleMongoId) {
 
-        String url =
-                "http://html.imoocnews.com:8002/article/html/download?articleId="
+        String url = articleServiceInterface + "article/html/download?articleId="
                         + articleId +
                         "&articleMongoId="
                         + articleMongoId;
@@ -451,10 +453,12 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
 
     private void doDownloadArticleHTMLByMQ(String articleId, String articleMongoId) {
 
+
         rabbitTemplate.convertAndSend(
                 RabbitMQConfig.EXCHANGE_ARTICLE,
                 "article.download.do",
                 articleId + "," + articleMongoId);
+
     }
 
 
@@ -465,7 +469,7 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
      */
     public ArticleDetailVO getArticleDetail(String articleId) {
         String url
-                = "http://www.imoocnews.com:8001/portal/article/detail?articleId=" + articleId;
+                = articleServiceInterface + "portal/article/detail?articleId=" + articleId;
         ResponseEntity<GraceJSONResult> responseEntity
                 = restTemplate.getForEntity(url, GraceJSONResult.class);
         GraceJSONResult bodyResult = responseEntity.getBody();
@@ -488,7 +492,7 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
 
 
     private void doDeleteArticleHTML(String articleId) {
-        String url = "http://html.imoocnews.com:8002/article/html/delete?articleId=" + articleId;
+        String url = articleServiceInterface + "article/html/delete?articleId=" + articleId;
         ResponseEntity<Integer> responseEntity = restTemplate.getForEntity(url, Integer.class);
         int status = responseEntity.getBody();
         if (status != HttpStatus.OK.value()) {
