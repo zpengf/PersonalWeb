@@ -9,7 +9,11 @@ package com.capture.utils;
  */
 
 
+import com.capture.utils.extend.AliyunResource;
+import com.capture.utils.extend.BaiduyunResource;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,7 +27,12 @@ import java.util.Map;
 /**
  * 获取token类
  */
+@Component
 public class BaiduFaceVerifyUtils {
+
+    @Autowired
+    private static BaiduyunResource baiduyunResource;
+
 
     /**
      * 获取权限token
@@ -33,11 +42,11 @@ public class BaiduFaceVerifyUtils {
      * "expires_in": 2592000
      * }
      */
-    public static String getAuth() {
+    private static   String getAuth() {
         // 官网获取的 API Key 更新为你注册的
-        String clientId = "dluWOGZ1owU2M95YqVFRN3cq";
+        String clientId = baiduyunResource.getAccessKeyID();
         // 官网获取的 Secret Key 更新为你注册的
-        String clientSecret = "0sNivDvF5WLXmXtneYYYaZtMlvGuCBjq";
+        String clientSecret = baiduyunResource.getAccessKeySecret();
         return getAuth(clientId, clientSecret);
     }
 
@@ -49,7 +58,7 @@ public class BaiduFaceVerifyUtils {
      * @return assess_token 示例：
      * "24.460da4889caad24cccdb1fea17221975.2592000.1491995545.282335-1234567"
      */
-    public static String getAuth(String ak, String sk) {
+    private static String getAuth(String ak, String sk) {
         // 获取token地址
         String authHost = "https://aip.baidubce.com/oauth/2.0/token?";
         String getAccessTokenUrl = authHost
