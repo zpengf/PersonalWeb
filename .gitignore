@@ -1,2 +1,2 @@
 # Default ignored files
-/PersonalWeb-common/src/main/resources/*.properties
+PersonalWeb-common/src/main/resources/*.properties
