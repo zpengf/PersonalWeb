@@ -6,6 +6,7 @@ com/capture/validate/CheckUrlValidate.class
 com/capture/pojo/bo/RegistLoginBO.class
 com/capture/pojo/bo/SaveCategoryBO.class
 com/capture/pojo/Fans.class
+com/capture/pojo/BaiduFaceResult.class
 com/capture/pojo/Spouse.class
 com/capture/validate/CheckUrl.class
 com/capture/pojo/Category.class

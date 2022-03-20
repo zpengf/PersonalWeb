@@ -7,7 +7,9 @@ com/capture/utils/MyInfo.class
 org/n3r/idworker/RandomCodeStrategy.class
 com/capture/enums/ArticleReviewLevel.class
 org/n3r/idworker/utils/Serializes.class
+com/capture/utils/BaiduFaceVerifyUtils.class
 com/capture/grace/result/IMOOCJSONResult.class
+com/capture/utils/extend/BaiduyunResource.class
 com/capture/utils/RedisOperator.class
 com/capture/enums/ArticleAppointType.class
 org/n3r/idworker/WorkerIdStrategy.class
@@ -32,12 +34,14 @@ com/capture/utils/SMSUtils.class
 org/n3r/idworker/Sid.class
 com/capture/enums/YesOrNo.class
 com/capture/enums/ArticleCoverType.class
+com/capture/utils/GsonUtils.class
 com/capture/exception/GraceException.class
 com/capture/utils/extend/MailResource.class
 com/capture/utils/FileUtils.class
 com/capture/enums/ArticleReviewStatus.class
 com/capture/utils/FaceVerifyUtils.class
 com/capture/utils/PagedGridResult.class
+com/capture/utils/HttpUtil.class
 com/capture/grace/result/GraceJSONResult.class
 com/capture/grace/result/ResponseStatusEnum.class
 com/capture/enums/Sex.class

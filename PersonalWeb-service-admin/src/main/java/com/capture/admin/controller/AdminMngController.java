@@ -9,12 +9,13 @@ import com.capture.exception.GraceException;
 import com.capture.grace.result.GraceJSONResult;
 import com.capture.grace.result.ResponseStatusEnum;
 import com.capture.pojo.AdminUser;
+import com.capture.pojo.AppUser;
+import com.capture.pojo.BaiduFaceResult;
 import com.capture.pojo.bo.AdminLoginBO;
 import com.capture.pojo.bo.NewAdminBO;
-import com.capture.utils.FaceVerifyUtils;
-import com.capture.utils.PagedGridResult;
-import com.capture.utils.RedisOperator;
+import com.capture.utils.*;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -89,6 +91,7 @@ public class AdminMngController extends BaseController implements AdminMngContro
         setCookie(request, response, "atoken", token, COOKIE_MONTH);
         setCookie(request, response, "aid", admin.getId(), COOKIE_MONTH);
         setCookie(request, response, "aname", admin.getAdminName(), COOKIE_MONTH);
+        setCookie(request, response, "uname", admin.getUsername(), COOKIE_MONTH);
     }
 
     @Override
@@ -194,7 +197,7 @@ public class AdminMngController extends BaseController implements AdminMngContro
         }
 
         // 2. 请求文件服务，获得人脸数据的base64数据
-        //这里因为与 fiels 是不同的文件服务 所以需要远程调借口
+        //这里因为与 files 是不同的文件服务 所以需要远程调借口
         String fileServerUrlExecute
                 = filesServiceInterface + "fs/readFace64InGridFS?faceId=" + adminFaceId;
         ResponseEntity<GraceJSONResult> responseEntity
@@ -204,12 +207,21 @@ public class AdminMngController extends BaseController implements AdminMngContro
 
 
         // 3. 调用阿里ai进行人脸对比识别，判断可信度，从而实现人脸登录
-        boolean result = faceVerifyUtils.faceVerify(FaceVerifyType.BASE64.type,
-                tempFace64,
-                base64DB,
-                60);
+//        boolean result = faceVerifyUtils.faceVerify(FaceVerifyType.BASE64.type,
+//                tempFace64,
+//                base64DB,
+//                60);
+        try {
+            //调用百度免费的api
+            String baiduResult = BaiduFaceVerifyUtils.match(tempFace64,base64DB);
+            JSONObject jsonObject = new JSONObject(baiduResult);
+            String r = jsonObject.getJSONObject("result").toString();
+            BaiduFaceResult baiduFaceResult = JsonUtils.jsonToPojo(r, BaiduFaceResult.class);
+            if (baiduFaceResult != null && baiduFaceResult.getScore() < 60) {
+                return GraceJSONResult.errorCustom(ResponseStatusEnum.ADMIN_FACE_LOGIN_ERROR);
+            }
 
-        if (!result) {
+        }catch (Exception e){
             return GraceJSONResult.errorCustom(ResponseStatusEnum.ADMIN_FACE_LOGIN_ERROR);
         }
 
