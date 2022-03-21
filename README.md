@@ -21,7 +21,7 @@
         1.最简单的方式 就是在管理员审核完文章后 直接freemarker输出到前端地址
         2.使用mongodb 审核完毕后组装好页面传到 gridfs保存 然后通过调接口下载相应地址
         3.使用mq mongodb 审核完毕后组装好页面传到 gridfs保存 设置好rabbitmq解藕 去下载到前端文件
-            本项目三个方式都有体现 详见ArticleController.doReview() 当前应用第三种方式
+            本项目三个方式都有体现 详见ArticleServiceImpl.updateArticleStatus() 当前应用第三种方式
         4.项目admin端人脸对比识别用的是百度云api 同时项目里也有阿里云api根据情况选择调用
 
     
