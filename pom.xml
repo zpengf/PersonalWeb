@@ -16,6 +16,8 @@
         <module>PersonalWeb-service-files</module>
         <module>PersonalWeb-service-article</module>
         <module>PersonalWeb-service-article-html</module>
+        <module>springcloud-eureka</module>
+        <module>springcloud-eureka-cluster</module>
     </modules>
 
     <!--

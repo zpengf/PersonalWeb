@@ -22,8 +22,7 @@ public interface FriendLinkControllerApi {
     @ApiOperation(value = "新增或者修改友情链接", notes = "新增或者修改友情链接", httpMethod = "POST")
     @PostMapping("/saveOrUpdateFriendLink")
     public GraceJSONResult saveOrUpdateFriendLink(
-                    @RequestBody @Valid SaveFriendLinkBO saveFriendLinkBO,
-                                      BindingResult result);
+                    @RequestBody @Valid SaveFriendLinkBO saveFriendLinkBO);
 
     @ApiOperation(value = "查询友情链接列表", notes = "查询友情链接列表", httpMethod = "POST")
     @PostMapping("/getFriendLinkList")

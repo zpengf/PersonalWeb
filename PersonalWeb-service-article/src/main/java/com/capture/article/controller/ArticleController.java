@@ -34,14 +34,7 @@ public class ArticleController extends BaseController implements ArticleControll
 
 
     @Override
-    public GraceJSONResult createArticle(@Valid NewArticleBO newArticleBO,
-                                         BindingResult result) {
-
-        // 判断BindingResult是否保存错误的验证信息，如果有，则直接return
-        if (result.hasErrors()) {
-            Map<String, String> errorMap = getErrors(result);
-            return GraceJSONResult.errorMap(errorMap);
-        }
+    public GraceJSONResult createArticle(@Valid NewArticleBO newArticleBO) {
 
         // 判断文章封面类型，单图必填，纯文字则设置为空
         if (newArticleBO.getArticleType() == ArticleCoverType.ONE_IMAGE.type) {

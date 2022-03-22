@@ -35,11 +35,12 @@ public class Swagger2 {
         Predicate<RequestHandler> articlePredicate = RequestHandlerSelectors.basePackage("com.capture.article.controller");
         Predicate<RequestHandler> userPredicate = RequestHandlerSelectors.basePackage("com.capture.user.controller");
         Predicate<RequestHandler> filesPredicate = RequestHandlerSelectors.basePackage("com.capture.files.controller");
+        Predicate<RequestHandler> articleHtmlPredicate = RequestHandlerSelectors.basePackage("com.capture.article.html.controller");
 
         return new Docket(DocumentationType.SWAGGER_2)  // 指定api类型为swagger2
                 .apiInfo(apiInfo())                 // 用于定义api文档汇总信息
                 .select()
-                .apis(Predicates.or(userPredicate,adminPredicate,articlePredicate,filesPredicate))
+                .apis(Predicates.or(userPredicate,adminPredicate,articlePredicate,filesPredicate,articleHtmlPredicate))
                 .paths(PathSelectors.any())         // 所有controller
                 .build();
     }

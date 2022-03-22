@@ -1,39 +1,46 @@
 package com.capture.user.controller;
 
 import com.capture.api.BaseController;
-import com.capture.api.controller.user.HelloControllerApi;
 import com.capture.api.controller.user.UserControllerApi;
 import com.capture.grace.result.GraceJSONResult;
 import com.capture.grace.result.ResponseStatusEnum;
 import com.capture.pojo.AppUser;
 import com.capture.pojo.bo.UpdateUserInfoBO;
 import com.capture.pojo.vo.AppUserVO;
-import com.capture.pojo.vo.PublisherVO;
 import com.capture.pojo.vo.UserAccountInfoVO;
 import com.capture.user.service.UserService;
 import com.capture.utils.JsonUtils;
-import com.capture.utils.RedisOperator;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
+
+//作为某个服务的服务端如果访问这个controller出错 当前服务的端口死掉 就全局降级 防止微服务出现雪崩
+@DefaultProperties(defaultFallback = "defaultFallback")
 public class UserController extends BaseController implements UserControllerApi {
 
     final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
+
+    
+    public GraceJSONResult defaultFallback() {
+        logger.error("UserController进入全局降级");
+        System.out.println("UserController进入全局降级");
+        return GraceJSONResult.ok(ResponseStatusEnum.SYSTEM_ERROR_USER_SERVICE);
+    }
+
 
     @Override
     public GraceJSONResult getUserInfo(String userId) {
@@ -90,21 +97,14 @@ public class UserController extends BaseController implements UserControllerApi 
     }
 
     @Override
-    public GraceJSONResult updateUserInfo(
-            @Valid UpdateUserInfoBO updateUserInfoBO,
-            BindingResult result) {
-
-        // 0. 校验BO
-        if (result.hasErrors()) {
-            Map<String, String> map = getErrors(result);
-            return GraceJSONResult.errorMap(map);
-        }
-
+    public GraceJSONResult updateUserInfo(@Valid UpdateUserInfoBO updateUserInfoBO) {
         // 1. 执行更新操作
         userService.updateUserInfo(updateUserInfoBO);
         return GraceJSONResult.ok();
     }
 
+    // 配置Hystrix如果在微服务中这个方法出现了异常 那么会使用替代方法
+    @HystrixCommand(fallbackMethod = "queryByIdsFallback")
     @Override
     public GraceJSONResult queryByIds(String userIds) {
 
@@ -117,6 +117,25 @@ public class UserController extends BaseController implements UserControllerApi 
         for (String userId : userIdList) {
             // 获得用户基本信息
             AppUserVO userVO = getBasicUserInfo(userId);
+            // 添加到publisherList
+            publisherList.add(userVO);
+        }
+
+        return GraceJSONResult.ok(publisherList);
+    }
+
+
+    public GraceJSONResult queryByIdsFallback(String userIds) {
+
+        if (StringUtils.isBlank(userIds)) {
+            return GraceJSONResult.errorCustom(ResponseStatusEnum.USER_NOT_EXIST_ERROR);
+        }
+        //替代办法 从业务角度说 这个文章的作者查不查的出来 对文章没多大影响 所以直接返回空用户
+        List<AppUserVO> publisherList = new ArrayList<>();
+        List<String> userIdList = JsonUtils.jsonToList(userIds, String.class);
+        for (String userId : userIdList) {
+            // 获得用户基本信息
+            AppUserVO userVO = new AppUserVO();
             // 添加到publisherList
             publisherList.add(userVO);
         }

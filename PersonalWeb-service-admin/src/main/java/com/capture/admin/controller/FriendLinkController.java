@@ -28,14 +28,7 @@ public class FriendLinkController extends BaseController implements FriendLinkCo
 
     @Override
     public GraceJSONResult saveOrUpdateFriendLink(
-            @Valid SaveFriendLinkBO saveFriendLinkBO,
-            BindingResult result) {
-
-        if (result.hasErrors()) {
-            Map<String, String> map = getErrors(result);
-            return GraceJSONResult.errorMap(map);
-        }
-
+            @Valid SaveFriendLinkBO saveFriendLinkBO) {
         //和 mongodb 交互的对象叫 MO
         FriendLinkMO saveFriendLinkMO = new FriendLinkMO();
         BeanUtils.copyProperties(saveFriendLinkBO, saveFriendLinkMO);

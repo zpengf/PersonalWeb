@@ -212,6 +212,7 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
                  #########################################################*/
                 doDownloadArticleHTMLByMQ(articleId, articleMongoId);
             } catch (Exception e) {
+                e.printStackTrace();
                 GraceException.display(ResponseStatusEnum.ARTICLE_REVIEW_RABBIT_ERROR);
             }
         }
@@ -438,10 +439,16 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
      */
     private void doDownloadArticleHTML(String articleId, String articleMongoId) {
 
-        String url = articleServiceInterface + "article/html/download?articleId="
-                        + articleId +
-                        "&articleMongoId="
-                        + articleMongoId;
+
+//        String url = articleHtmlInterface + "article/html/download?articleId="
+//                + articleId +
+//                "&articleMongoId="
+//                + articleMongoId;
+        String serviceId = "service-article-html";
+        String url
+                = "http://" + serviceId + "/article/html/download?articleId=" + articleId+
+                "&articleMongoId="
+                + articleMongoId;;
         ResponseEntity<Integer> responseEntity = restTemplate.getForEntity(url, Integer.class);
         int status = responseEntity.getBody();
         if (status != HttpStatus.OK.value()) {
@@ -468,8 +475,15 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
      * @return
      */
     public ArticleDetailVO getArticleDetail(String articleId) {
+//        String url
+//                = articleInterface + "portal/article/detail?articleId=" + articleId;
+
+        String serviceId = "SERVICE-ARTICLE";
         String url
-                = articleServiceInterface + "portal/article/detail?articleId=" + articleId;
+                = "http://" + serviceId + "/portal/article/detail?articleId=" + articleId;
+
+
+
         ResponseEntity<GraceJSONResult> responseEntity
                 = restTemplate.getForEntity(url, GraceJSONResult.class);
         GraceJSONResult bodyResult = responseEntity.getBody();
@@ -492,7 +506,12 @@ public class ArticleServiceImpl extends BaseService implements ArticleService {
 
 
     private void doDeleteArticleHTML(String articleId) {
-        String url = articleServiceInterface + "article/html/delete?articleId=" + articleId;
+//        String url = articleHtmlInterface + "article/html/delete?articleId=" + articleId;
+
+        String serviceId = "service-article-html";
+        String url
+                = "http://" + serviceId + "/article/html/delete?articleId=" + articleId;
+
         ResponseEntity<Integer> responseEntity = restTemplate.getForEntity(url, Integer.class);
         int status = responseEntity.getBody();
         if (status != HttpStatus.OK.value()) {

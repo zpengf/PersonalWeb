@@ -22,7 +22,6 @@ public interface PassportControllerApi {
     @ApiOperation(value = "一键注册登录接口", notes = "一键注册登录接口", httpMethod = "POST")
     @PostMapping("/doLogin")
     public GraceJSONResult doLogin(@RequestBody @Valid RegistLoginBO registLoginBO,
-                                   BindingResult result,
                                    HttpServletRequest request,
                                    HttpServletResponse response);
 

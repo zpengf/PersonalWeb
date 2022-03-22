@@ -1,7 +1,10 @@
 package com.capture.article.html.controller;
 
 import com.capture.api.controller.article.ArticleHTMLControllerApi;
+import com.capture.grace.result.GraceJSONResult;
+import com.capture.grace.result.ResponseStatusEnum;
 import com.mongodb.client.gridfs.GridFSBucket;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +18,9 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 @RestController
+
+//作为某个服务的服务端如果访问这个controller出错 当前服务的端口死掉 就全局降级 防止微服务出现雪崩
+@DefaultProperties(defaultFallback = "defaultFallback")
 public class ArticleHTMLController implements ArticleHTMLControllerApi {
 
     final static Logger logger = LoggerFactory.getLogger(ArticleHTMLController.class);
@@ -24,6 +30,14 @@ public class ArticleHTMLController implements ArticleHTMLControllerApi {
 
     @Value("${freemarker.html.article}")
     private String articlePath;
+
+
+    public GraceJSONResult defaultFallback() {
+        logger.error("ArticleHTMLController进入全局降级");
+        System.out.println("ArticleHTMLController进入全局降级");
+        return GraceJSONResult.ok(ResponseStatusEnum.SYSTEM_ERROR_FILES_SERVICE);
+    }
+
 
     @Override
     public Integer download(String articleId, String articleMongoId)

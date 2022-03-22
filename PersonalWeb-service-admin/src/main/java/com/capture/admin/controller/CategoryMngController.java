@@ -31,15 +31,7 @@ public class CategoryMngController extends BaseController implements CategoryMng
     private CategoryService categoryService;
 
     @Override
-    public GraceJSONResult saveOrUpdateCategory(@Valid SaveCategoryBO saveCategoryBO,
-                                                BindingResult result) {
-
-        // 判断BindingResult是否保存错误的验证信息，如果有，则直接return
-        if (result.hasErrors()) {
-            Map<String, String> errorMap = getErrors(result);
-            return GraceJSONResult.errorMap(errorMap);
-        }
-
+    public GraceJSONResult saveOrUpdateCategory(@Valid SaveCategoryBO saveCategoryBO) {
         Category newCat = new Category();
         BeanUtils.copyProperties(saveCategoryBO, newCat);
         // id为空新增，不为空修改

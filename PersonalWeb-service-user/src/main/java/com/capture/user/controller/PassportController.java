@@ -1,6 +1,5 @@
 package com.capture.user.controller;
 
-//import com.capture.api.BaseController;
 import com.capture.api.BaseController;
 import com.capture.api.controller.user.PassportControllerApi;
 import com.capture.enums.UserStatus;
@@ -8,28 +7,20 @@ import com.capture.grace.result.GraceJSONResult;
 import com.capture.grace.result.ResponseStatusEnum;
 import com.capture.pojo.AppUser;
 import com.capture.pojo.bo.RegistLoginBO;
-//import com.capture.user.service.UserService;
 import com.capture.user.service.UserService;
 import com.capture.utils.IPUtil;
 import com.capture.utils.JsonUtils;
 import com.capture.utils.MailUtil;
-import com.capture.utils.RedisOperator;
 import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -68,15 +59,8 @@ public class  PassportController extends BaseController implements PassportContr
 
     @Override
     public GraceJSONResult doLogin(@Valid RegistLoginBO registLoginBO,
-                                   BindingResult result,
                                    HttpServletRequest request,
                                    HttpServletResponse response) {
-
-        // 0.判断BindingResult中是否保存了错误的验证信息，如果有，则需要返回
-        if (result.hasErrors()) {
-            Map<String, String> map = getErrors(result);
-            return GraceJSONResult.errorMap(map);
-        }
 
         String email = registLoginBO.getEmail();
         String emailCode = registLoginBO.getEmailCode();

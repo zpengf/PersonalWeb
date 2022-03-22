@@ -1,0 +1,40 @@
+############################################################
+#
+# eureka 注册中心集群
+# web访问端口号  约定：7000 ～ 7001
+#
+############################################################
+server:
+  port: 7001
+  tomcat:
+    uri-encoding: UTF-8
+
+############################################################
+#
+# 配置项目信息
+#
+############################################################
+spring:
+  application:
+    name: springcloud-eureka-cluster
+
+############################################################
+#
+# eureka 配置信息
+#
+############################################################
+eureka:
+  instance:
+    # eureka 实例的hostname，可以是hostname，也可以自定义配置hostname
+    hostname: eureka-cluster
+  client:
+    # 是否要把当前的eureka server注册到自己
+    register-with-eureka: false
+    # 从注册中心获得检索服务实例，server没有必要，直接false即可
+    fetch-registry: false
+    # 单实例配置自己的服务地址，高可用集群则配置多个地址
+    service-url:
+      defaultZone: http://eureka:7000/eureka/
+  server:
+    #enable-self-preservation: false   # 关闭eureka的自我保护功能
+    eviction-interval-timer-in-ms: 5000   # 清理无效节点的时间，可以缩短为5s，默认60s

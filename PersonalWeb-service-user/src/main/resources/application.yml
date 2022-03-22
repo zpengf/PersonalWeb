@@ -63,6 +63,43 @@ pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
 
+############################################################
+#
+# eureka client 配置信息
+#
+############################################################
+eureka:
+   #自定义eureka server的信息
+  server:
+    hostname: eureka
+    port: 7000
+  client:
+    # 所有的微服务都必须注册到eureka中
+    register-with-eureka: true
+    # 从注册中心获得检索服务实例
+    fetch-registry: true
+    # 注册中心的服务地址
+    service-url:
+      defaultZone: http://eureka-cluster:7001/eureka/,http://eureka:7000/eureka/
+
+# 配置hystrix
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000   # 设置hystrix超时时间，超过10秒触发降级
+      circuitBreaker:   # 配置断路器
+        enabled: true
+        requestVolumeThreshold: 30    # 触发熔断最小请求次数，默认：20
+        sleepWindowInMilliseconds: 5000    # 熔断后过几秒后尝试半开状态（请求重试），默认：5s
+        errorThresholdPercentage: 50  # 触发熔断的失败率（异常率/阈值），默认：50
+
+
+
+
+
 # 新增用户定义临时头像
 userFace:
   temp-face: http://10.211.55.9:8888/capture/M00/00/00/CtM3CWIvMtCAaJ4NABXepLJGK4o162.png

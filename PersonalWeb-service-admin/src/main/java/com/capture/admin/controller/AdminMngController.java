@@ -3,6 +3,7 @@ package com.capture.admin.controller;
 import com.capture.admin.service.AdminUserService;
 import com.capture.api.BaseController;
 import com.capture.api.controller.admin.AdminMngControllerApi;
+import com.capture.api.controller.files.FileUploaderControllerApi;
 import com.capture.api.controller.user.HelloControllerApi;
 import com.capture.enums.FaceVerifyType;
 import com.capture.exception.GraceException;
@@ -198,11 +199,20 @@ public class AdminMngController extends BaseController implements AdminMngContro
 
         // 2. 请求文件服务，获得人脸数据的base64数据
         //这里因为与 files 是不同的文件服务 所以需要远程调借口
+//        String userServerUrlExecute
+//                = "http://" + serviceId + "/user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
+        //直接使用微服务
+        String serviceId = "SERVICE-FILES";
         String fileServerUrlExecute
-                = filesServiceInterface + "fs/readFace64InGridFS?faceId=" + adminFaceId;
+                = "http://" + serviceId + "/fs/readFace64InGridFS?faceId=" + adminFaceId;
         ResponseEntity<GraceJSONResult> responseEntity
                 = restTemplate.getForEntity(fileServerUrlExecute, GraceJSONResult.class);
         GraceJSONResult bodyResult = responseEntity.getBody();
+
+
+
+
+
         String base64DB = (String)bodyResult.getData();
 
 

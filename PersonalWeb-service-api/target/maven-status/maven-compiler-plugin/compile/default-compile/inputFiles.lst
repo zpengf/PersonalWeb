@@ -14,6 +14,7 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/UserActiveInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/InterceptorConfig.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/CorsConfig.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/user/fallbacks/UserControllerFactoryFallback.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/user/PassportControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/config/RabbitMQConfig.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/admin/FriendLinkControllerApi.java
@@ -21,6 +22,7 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/BaseInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/AdminCookieTokenInterceptor.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/interceptors/PassportInterceptor.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/rule/MyRule.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/user/AppUserMngControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/files/FileUploaderControllerApi.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-api/src/main/java/com/capture/api/controller/article/ArticleControllerApi.java

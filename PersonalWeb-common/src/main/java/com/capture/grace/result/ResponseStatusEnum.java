@@ -75,6 +75,10 @@ public enum ResponseStatusEnum {
     SYSTEM_OPERATION_ERROR(556, false, "操作失败，请重试或联系管理员"),
     SYSTEM_RESPONSE_NO_INFO(557, false, ""),
 
+    SYSTEM_ERROR_USER_SERVICE(555, false, "user-service服务出现问题！"),
+    SYSTEM_ERROR_FILES_SERVICE(555, false, "files-service服务出现问题！"),
+    SYSTEM_ERROR_FEIGN(555, false, "客户端降级，系统繁忙，请稍后再试！"),
+
     SYSTEM_CONVERT_ERROR_INFO(557, false, "JSON转换出错！");
 
 

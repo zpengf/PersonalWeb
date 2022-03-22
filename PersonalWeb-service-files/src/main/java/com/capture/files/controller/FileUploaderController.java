@@ -2,6 +2,7 @@ package com.capture.files.controller;
 
 import com.capture.api.BaseController;
 import com.capture.api.controller.files.FileUploaderControllerApi;
+import com.capture.api.controller.user.UserControllerApi;
 import com.capture.exception.GraceException;
 import com.capture.files.resource.FileResource;
 import com.capture.files.service.UploaderService;
@@ -15,6 +16,7 @@ import com.mongodb.client.gridfs.GridFSFindIterable;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.mongodb.client.model.Filters;
 import com.mongodb.gridfs.GridFS;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
@@ -35,6 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+
+//作为某个服务的服务端如果访问这个controller出错 当前服务的端口死掉 就全局降级 防止微服务出现雪崩
+@DefaultProperties(defaultFallback = "defaultFallback")
 public class FileUploaderController extends BaseController implements FileUploaderControllerApi {
 
     final static Logger logger = LoggerFactory.getLogger(FileUploaderController.class);
@@ -53,6 +58,13 @@ public class FileUploaderController extends BaseController implements FileUpload
 
     @Value("${adminFace.temp_path}")
     public String adminFacePath;
+
+
+    public GraceJSONResult defaultFallback() {
+        logger.error("FileUploaderController进入全局降级");
+        System.out.println("FileUploaderController进入全局降级");
+        return GraceJSONResult.ok(ResponseStatusEnum.SYSTEM_ERROR_FILES_SERVICE);
+    }
 
     @Override
     public GraceJSONResult uploadFace(String userId,
@@ -254,11 +266,15 @@ public class FileUploaderController extends BaseController implements FileUpload
     @Override
     public GraceJSONResult readFace64InGridFS(String faceId,
                                               HttpServletRequest request,
-                                              HttpServletResponse response)
-            throws Exception {
+                                              HttpServletResponse response){
 
         // 0. 获得gridfs中人脸文件
-        File myface = readGridFSByFaceId(faceId);
+        File myface = null;
+        try {
+            myface = readGridFSByFaceId(faceId);
+        } catch (Exception e) {
+            GraceException.display(ResponseStatusEnum.FILE_NOT_EXIST_ERROR);
+        }
 
         // 1. 转换人脸为base64
         String base64Face = FileUtils.fileToBase64(myface);

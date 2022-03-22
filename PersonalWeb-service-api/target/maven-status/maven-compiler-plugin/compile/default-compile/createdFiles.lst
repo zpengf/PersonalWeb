@@ -17,7 +17,9 @@ com/capture/api/controller/article/ArticlePortalControllerApi.class
 com/capture/api/controller/admin/FriendLinkControllerApi.class
 com/capture/api/service/BaseService.class
 com/capture/api/controller/user/MyFansControllerApi.class
+com/capture/api/controller/user/fallbacks/UserControllerFactoryFallback.class
 com/capture/api/controller/article/ArticleControllerApi.class
+com/capture/api/controller/user/fallbacks/UserControllerFactoryFallback$1.class
 com/capture/api/controller/admin/AdminMngControllerApi.class
 com/capture/my/mapper/MyMapper.class
 com/capture/api/config/CloudConfig.class
@@ -28,4 +30,5 @@ com/capture/api/controller/user/UserControllerApi.class
 com/capture/api/controller/user/PassportControllerApi.class
 com/capture/api/interceptors/PassportInterceptor.class
 com/capture/api/interceptors/UserActiveInterceptor.class
+com/rule/MyRule.class
 com/capture/api/aspect/ServiceLogAspect.class

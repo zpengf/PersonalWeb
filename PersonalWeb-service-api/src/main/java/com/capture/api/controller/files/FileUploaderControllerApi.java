@@ -72,6 +72,5 @@ public interface FileUploaderControllerApi {
     @GetMapping("/readFace64InGridFS")
     public GraceJSONResult readFace64InGridFS(String faceId,
                              HttpServletRequest request,
-                             HttpServletResponse response)
-            throws Exception;
+                             HttpServletResponse response);
 }

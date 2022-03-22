@@ -7,22 +7,16 @@ import com.capture.utils.RedisOperator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public class BaseController {
@@ -32,6 +26,10 @@ public class BaseController {
 
     @Autowired
     public RestTemplate restTemplate;
+
+    // 注入服务发现，可以获得已经注册的服务相关信息
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     public static final String EMAIL_CODE = "emailCode";
     public static final String REDIS_USER_TOKEN = "redis_user_token";
@@ -73,23 +71,6 @@ public class BaseController {
 
     public static final Integer COMMON_START_PAGE = 1;
     public static final Integer COMMON_PAGE_SIZE = 10;
-
-    /**
-     * 获取BO中的错误信息
-     * @param result
-     */
-    public Map<String, String> getErrors(BindingResult result) {
-        Map<String, String> map = new HashMap<>();
-        List<FieldError> errorList = result.getFieldErrors();
-        for (FieldError error : errorList) {
-            // 发送验证错误的时候所对应的某个属性
-            String field = error.getField();
-            // 验证的错误消息
-            String msg = error.getDefaultMessage();
-            map.put(field, msg);
-        }
-        return map;
-    }
 
     /**
      *
@@ -146,17 +127,51 @@ public class BaseController {
     }
 
     public List<AppUserVO> getBasicUserList(Set idSet) {
+
+        /**
+         * 不使用springCloud微服务
+         */
+//        String userServerUrlExecute
+//                = userServiceInterface + "user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
+
+        /**
+         * 使用微服务（1）
+         */
+//        ServiceInstance userServiceAddress =
+//                discoveryClient.getInstances("SERVICE-USER").get(0);
+//        String userServerUrlExecute
+//                = "http://" + userServiceAddress.getHost() + ":" + userServiceAddress.getPort() +
+//                "/user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
+
+        /**
+         * 使用微服务（2）
+         * 直接用SERVICE-USER 这么直接拼框架不能识别 需要给restTemplate做个负载均衡处理
+         * 去restTemplate配置文件查看配置 配置文件在api模块 config包 CloudConfig文件
+         */
+        String serviceId = "SERVICE-USER";
         String userServerUrlExecute
-                = userServiceInterface + "user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
+                = "http://" + serviceId + "/user/queryByIds?userIds=" + JsonUtils.objectToJson(idSet);
+
+
         ResponseEntity<GraceJSONResult> responseEntity
                 = restTemplate.getForEntity(userServerUrlExecute, GraceJSONResult.class);
         GraceJSONResult bodyResult = responseEntity.getBody();
-        List<AppUserVO> userVOList = null;
+
+        /**
+         * 使用feign组件 直接通过接口调用 不太好用 改动很多
+         */
+//        GraceJSONResult bodyResult = userControllerApi.queryByIds(JsonUtils.objectToJson(idSet));
+
+
+        List<AppUserVO> appUserVOList = null;
         if (bodyResult.getStatus() == 200) {
             String userJson = JsonUtils.objectToJson(bodyResult.getData());
-            userVOList = JsonUtils.jsonToList(userJson, AppUserVO.class);
+            appUserVOList = JsonUtils.jsonToList(userJson, AppUserVO.class);
+        } else {
+            appUserVOList = new ArrayList<>();
         }
-        return userVOList;
+        return appUserVOList;
+
     }
 
 }
