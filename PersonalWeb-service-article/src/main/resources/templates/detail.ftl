@@ -35,11 +35,14 @@
         <div class="white-bar">
             <div class="left-part">
                 <div class="menus">
-                    <!-- single-selected -->
-                    <div class="single-default" v-bind:class="{'single-selected': (cat.id==selectedCatId)}" v-for="(cat, index) in catList" v-key="index">
-                        <!-- menu-selected -->
-                        <a href="javascript:void(0);" class="white-header-left" style="text-decoration:none;" v-bind:class="{'menu-selected': (cat.id==selectedCatId)}" @click="queryByCategory(cat.id)">{{cat.name}}</a>
+                    <div class="single-default">
+                        <a href="javascript:void(0);" class="white-header-left" @click="goIndex()">首页</a>
                     </div>
+<#--                    <!-- single-selected &ndash;&gt;-->
+<#--                    <div class="single-default" v-bind:class="{'single-selected': (cat.id==selectedCatId)}" v-for="(cat, index) in catList" v-key="index">-->
+<#--                        <!-- menu-selected &ndash;&gt;-->
+<#--                        <a href="javascript:void(0);" class="white-header-left" style="text-decoration:none;" v-bind:class="{'menu-selected': (cat.id==selectedCatId)}" @click="queryByCategory(cat.id)">{{cat.name}}</a>-->
+<#--                    </div>-->
                 </div>
             </div>
 
@@ -285,7 +288,14 @@
                 }
             });
             },
+            // 根据分类id查询文章列表
+            queryByCategory(catId) {
+                var me = this;
+                me.selectedCatId = catId;
+                me.keyword = "";
 
+                me.getAllArticleList(1, 15, "", catId, true);
+            },
             // 获得文章阅读数
             getArticleReadCounts(articleId) {
                 var me = this;

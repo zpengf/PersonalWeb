@@ -5,7 +5,7 @@
 #
 ############################################################
 server:
-# port: 8005
+  port: 8005
   tomcat:
     uri-encoding: UTF-8
     max-swallow-size: -1  # tomcat默认大小2M，超过2M的文件不会被捕获，需要调整此处大小为100MB或者-1即可
@@ -18,8 +18,8 @@ server:
 spring:
   application:
     name: service-admin
-  profiles:
-    active: dev   # yml中配置文件的环境配置，dev：开发环境，test：测试环境，prod：生产环境
+#  profiles:
+#    active: dev   # yml中配置文件的环境配置，dev：开发环境，test：测试环境，prod：生产环境
   datasource:                                         # 数据源的相关配置
     type: com.zaxxer.hikari.HikariDataSource          # 数据源类型：HikariCP
     driver-class-name: com.mysql.jdbc.Driver          # mysql驱动
@@ -35,6 +35,10 @@ spring:
       pool-name: DateSourceHikariCP     # 连接池名字
       max-lifetime: 1800000           # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认:30分钟 1800000ms
       connection-test-query: SELECT 1
+  redis:
+    port: 6379
+    database: 0  #使用redis中第几个库
+    host: 127.0.0.1
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -44,18 +48,14 @@ spring:
       database: personal_web  #数据库的名字
 ############################################################
 #
-# mybatis 配置
+# mybatis 配置 mapper 配置
 #
 ############################################################
 mybatis:
   type-aliases-package: com.capture.pojo          # 所有POJO类所在包路径
   mapper-locations: classpath:mapper/*.xml      # mapper映射文件
-
-############################################################
-#
-# mybatis mapper 配置
-#
-############################################################
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 通用 Mapper 配置
 mapper:
   mappers: com.capture.my.mapper.MyMapper
@@ -67,7 +67,7 @@ pagehelper:
   supportMethodsArguments: true
 
 ############################################################
-#
+# 以下是springCloud 相关配置
 # eureka client 配置信息
 #
 ############################################################
@@ -95,18 +95,24 @@ ribbon:
 
 # 配置feign
 feign:
-  client:
-    config:
-      # 配置服务提供方的名称
-      service-user:
-        loggerLevel: FULL
+#  client:
+#    config:
+#      # 配置服务提供方的名称
+#      service-user:
+#        loggerLevel: FULL
   hystrix:
     enabled: true   # 打开feign客户端的内置hystrix
 
 
 
 
-
+############################################################
+#
+# 项目中所用到的变量配置
+#
+############################################################
+website:
+  domain-name: imoocnews.com
 # 定义接口地址
 transferInterface:
   article: http://www.imoocnews.com:8001/

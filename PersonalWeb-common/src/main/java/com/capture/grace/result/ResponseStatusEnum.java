@@ -79,7 +79,9 @@ public enum ResponseStatusEnum {
     SYSTEM_ERROR_FILES_SERVICE(555, false, "files-service服务出现问题！"),
     SYSTEM_ERROR_FEIGN(555, false, "客户端降级，系统繁忙，请稍后再试！"),
 
-    SYSTEM_CONVERT_ERROR_INFO(557, false, "JSON转换出错！");
+    SYSTEM_CONVERT_ERROR_INFO(557, false, "JSON转换出错！"),
+
+    SYSTEM_ERROR_ZUUL(557, false, "禁止通行！你会把服务器搞崩的！");
 
 
     // 响应业务状态

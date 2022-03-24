@@ -5,7 +5,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource("classpath:file-${spring.profiles.active}.properties")
+//@PropertySource("classpath:file-${spring.profiles.active}.properties")
+@PropertySource("classpath:file.properties")
 @ConfigurationProperties(prefix = "file")
 public class FileResource {
 

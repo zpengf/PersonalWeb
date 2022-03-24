@@ -2,6 +2,7 @@ package com.capture.article.controller;
 
 import com.capture.api.config.RabbitMQConfig;
 import com.capture.api.config.RabbitMQDelayConfig;
+import com.capture.article.stream.StreamService;
 import com.capture.grace.result.GraceJSONResult;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
@@ -21,6 +22,21 @@ public class HelloController {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private StreamService streamService;
+
+
+    @GetMapping("/stream")
+    public Object stream() {
+//        streamService.sendMsg();
+
+        for (int i = 0 ; i < 10 ; i ++ ) {
+            streamService.eat("我吃了第" + (i+1) + "只饺子~");
+        }
+
+        return "ok~~!!!";
+    }
 
     @GetMapping("/hello")
     public Object hello() {

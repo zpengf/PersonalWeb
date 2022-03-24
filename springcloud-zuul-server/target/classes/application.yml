@@ -1,0 +1,71 @@
+############################################################
+#
+# 网关zuul
+# web访问端口号  约定：7070
+#
+############################################################
+server:
+  port: 7070
+  tomcat:
+    uri-encoding: UTF-8
+
+############################################################
+#
+# 配置项目信息
+#
+############################################################
+spring:
+  application:
+    name: springcloud-zuul-server
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+  zipkin:
+    # 配置zipkin采集的服务地址，数据会发送到这里
+    base-url: http://127.0.0.1:9411/
+    sender:
+      # 数据采集的传输通信方式，web http的形式
+      type: web
+  sleuth:
+    sampler:
+      # 数据采样比例（百分数），0~1
+      probability: 0.8
+
+############################################################
+#
+# eureka client 配置信息
+#
+############################################################
+eureka:
+  server:
+    hostname: eureka
+    port: 7000
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-cluster:7001/eureka/,http://eureka:7000/eureka/
+
+# 路由规则: http://[网关地址]:[端口号]/[prefix]/[微服务实例id]/[请求地址路径]
+zuul:
+  routes:
+    #    service-article:                  # 配置微服务的路由id，微服务的实例id
+    #      path: /service-article/**       # 请求路径(前缀)
+    #      service-id: service-article     # 请求转发的微服务实例id
+    #      url: http://10.211.55.9:8001    # 请求转发到指定的微服务所在的ip地址
+    #  prefix: /api                        # 请求前缀
+    # 路由id和微服务实例id相同，这里简化转发的配置
+    service-article: /service-article/**
+    service-user: /service-user/**
+    service-admin: /service-admin/**
+    service-files: /service-files/**
+    service-article-html: /service-article-html/**
+
+
+# ip请求限制的参数配置
+blackIp:
+  continueCounts: ${counts:50}    # ip连续请求的次数
+  timeInterval: ${interval:2}    # ip判断的时间间隔，单位：秒
+  limitTimes: ${times:300}         # 限制访问时间，单位：秒
+

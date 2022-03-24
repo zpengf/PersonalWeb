@@ -18,6 +18,8 @@
         <module>PersonalWeb-service-article-html</module>
         <module>springcloud-eureka</module>
         <module>springcloud-eureka-cluster</module>
+        <module>springcloud-zuul-server</module>
+        <module>springcloud-config</module>
     </modules>
 
     <!--

@@ -5,6 +5,7 @@
 #
 ############################################################
 server:
+  port: 8004
   tomcat:
     uri-encoding: UTF-8
     max-swallow-size: -1  # tomcat默认大小2M，超过2M的文件不会被捕获，需要调整此处大小为100MB或者-1即可
@@ -17,8 +18,10 @@ server:
 spring:
   application:
     name: service-files
-  profiles:
-    active: dev   # yml中配置文件的环境配置，dev：开发环境，test：测试环境，prod：生产环境
+  redis:
+    port: 6379
+    database: 0  #使用redis中第几个库
+    host: 127.0.0.1
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -30,7 +33,17 @@ spring:
     mongodb:
       uri: mongodb://root:root@10.211.55.9:27017
       database: personal_web  #数据库的名字
-
+  cloud:
+    zipkin:
+      # 配置zipkin采集的服务地址，数据会发送到这里
+      base-url: http://127.0.0.1:9411/
+      sender:
+        # 数据采集的传输通信方式，web http的形式
+        type: web
+    sleuth:
+      sampler:
+        # 数据采样比例（百分数），0~1
+        probability: 0.8
 ########################################
 # fastdfs配置
 ########################################
@@ -40,7 +53,7 @@ fdfs:
   tracker-list: 10.211.55.9:22122
 
 ############################################################
-#
+#  springCloud 相关配置
 # eureka client 配置信息
 #
 ############################################################
@@ -74,9 +87,14 @@ hystrix:
 
 
 
+############################################################
+#
+# 项目中所用到的变量配置
+#
+############################################################
 # 定义管理员人脸图片数据临时存储的目录
 adminFace:
-  temp_path: /Users/pengfeizhang/Desktop/javaProject/personalWeb_temp_face
+  temp_path: /Users/pengfeizhang/Desktop/javaProject/personalWeb_temp_face/
 
 # 定义接口地址
 transferInterface:

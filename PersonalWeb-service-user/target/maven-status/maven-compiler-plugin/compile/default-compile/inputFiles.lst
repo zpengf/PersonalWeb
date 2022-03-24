@@ -2,11 +2,13 @@
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/controller/UserController.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/service/impl/AppUserMngServiceImpl.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/controller/AppUserMngController.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/stream/MyStreamConsumer.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/mapper/FansMapper.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/service/UserService.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/mapper/AppUserMapperCustom.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/service/impl/MyFanServiceImpl.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/service/MyFanService.java
+/Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/stream/MyStreamChannel.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/controller/MyFansController.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/service/AppUserMngService.java
 /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/PersonalWeb-service-user/src/main/java/com/capture/user/mapper/AppUserMapper.java

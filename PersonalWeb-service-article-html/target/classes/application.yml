@@ -5,6 +5,7 @@
 #
 ############################################################
 server:
+  port: 8002
   tomcat:
     uri-encoding: UTF-8
     max-swallow-size: -1  # tomcat默认大小2M，超过2M的文件不会被捕获，需要调整此处大小为100MB或者-1即可
@@ -15,10 +16,14 @@ server:
 #
 ############################################################
 spring:
-  profiles:
-    active: dev   # yml中配置文件的环境配置，dev：开发环境，test：测试环境，prod：生产环境
+#  profiles:
+#    active: dev   # yml中配置文件的环境配置，dev：开发环境，test：测试环境，prod：生产环境
   application:
     name: service-article-html
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -37,6 +42,17 @@ spring:
     username: guest
     password: guest
     virtual-host: capture
+  cloud:
+    zipkin:
+      # 配置zipkin采集的服务地址，数据会发送到这里
+      base-url: http://127.0.0.1:9411/
+      sender:
+        # 数据采集的传输通信方式，web http的形式
+        type: web
+      sleuth:
+        sampler:
+          # 数据采样比例（百分数），0~1
+          probability: 0.8
 
 ############################################################
 #
@@ -87,4 +103,6 @@ transferInterface:
   user: http://www.imoocnews.com:8003/
   files: http://www.imoocnews.com:8004/
   admin: http://www.imoocnews.com:8005/
-
+# 设置域名，在java代码中获取，这里是资源配置
+website:
+  domain-name: imoocnews.com

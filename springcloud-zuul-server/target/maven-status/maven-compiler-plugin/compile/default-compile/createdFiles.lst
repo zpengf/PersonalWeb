@@ -1,0 +1,3 @@
+com/capture/zuul/filters/MyFilter.class
+com/capture/zuul/Application.class
+com/capture/zuul/filters/BlackIPFilter.class
