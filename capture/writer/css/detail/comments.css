@@ -1,0 +1,161 @@
+/* 网友评论 */
+.comments-wrapper {
+    width: 700px;
+    margin-bottom: 100px;
+}
+
+.comments-words {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.comments-words-left {
+    display: flex;
+    flex-direction: row;
+}
+
+.comments-big {
+    font-size: 26px;
+    color: #2a2a2a;
+    float: left;
+    height: 100%;
+    margin-right: 10px;
+}
+
+.comments-warn {
+    height: 100%;
+    color: #ccc;
+    font-size: 13px;
+    line-height: 48px;
+}
+
+.comments-counts {
+    color: #c9394a;
+    height: 100%;
+    line-height: 48px;
+    font-size: 14px;
+}
+
+.say-sth-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.say-sth {
+    background-color: #c9394a;
+    outline: none;
+    border: 0px;
+    color: white;
+    padding: 8px 22px;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+.say-sth:hover {
+    background-color: #da3f51;
+}
+
+/* 全部评论 */
+.all-comments-list-wrapper {
+    margin-top: 28px;
+}
+
+.all-comments-list {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #e9e8e8;
+}
+
+.all-comments-wrapper {
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dcdbdb;
+}
+
+.all-comments {
+    font-size: 20px;
+    color: #2a2a2a;
+}
+
+.user-face {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.comment-info-wrapper {
+    margin-left: 20px;
+}
+
+.publish-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.publish-date {
+    margin-left: 10px;
+    color: #ccc;
+}
+
+.publish-content {
+    margin-top: 8px;
+}
+
+.reply-wrapper {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    width: 60px;
+}
+
+.reply-words {
+    margin-left: 6px;
+    color: #bfbfbf;
+    font-size: 12px;
+}
+
+.reply-wrapper:hover .reply-words {
+    color: #c9394a;
+}
+
+.icon-reply {
+    width: 18px; 
+    height: 18px;
+    content: url('../../img/icon-reply.png');
+}
+
+.reply-wrapper:hover .icon-reply {
+    color: #c9394a;
+    content: url('../../img/icon-reply-imooc.png');
+}
+
+/* 回复的文本内容 */
+.reply-content-wrapper {
+    display: flex;
+    flex-direction: row;
+    margin-top: 6px;
+}
+
+.reply-content {
+    resize:none;
+    outline: none;
+    width: 90%;
+    height: 80px;
+}
+
+.reply-btn {
+    outline: none;
+    background-color: #c9394a;
+    color: white;
+    font-weight: bold;
+    width: 10%;
+    border: 0px;
+}
+.reply-btn:hover {
+    background-color: #da4455;
+}

@@ -1,0 +1,16 @@
+/* 首页css by 风间影月 */
+.container {
+    width: 1050px;
+    margin: 0 auto;
+    margin-top: 16px;
+    min-height: 1000px;
+    
+    /* flex布局，页面主要内容分为左中右三块 */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.attached-info {
+    width: 340px;
+}

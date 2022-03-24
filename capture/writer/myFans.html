@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/myFans.css">
+
+	<!-- 分页css -->
+	<link href="libs/vuePaging/VuePaging/zpageNav.css" rel="stylesheet" />
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>中心 | 我的粉丝</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部白色头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper" @click="goIndex()">
+				<img src="./img/logo.png" class="center-logo"/>
+
+				<div class="right-me-info">
+					<img :src="userInfo.face" class="me-face"/>
+					<span class="me-nickname">{{userInfo.nickname}}</span>
+				</div>
+			</div>
+		</div>
+	
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/media-ico.png" class="word-ico"/>
+							<div class="menu-title">媒体中心</div>
+						</div>
+						<ul>
+							<li class="menu-item">
+								<a href="contentMng.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">内容管理</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">内容管理</a>
+							</li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-select">主页</a></li> -->
+							<li class="menu-item">
+								<a href="createArticle.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">发头条</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">发头条</a>
+							</li>
+							<li class="menu-item">
+								<a href="commentMng.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">评论管理</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">评论管理</a>
+							</li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">打赏记录</a></li> -->
+						</ul>
+					</li>
+				</ul>
+
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/user-ico.png" class="word-ico"/>
+							<div class="menu-title">个人账号</div>
+						</div>
+						<ul>
+							<li class="menu-item">
+								<a href="accountInfo.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">账号设置</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">账号设置</a>
+							</li>
+							<li class="menu-item">
+								<a href="myFans.html" class="menu-item-select" v-if="userInfo.activeStatus == 1">我的粉丝</a>
+								<a href="javascript:void(0);" class="menu-item-select" v-if="userInfo.activeStatus == 0">我的粉丝</a>
+							</li>
+							<li class="menu-item">
+								<a href="myFansCharts.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">粉丝画像</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">粉丝画像</a>
+							</li>
+							
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">收益提现</a></li> -->
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="main-page">
+				<div class="title-box">
+					<div class="title-wrapper">
+						<span class="title-word">所有粉丝</span>
+					</div>
+				</div>
+
+				<div class="all-fans-wrapper">
+
+					<div class="single-fan" v-for="(fan, fanIndex) in fansList" v-key="fanIndex">
+						<img :src="fan.face" class="fan-face"/>
+						<div class="fan-nickname">{{fan.fanNickname}}</div>
+					</div>
+
+				</div>
+
+				<!-- 分页 start-->
+				<div class="wrap" id="wrap">
+					<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+						v-bind:max-page="maxPage"  v-on:pagehandler="doPaging">
+					</zpagenav>
+				</div>
+				<!-- 分页 end-->
+			</div>
+		</div>
+	</div>
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.imooc.com" target="_blank">慕课网</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://class.imooc.com/sale/javaarchitect" target="_blank">架构师体系课</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/217.html" target="_blank">SpringBoot短视频实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/261.html" target="_blank">Netty仿微信聊天实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/201.html" target="_blank">Zookeeper入门</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 imooc.com All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="libs/city-picker/dist/js/city-picker.data.js"></script>
+<script src="libs/city-picker/dist/js/city-picker.js"></script>
+<script src="libs/vuePaging/VuePaging/zpageNav.js"></script>
+<script src="js/app.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			userInfo: {
+				activeStatus: 0
+			},
+			
+			fansList: [],
+
+			page: 1, // 分页页数
+			pageSize: 20, // 分页每页显示数量
+			maxPage: 1, // 总页数
+			total: 1, // 总记录数
+		},
+		mounted() {
+		},
+		created() {
+			// 判断用户登录
+			app.judgeUserLoginStatus(this);
+
+			// 分页查询我的所有粉丝列表
+			this.queryMyFansList(1, 20);
+		},
+		methods: {
+			// 分页查询我的所有粉丝列表
+			queryMyFansList(page, pageSize) {
+                    var me = this;
+					me.page = page;
+					
+					var utoken = app.getCookie("utoken");
+					var uid = app.getCookie("uid");
+
+                    var userServerUrl = app.userServerUrl;
+                    axios.defaults.withCredentials = true;
+                    axios.post(userServerUrl + "/fans/queryAll?writerId=" + uid +
+																	"&page=" + page + 
+																	"&pageSize=" + pageSize, 
+					{}, 
+					{
+						headers: {
+							'headerUserId': uid,
+							'headerUserToken': utoken
+						}
+					})
+                    .then(res => {
+                        console.log(JSON.stringify(res.data));
+
+                        if (res.data.status == 200) {
+                            var grid = res.data.data;
+                            var fansList = grid.rows;
+                            me.fansList = fansList;
+
+                            var maxPage = grid.total; // 获得总页数
+                            var total = grid.records; // 获得总记录数
+
+                            this.maxPage = maxPage;
+                            this.total = total;
+                        } else {
+                            alert(res.data.msg);
+                        }
+                    });
+                },
+			// 分页实现方法 跳转到page页
+			doPaging: function (page) {
+				this.page = page;
+				this.queryMyFansList(page, this.pageSize);
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+		}
+	});
+
+</script>
+
+</html>

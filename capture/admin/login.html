@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>capture | 运营管理平台</title>
+		
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <!-- <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css"> -->
+		<link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+
+
+
+		<link rel="shortcut icon" href="img/aa.ico" />
+    </head>
+
+    <body>
+
+        <!-- Top content -->
+        <div id="face-login" class="top-content">
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-sm-7" style="padding: 20px 5px 5px 5px;">
+							<img src="./assets/img/bg10.png" style="border-radius: 8px;" v-show="!isFaceLogin"/>
+							<video id="video" width="630px" height="370px" autoplay="autoplay" style="border-radius: 8px;" v-show="isFaceLogin"></video>
+							<canvas id="canvas" width="630px" height="370px" style="border-radius: 8px;" v-show="isFaceLogin"></canvas>
+						</div>
+						
+                        <div class="col-sm-5 form-box">
+							<div class="form-top">
+								<div class="form-top-left">
+									<h3>管理员登录</h3>
+									<p>请使用账号密码或者人脸登录:</p>
+								</div>
+								<div class="form-top-right">
+									<!-- <i class="fa fa-pencil"></i> -->
+									<img src="./assets/img/pic-mng.png" style="width: 50px; height: 50px;">
+								</div>
+								<div class="form-top-divider"></div>
+                            </div>
+                            <div class="form-bottom">
+								<form role="form" class="registration-form">
+									<div class="form-group">
+										<label class="sr-only" for="form-first-name">username</label>
+										<input type="text" name="form-first-name" placeholder="USERNAME" class="form-first-name form-control" id="form-first-name" v-model="username">
+									</div>
+									<div class="form-group">
+										<label class="sr-only" for="form-last-name">password</label>
+										<input id="password" type="password" name="form-last-name" placeholder="PASSWORD" class="form-last-name form-control" v-model="password" :disabled="isFaceLogin==true" style="height: 50px;">
+									</div>
+									<div class="form-group">
+										<input type="checkbox" name="form-face" id="form-face" style="zoom:130%;" v-model="isFaceLogin" @change="useFaceLogin()">
+										<label for="form-face" style="color: white; font-weight: 100;">使用人脸识别登录</label>
+										<span style="color: beige; font-size: 12px; float: right;">建议在Chrome下使用本系统</span>
+									</div>
+									<button type="button" class="btn" @click="login()">戳我登录!</button>
+								</form>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+		
+		<script src="libs/vue.min.js"></script>
+		<script src="libs/axios.min.js"></script>
+		<script src="js/app.js"></script>
+		
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+		<![endif]-->
+		
+		<script type="text/javascript">
+			var index = new Vue({
+				el: "#face-login",
+				data: {
+					isFaceLogin: false,
+
+					mediaStreamTrack: null, 	// 全局视频对象
+					video: null,
+					isCameraOpen: false,
+
+					username: "",
+					password: ""
+				},
+				created() {
+					var me = this;
+				},
+				methods: {
+					login() {
+						var me = this;
+
+						var username = me.username;
+						if (username == null || username == undefined || username == "") {
+							alert("用户名不能为空！");
+							return;
+						}
+
+						// 如果true，则使用人脸登录认证
+						if(me.isFaceLogin) {
+							let video = document.getElementById('video');
+							let canvas = document.getElementById('canvas');
+							let ctx = canvas.getContext('2d');
+							ctx.drawImage(video, 0, 0, 630, 370);
+
+							let img = document.getElementById('canvas').toDataURL();
+							// 截取base64，见：https://help.aliyun.com/knowledge_detail/53535.html
+							// base64的图片
+							console.log(img);
+							var img64 = img.split("base64,")[1];
+							// TODO 服务端人脸登录认证
+							axios.defaults.withCredentials = true;
+							var serverUrl = app.adminServerUrl;
+							axios.post(serverUrl + '/adminMng/adminFaceLogin',
+									{
+										username: username,
+										img64: img64
+									})
+								.then(res => {
+									console.log(res.data);
+									if (res.data.status == 200) {
+										// 登录成功，跳转到admin首页
+										alert("人脸识别成功！点击确认进入系统");
+										window.location = app.adminIndexUrl;
+									} else {
+										alert(res.data.msg);
+									}
+								});
+							
+						} else {
+							var password = me.password;
+							if (password == null || password == undefined || password == "") {
+								alert("密码不能为空！");
+								return;
+							}
+
+							var adminUserLogin = {};
+							adminUserLogin.username = username;
+							adminUserLogin.password = password;
+							// 服务端用户名密码登录认证
+							var serverUrl = app.adminServerUrl;
+							// 发起请求调用短信发送接口
+							axios.defaults.withCredentials = true;
+							axios.post(serverUrl + '/adminMng/adminLogin', adminUserLogin)
+							.then(res => {
+								// debugger;
+								console.log(res.data);
+								
+								if (res.data.status == 200) {
+									// 登录成功，跳转到admin首页
+									window.location = app.adminIndexUrl;
+								} else {
+									alert(res.data.msg);
+								}
+							});
+						}
+					},
+					useFaceLogin() {
+						var me = this;
+
+						// 如果true，打开摄像头
+						if(me.isFaceLogin) {
+							me.openFace();
+						}
+					},
+					openFace() {
+						var me = this;
+						// 如果摄像头已经打开了，就不再继续下方代码业务
+						if (me.isCameraOpen) {
+							return;
+						}
+
+						let constraints = {
+							video: { width: 630, height: 370 },
+							audio: false
+						};
+						// 获得video摄像头
+						video = document.getElementById('video');     
+						let promise = navigator.mediaDevices.getUserMedia(constraints);
+						promise.then((mediaStream) => {
+							mediaStreamTrack=mediaStream.getVideoTracks()
+							video.srcObject = mediaStream;
+							video.play();
+						});
+						video.onloadedmetadata = function () {
+							me.isCameraOpen = true;
+						};
+					},
+					closeFace() {
+						let stream = document.getElementById('video').srcObject;
+						if (stream == null) {
+							return;
+						}
+						let tracks = stream.getTracks();
+
+						tracks.forEach(function(track) {
+							track.stop();
+						});
+						document.getElementById('video').srcObject = null;
+					}
+				}
+			});
+		</script>
+
+    </body>
+
+</html>

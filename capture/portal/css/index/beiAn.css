@@ -1,0 +1,13 @@
+/* 备案信息 by 风间影月 */
+.bei-an {
+    padding: 2px 20px;
+    margin-top: 15px;
+    background-color: #f4f5f5;
+    border-radius: 3px;
+    border-top: 2px solid #c9394a;
+    color: #777;
+}
+
+p {
+    line-height: 10px;
+}

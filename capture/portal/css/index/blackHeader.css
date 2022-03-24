@@ -1,0 +1,47 @@
+/* 首页顶部黑色banner by 风间影月 */
+.black-header {
+    width: 100%;
+    min-width: 1220px;
+    /* position: fixed; 
+    top: 0; */
+}
+
+.black-bar {
+    height: 34px;
+    line-height: 34px;
+    background: #222;
+    font-size: 14px;
+    color: #fff;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.black-header-left {
+    color: #fff;
+    padding: 0 10px;
+    border-right: 1px solid #3a3a3a;
+    text-decoration: none;
+}
+
+.black-header-left-end {
+    color: #fff;
+    padding: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.black-header-right {
+    color: #fff;
+    padding: 0 10px;
+    border-left: 1px solid #3a3a3a;
+    text-decoration: none;
+}
+
+.black-header-right-start {
+    color: #fff;
+    padding: 0 10px;
+    text-decoration: none;
+}
+

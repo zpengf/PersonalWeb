@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/commentMng.css">
+
+	<!-- 分页css -->
+	<link href="libs/vuePaging/VuePaging/zpageNav.css" rel="stylesheet" />
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+
+	<title>中心 | 评论管理</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部黑色头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper" @click="goIndex()">
+				<div class="right-me-info">
+					<img :src="userInfo.face" class="me-face"/>
+					<span class="me-nickname">{{userInfo.nickname}}</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/media-ico.png" class="word-ico"/>
+							<div class="menu-title">媒体中心</div>
+						</div>
+						<ul>
+							<li class="menu-item">
+								<a href="contentMng.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">内容管理</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">内容管理</a>
+							</li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-select">主页</a></li> -->
+							<li class="menu-item">
+								<a href="createArticle.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">发头条</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">发头条</a>
+							</li>
+							<li class="menu-item">
+								<a href="commentMng.html" class="menu-item-select" v-if="userInfo.activeStatus == 1">评论管理</a>
+								<a href="javascript:void(0);" class="menu-item-select" v-if="userInfo.activeStatus == 0">评论管理</a>
+							</li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">打赏记录</a></li> -->
+						</ul>
+					</li>
+				</ul>
+
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/user-ico.png" class="word-ico"/>
+							<div class="menu-title">个人账号</div>
+						</div>
+						<ul>
+							<li class="menu-item">
+								<a href="accountInfo.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">账号设置</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">账号设置</a>
+							</li>
+							<li class="menu-item">
+								<a href="myFans.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">我的粉丝</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">我的粉丝</a>
+							</li>
+							<li class="menu-item">
+								<a href="myFansCharts.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">粉丝画像</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">粉丝画像</a>
+							</li>
+							
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">收益提现</a></li> -->
+						</ul>
+					</li>
+				</ul>
+
+				<!-- <ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">管理中心</div>
+						</div>
+						<ul>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">文章审核</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">用户管理</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">轮播图</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">文章分类</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">友情链接</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">IP黑名单</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">设置管理员</a></li>
+						</ul>
+					</li>
+				</ul> -->
+			</div>
+
+			<div class="main-page">
+				<div class="title-box">
+					<div class="title-wrapper">
+						<span class="title-word">所有评论</span>
+					</div>
+				</div>
+
+				<div class="comment-list-wrapper">
+
+					<div class="single-comment" v-for="(comment, index) in commentList" :key="index">
+						<div class="comment-wrapper">
+							<img src="./img/face1.png" style="width: 40px; height: 40px; border-radius: 50%;"/>
+							
+							<div class="basic-wrapper">
+								<div class="user-time">
+									<div>{{comment.commentUserNickname}}</div>
+									<div class="publish-time">{{formatData(comment.createTime)}}</div>
+								</div>
+								<div class="comment-content" v-html="comment.content">
+								</div>
+								<div class="operation-wrapper" @click="deleteComment(comment.id)">
+									<img src="./img/icon-delete.png" style="width: 16px; height: 16px"/>
+									<span class="delete-span" style="">删除</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="article-basic-info" v-show="comment.articleCover != null">
+							<img class="cover" :style="'background-image: url(' + comment.articleCover + ')'"/>
+							<div class="every-title">{{comment.articleTitle}}</div>
+						</div>
+						<!-- <div class="article-basic-info-null" v-show="comment.articleCover == null"></div> -->
+					</div>
+
+				</div>
+
+				<!-- 分页 start-->
+				<div class="wrap" id="wrap">
+					<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+						v-bind:max-page="maxPage"  v-on:pagehandler="doPaging">
+					</zpagenav>
+				</div>
+				<!-- 分页 end-->
+
+			</div>
+
+		</div>
+	</div>
+	
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 capturez.com All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="libs/vuePaging/VuePaging/zpageNav.js"></script>
+<script src="js/app.js"></script>
+<script src="libs/moment-with-locales.min.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			userInfo: {
+				activeStatus: 0
+			},
+
+			searchContent: "",
+
+			commentList:[],		// 评论列表
+
+			page: 1, // 分页页数
+			pageSize: 10, // 分页每页显示数量
+			maxPage: 1, // 总页数
+			total: 1, // 总记录数
+		},
+		mounted() {
+			// 初始化日历控件
+			lay('#version').html('-v'+ laydate.v);
+			laydate.render({
+				elem: '#choose-date',
+				range: true,
+				done: function(value, date, endDate) { 	// 选择完后的回调
+					console.log(value); 	//得到日期生成的值，如：2017-08-18
+					console.log(date); 		//得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+					console.log(endDate); 	//得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+				}
+			});
+		},
+		created() {
+			// 判断用户登录
+			app.judgeUserLoginStatus(this);
+
+			// 查询评论管理列表
+			this.queryCommentList(1, 10);
+		},
+		methods: {
+			// 删除评论
+			deleteComment(commentId) {
+				var confrim = window.confirm("确认删除？");
+				if (!confrim) {
+					return;
+				}
+
+				var me = this;
+
+				var utoken = app.getCookie("utoken");
+				var uid = app.getCookie("uid");
+
+				var articleServerUrl = app.articleServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(articleServerUrl + "/comment/delete?writerId=" + uid + 
+															"&commentId=" + commentId,
+				{}, 
+				{
+					headers: {
+						'headerUserId': uid,
+						'headerUserToken': utoken
+					}
+				})
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						me.queryCommentList(1, 10);
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 查询评论管理列表
+			queryCommentList(page, pageSize) {
+				var me = this;
+				me.page = page;
+
+				var utoken = app.getCookie("utoken");
+				var uid = app.getCookie("uid");
+
+				var articleServerUrl = app.articleServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(articleServerUrl + "/comment/mng?writerId=" + uid + 
+															"&page=" + page + 
+															"&pageSize=" + pageSize,
+				{}, 
+				{
+					headers: {
+						'headerUserId': uid,
+						'headerUserToken': utoken
+					}
+				})
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						var grid = res.data.data;
+						var commentList = grid.rows;
+						me.commentList = commentList;
+
+						var maxPage = grid.total; // 获得总页数
+						var total = grid.records; // 获得总记录数
+
+						this.maxPage = maxPage;
+						this.total = total;
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 分页实现方法 跳转到page页
+			doPaging: function (page) {
+				this.page = page;
+				this.queryCommentList(page, this.pageSize);
+			},
+			// 格式化日期
+			formatData(times) {
+				var date = moment(times).format('YYYY年MM月DD日 hh时mm分ss秒');
+				return date;	
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+		}
+	});
+
+</script>
+
+</html>

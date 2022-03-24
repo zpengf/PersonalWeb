@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/accountInfo.css">
+	<link rel="stylesheet" href="libs/city-picker/dist/css/city-picker.css">
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>媒体号作家中心 | 账号信息</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部白色头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper" @click="goIndex()">
+				<div class="right-me-info">
+					<img :src="userInfo.face" class="me-face"/>
+					<span class="me-nickname">{{userInfo.nickname}}</span>
+				</div>
+			</div>
+		</div>
+	
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/media-ico.png" class="word-ico"/>
+							<div class="menu-title">媒体中心</div>
+						</div>
+						<ul>
+							<li class="menu-item">
+								<a href="contentMng.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">内容管理</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">内容管理</a>
+							</li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-select">主页</a></li> -->
+							<li class="menu-item">
+								<a href="createArticle.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">写文章</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">写文章</a>
+							</li>
+							<li class="menu-item">
+								<a href="commentMng.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">评论管理</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">评论管理</a>
+							</li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">打赏记录</a></li> -->
+						</ul>
+					</li>
+				</ul>
+
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/user-ico.png" class="word-ico"/>
+							<div class="menu-title">个人账号</div>
+						</div>
+						<ul>
+							<li class="menu-item">
+								<a href="accountInfo.html" class="menu-item-select" v-if="userInfo.activeStatus == 1">账号设置</a>
+								<a href="javascript:void(0);" class="menu-item-select" v-if="userInfo.activeStatus == 0">账号设置</a>
+							</li>
+							<li class="menu-item">
+								<a href="myFans.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">我的粉丝</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">我的粉丝</a>
+							</li>
+							<li class="menu-item">
+								<a href="myFansCharts.html" class="menu-item-default" v-if="userInfo.activeStatus == 1">粉丝画像</a>
+								<a href="javascript:void(0);" class="menu-item-default" v-if="userInfo.activeStatus == 0">粉丝画像</a>
+							</li>
+							
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">收益提现</a></li> -->
+						</ul>
+					</li>
+				</ul>
+
+			</div>
+
+			<div  class="main-page">
+				<div class="title-box">
+					<div class="title-wrapper">
+						<span class="title-word">账号设置</span>
+					</div>
+				</div>
+
+				<div class="account-wrapper">
+					<div class="middle-wrapper">
+						<div class="every-line">
+							<div class="pre-label">昵称</div>
+							<div class="info-words"><input id="nickname" name="nickname" v-model="userAccountInfo.nickname" placeholder="请输入媒体号名称" maxlength="50" class="input-nickname"/></div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">媒体号头像</div>
+							<div class="info-face">
+								<div class="choose-face-wrapper">
+									<img id="user-face" :src="userAccountInfo.face" class="user-face"/>
+									<div class="choose-face">选择头像</div>
+									<input type="file" 
+											id="inputPic" 
+											class="inputPic" 
+											value="重新选择"
+											@change="uploadFace" 
+											@mouseover="mouseOver" 
+											@mouseout="mouseOut" 
+											accept="image/jpeg,image/jpg,image/png">
+								</div>
+								<div class="upload-suggest">请上传尺寸200X200像素，能够代表形象的图片，请勿使用低俗/二维码/广告的头像</div>
+							</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">真实姓名</div>
+							<!-- 判断，刚注册，需要输入真实姓名，否则用户状态为“待完善资料”，完善以后才能发文以及留言点赞啥的 -->
+							<!-- <div class="info-words" v-if="userInfo.activeStatus == 1">慕课网</div> -->
+							<div class="info-words"><input id="realname" name="realname" v-model="userAccountInfo.realname" placeholder="请输入真实姓名" maxlength="10" class="input-realname"/></div>
+						</div>
+						<!-- <div class="every-line">
+							<div class="pre-label">身份证号</div>
+							<div class="info-words">32020*****269x</div>
+							<div class="info-words"><input id="idcard" name="idcard" v-model="userAccountInfo.idcard" placeholder="请输入身份证号" maxlength="18" class="input-idcard"/></div>
+						</div> -->
+						<div class="every-line">
+							<div class="pre-label">生日</div>
+							<!-- 判断，刚注册，需要输入生日日期，否则用户状态为“待完善资料”，完善以后才能发文以及留言点赞啥的 -->
+							<!-- <div class="info-words">1999-08-08</div> -->
+							<div class="info-words"><input id="birthday" name="birthday" placeholder="请选择日期" maxlength="18" class="input-idcard"/></div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">性别</div>
+							<!-- 判断，刚注册，需要输入真实身份证，否则用户状态为“待完善资料”，完善以后才能发文以及留言点赞啥的 -->
+							<!-- <div class="info-words" v-if="userInfo.activeStatus == 1">
+								<span v-if="userAccountInfo.sex == 1">
+									男
+								</span>
+								<span v-if="userAccountInfo.sex == 0">
+									女
+								</span>
+							</div> -->
+							<div class="info-words">
+								<input type="radio" name="sex" v-model="userAccountInfo.sex" class="input-sex" value="1" checked/> 男生
+								<input type="radio" name="sex" v-model="userAccountInfo.sex" class="input-sex" value="0" style="margin-left: 20px;"/> 女生
+							</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">所在城市</div>
+							<!-- <div class="info-words" v-if="userInfo.activeStatus == 1">{{userAccountInfo.province}}/{{userAccountInfo.city}}/{{userAccountInfo.district}}</div> -->
+							<div style="position: relative;"><!-- container --> 
+								<!-- data-toggle="city-picker"  -->
+								<input id="city-picker" name="city" readonly type="text" class="pick-city">
+							</div>
+						</div>
+						<div class="every-line">
+							<div class="every-line">
+								<div class="pre-label">手机</div>
+								<!-- TODO: 判断，刚注册，需要输入邮箱，否则用户状态为“待完善资料”，完善以后才能发文以及留言点赞啥的 -->
+								<!-- <div class="info-words">admin@imooc.com</div> -->
+								<div class="info-words"><input id="mobile" name="mobile" v-model="userAccountInfo.mobile" placeholder="请输入手机" maxlength="36" class="input-mobile"/></div>
+							</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">联系邮箱</div>
+							<div class="info-words">{{userAccountInfo.email}}</div>
+						</div>
+					</div>
+					<div class="submit-wrapper">
+						<!-- FIXME: 除了头像以外，其他信息都用按钮提交，如果用户状态已经完善过信息，则按钮不显示 -->
+						<button class="submit-btn" @click="submitUserInfo">提交信息</button>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.imooc.com" target="_blank">慕课网</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://class.imooc.com/sale/javaarchitect" target="_blank">架构师体系课</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/217.html" target="_blank">SpringBoot短视频实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/261.html" target="_blank">Netty仿微信聊天实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/201.html" target="_blank">Zookeeper入门</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 imooc.com All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="libs/city-picker/dist/js/city-picker.data.simple.js"></script>
+<script src="libs/city-picker/dist/js/city-picker.js"></script>
+<script src="js/app.js"></script>
+<script src="libs/moment-with-locales.min.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			// userInfo: null,
+			userInfo: {
+				activeStatus: 0
+			},
+
+			userAccountInfo: {
+				nickname: "",
+				// idcard: "",
+				realname: "",
+				birthday: "",
+				sex: "",
+				mobile: "",
+				email: ""
+			}
+		},
+		mounted() {
+			var me = this;
+			// 初始化日历控件
+			lay('#version').html('-v'+ laydate.v);
+			laydate.render({
+				elem: '#birthday',
+				done: function(value, date, endDate){
+					me.userAccountInfo.birthday = value;		// 传到后端字符串类型
+					// me.userAccountInfo.birthday = date;			// 传到后端日期类型
+					// me.userAccountInfo.birthday = new Date();
+					// console.log(value); //得到日期生成的值，如：2017-08-18
+					// console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+					// console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+				}
+			});
+		},
+		created() {
+			// writer媒体中心，每个页面都需要在进入的时候判断有没有登录，如果没有，退出到登录页面
+			// app.judgeWriterLogin();
+
+			// 判断用户登录
+			app.judgeUserLoginStatus(this);
+
+			// 查询用户账户信息
+			this.getUserAccountInfo();
+		},
+		methods: {
+			// 查询用户信息
+			getUserAccountInfo () {
+				var me = this;
+				var utoken = app.getCookie("utoken");
+				var uid = app.getCookie("uid");
+
+				if ( app.isEmpty(utoken) || app.isEmpty(uid)) {
+					alert("请登录后再使用媒体中心的相关页面！");
+					window.location = app.writerLoginUrl;
+					return false;
+				}
+		
+				var serverUrl = app.userServerUrl;
+				axios.post(serverUrl + '/user/getAccountInfo?userId=' + uid, 
+				{}, 
+				{
+					headers: {
+						'headerUserId': uid,
+						'headerUserToken': utoken
+					}
+				})
+				.then(res => {
+					// console.log(res.data);
+					
+					if (res.data.status == 200) {
+						var userAccountInfo = res.data.data;
+						console.log(userAccountInfo);
+						me.userAccountInfo = userAccountInfo;
+
+						// 初始化日历选择空间
+						var birthday = moment(userAccountInfo.birthday).format('YYYY-MM-DD');
+						$("#birthday").attr("value", birthday);
+
+						// 初始化城市组件
+						var province = userAccountInfo.province;
+						var city = userAccountInfo.city;
+						var district = userAccountInfo.district;
+						$("#city-picker").citypicker({
+							province: province,
+							city: city,
+							district: district
+						});
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 提交用户信息
+			submitUserInfo() {
+				var me = this;
+				var userAccountInfo = me.userAccountInfo;
+				console.log(userAccountInfo);
+				
+				var city = $('#city-picker').data('citypicker').getVal();
+
+				if (app.isEmpty(userAccountInfo.nickname)) {
+					alert("媒体号不能为空");
+					$("#nickname")[0].focus()
+					return false;
+				}
+
+				if (app.isEmpty(userAccountInfo.mobile)) {
+					alert("手机号号不能为空");
+					$("#nickname")[0].focus()
+					return false;
+				}
+				if (userAccountInfo.nickname.length > 12) {
+					alert("媒体号长度不能超过12");
+					$("#nickname")[0].focus();
+					return false;
+				}
+				if (app.isEmpty(userAccountInfo.realname)) {
+					alert("媒体人真实姓名不能为空");
+					return false;
+				}
+				if (userAccountInfo.realname.length > 10) {
+					alert("媒体人真实姓名长度不能太长");
+					return false;
+				}
+				// if (app.isEmpty(userAccountInfo.idcard)) {
+				// 	alert("身份证号不能为空");
+				// 	return false;
+				// }
+				// if (userAccountInfo.idcard.length != 18) {
+				// 	alert("请输入正确的18位身份证号");
+				// 	return false;
+				// }
+				var birthday = $("#birthday").val();
+				if (app.isEmpty(birthday)) {
+					alert("生日不能为空");
+					return false;
+				}
+				if (userAccountInfo.sex != "1" && userAccountInfo.sex != "0") {
+					alert("请选择一个性别");
+					return false;
+				}
+				if (app.isEmpty(city)) {
+					alert("请选择所在城市");
+					return false;
+				}
+				var cityArray = city.split("/");
+				// console.log(cityArray);
+				if (cityArray.length != 3) {
+					alert("请选择完整的省市区");
+					return false;
+				}
+				var province = cityArray[0];
+				var city = cityArray[1];
+				var district = cityArray[2];
+				console.log(province);
+				console.log(city);
+				console.log(district);
+
+				if (app.isEmpty(userAccountInfo.email)) {
+					alert("邮箱不能为空");
+					return false;
+				}
+				var checkEmail = app.checkEmail(userAccountInfo.email);
+				if (!checkEmail) {
+					alert('请输入有效的邮箱地址');
+					return;
+				}
+
+				if (!app.checkMobile(userAccountInfo.mobile)) {
+					alert('请输入正确的手机号码');
+					return;
+				}
+
+
+				// 调用后端，更新用户信息
+				var utoken = app.getCookie("utoken");
+				var uid = app.getCookie("uid");
+				userAccountInfo.id = uid;
+				userAccountInfo.province = province;
+				userAccountInfo.city = city;
+				userAccountInfo.district = district;
+
+				var serverUrl = app.userServerUrl;
+				axios.post(serverUrl + '/user/updateUserInfo', 
+				userAccountInfo, 
+				{
+					headers: {
+						'headerUserId': uid,
+						'headerUserToken': utoken
+					}
+				})
+				.then(res => {
+					console.log(res.data);
+					
+					if (res.data.status == 200) {
+						alert("信息更新成功！");
+
+						// 更新完毕以后，删除用户的sessionStorage信息，然后重新查询，目的用于更新用户的基本信息
+						app.deleteUserInfo();
+						// 刷新页面
+						window.location = window.location;
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 上传头像
+			uploadFace(e) {
+				var me = this;
+				// let $target = e.target || e.srcElement;
+				// let file = $target.files[0];
+
+				var userInfo = me.userInfo;
+				let f = document.getElementById('inputPic').files[0];
+
+				var utoken = app.getCookie("utoken");
+				var uid = app.getCookie("uid");
+
+				let multiForm = new FormData() ; 		//创建一个form对象
+				multiForm.append('file', f, f.name);  	//append 向form表单添加数据
+
+				// 请求后端获得最新数据
+				var fsServerUrl = app.fsServerUrl;
+				axios.defaults.withCredentials = true;
+				var fileServer = fsServerUrl + '/fs/uploadFace?userId=' + userInfo.id
+				// var fileServer = 'http://localhost:8066/fdfs/uploadFace?userId=' + userInfo.id
+				// var fileServer = 'http://localhost:8066/file/upload?userId=' + userInfo.id
+				
+				axios.post(
+						// serverUrl + '/userInfo/uploadFace?userId=' + userInfo.id, 
+						fileServer, 
+						multiForm, 
+						{
+							headers: {
+								'Content-Type': 'multipart/form-data',
+								'headerUserId': uid,
+								'headerUserToken': utoken
+							}
+						})
+					.then(res => {
+						if (res.data.status == 200) {
+							alert("头像上传成功! 请提交用户信息以更新");
+							console.log(res.data.data);
+							me.userAccountInfo.face = res.data.data;
+						} else {
+							alert(res.data.msg);
+							console.log(res.data.msg);
+						}
+					});
+			},
+			// 鼠标移动到上传组件上发生css变化
+			mouseOver() {
+				// console.log("mouseOver");
+				$("#user-face").css({"background-color": "#f0efef", "border": "1px dashed #a7a7a7"});
+				$(".choose-face").css({"opacity": 0.6});
+			},
+			// 鼠标离开上传组件上发生css变化
+			mouseOut() {
+				// console.log("mouseOut");
+				$("#user-face").css({"background-color": "#f7f7f7", "border": "1px dashed #d8d8d8"});
+				$(".choose-face").css({"opacity": 0});
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+		}
+	});
+
+</script>
+
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/contentMng.css">
+
+	<!-- 分页css -->
+	<link href="libs/vuePaging/VuePaging/zpageNav.css" rel="stylesheet" />
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>内容审核 | 运营管理平台</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部黑色头 -->
+		<div class="white-header">
+			<div class="head_wrapper">
+				<img src="./img/logo.png" class="center-logo" @click="goIndex()"/>
+
+				<div class="right-me-info">
+					<!-- <img src="./img/face1.png" class="me-face"/> -->
+					<span class="me-nickname">{{adminUserLogin.userName}}</span>
+					<span class="sep-line">|</span>
+					<span class="logout" @click="doLogout">注销</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">管理中心</div>
+						</div>
+						<ul style="margin-top: 5px;">
+							<li class="menu-item"><a href="contentReview.html" class="menu-item-select">内容审核</a></li>
+							<li class="menu-item"><a href="userList.html" class="menu-item-default">用户管理</a></li>
+							<li class="menu-item"><a href="categoryMng.html" class="menu-item-default">文章分类</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li> -->
+							<li class="menu-item"><a href="friendLinks.html" class="menu-item-default">友情链接</a></li>
+							<li class="menu-item"><a href="blackList.html" class="menu-item-default">IP黑名单</a></li>
+							<li class="menu-item"><a href="adminMng.html" class="menu-item-default">设置管理员</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="main-page">
+				<div class="search-box">
+					<div class="status-wrapper">
+						<div class="all-status">
+							<span class="words-label">文章状态</span>
+							<span :class="['words-status', articleStatusType == 0 ? 'status-selected' : 'status-default']" @click="queryByType(0)">全部</span>
+							<span :class="['words-status', articleStatusType == 3 ? 'status-selected' : 'status-default']" @click="queryByType(3)">审核通过</span>
+							<span :class="['words-status', articleStatusType == 12 ? 'status-selected' : 'status-default']" @click="queryByType(12)">待审核</span>
+							<span :class="['words-status', articleStatusType == 4 ? 'status-selected' : 'status-default']" @click="queryByType(4)">未通过</span>
+							<span :class="['words-status', articleStatusType == 5 ? 'status-selected' : 'status-default']" @click="queryByType(5)">已撤回</span>
+						</div>
+					</div>
+				</div>
+
+				<div id="article-list-wrapper" class="article-list-wrapper">
+					<div class="article-list">
+
+						<div class="every-article" v-for="(article, index) in articleList" :key="index">
+							<img :src="article.articleCover" style="width: 175px; height: 125px;" v-show="article.articleType==1"/>
+
+							<div class="main-content">
+								<div class="basic-info">
+									<span><a href="javascript:void(0);" target="_blank" class="article-link" @click="doReview(article.id)">
+										{{article.title}}
+									</a></span>
+									<span class="counts-wrapper">
+										<!-- TODO: 数字待定，后续做 -->
+										<span>阅读 0 ⋅</span>
+										<span>评论 0 ⋅</span>
+										<span>收藏 0</span>
+									</span>
+									<span class="status-reviewing article-status" v-show="article.articleStatus==1 || article.articleStatus==2">待审核</span>
+									<span class="status-published article-status" v-show="article.articleStatus==3">审核通过</span>
+									<span class="status-fail article-status" v-show="article.articleStatus==4">审核未通过</span>
+									<span class="status-back article-status" v-show="article.articleStatus==5">已撤回</span>
+									<span class="publish-time">
+										<span v-show="article.isAppoint==1">预计发布时间：</span>
+										{{formatData(article.publishTime)}}
+									</span>
+								</div>
+								<div class="operation" v-show="article.articleStatus==1 || article.articleStatus==2">
+									<a href="javascript:void(0);" style="margin-top: 15px;" class="link-opers">
+										<img src="./img/icon-pass.png" class="oper-icon" style="margin-right: 5px;"/>
+										<span class="oper-words do-success" @click="reviewStatus(article.id, 1)">审核通过</span>
+									</a>
+									<a href="javascript:void(0);" style="margin-top: 8px;" class="link-opers">
+										<img src="./img/icon-unpass.png" class="oper-icon" style="margin-right: 5px;"/>
+										<span class="oper-words do-fail" @click="reviewStatus(article.id, 0)">审核失败</span>
+									</a>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- 分页 start-->
+					<div class="wrap" id="wrap">
+						<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+							v-bind:max-page="maxPage"  v-on:pagehandler="doPaging">
+						</zpagenav>
+					</div>
+					<!-- 分页 end-->
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.imooc.com" target="_blank">慕课网</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://class.imooc.com/sale/javaarchitect" target="_blank">架构师体系课</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/217.html" target="_blank">SpringBoot短视频实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/261.html" target="_blank">Netty仿微信聊天实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/201.html" target="_blank">Zookeeper入门</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 imooc.com All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="libs/vuePaging/VuePaging/zpageNav.js"></script>
+<script src="js/app.js"></script>
+<script src="libs/moment-with-locales.min.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			adminUserLogin: {
+				adminId: "",
+				adminName: "",
+				adminToken: ""
+			},
+
+			articleList: [],
+
+			articleStatusType: 0,		// 查询的文章状态，默认0：全部
+
+			page: 1, // 分页页数
+			pageSize: 10, // 分页每页显示数量
+			maxPage: 1, // 总页数
+			total: 1, // 总记录数
+		},
+		mounted() {
+			// 初始化日历控件
+			lay('#version').html('-v'+ laydate.v);
+			laydate.render({
+				elem: '#choose-date',
+				range: true,
+				done: function(value, date, endDate) { 	// 选择完后的回调
+					console.log(value); 	//得到日期生成的值，如：2017-08-18
+					console.log(date); 		//得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+					console.log(endDate); 	//得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+				}
+			});
+		},
+		created() {
+			// 判断管理员是否登录
+			app.judgeAdminLogin(this);
+
+			// 默认查询文章列表
+			this.queryAllArticleList(1, 10, "");
+		},
+		methods: {
+			// 审核文章
+			reviewStatus(articleId, passOrNot) {
+				var me = this;
+
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+
+				var articleServerUrl = app.articleServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(articleServerUrl + "/article/doReview?articleId=" + articleId + "&passOrNot=" + passOrNot,
+				{}, 
+				{
+					headers: {
+						'adminUserId': aid,
+						'adminUserToken': atoken
+					}
+				})
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						me.queryAllArticleList(me.page, me.pageSize, me.articleStatusType);
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 展示文章
+			doReview(articleId) {
+				console.log(articleId);
+
+				var uid = app.getCookie("uid");
+				
+				var articleList = this.articleList;
+				for (var i = 0 ; i < articleList.length ; i ++) {
+					if (articleId == articleList[i].id) {
+
+						var articleBO = {
+							title: articleList[i].title,
+							content: articleList[i].content,
+							publishUserId: uid
+						};
+						var articleBOStr = JSON.stringify(articleBO);
+						sessionStorage.setItem("previewArticleInfo", articleBOStr);
+						window.open("contentPending.html");
+						break;
+					}
+				}
+			},
+			// 管理员注销，退出登录
+			doLogout() {
+				app.doAdminLogout();
+			}, 
+			// 根据状态类型查询
+			queryByType(statusType) {
+				this.articleStatusType = statusType;
+				this.queryAllArticleList(1, 10, statusType)
+			},
+			// 查询文章列表
+			queryAllArticleList(page, pageSize, status) {
+				var me = this;
+				me.page = page;
+
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+
+				var articleServerUrl = app.articleServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(articleServerUrl + "/article/queryAllList?status=" + status + "&page=" + page + "&pageSize=" + pageSize,
+				{}, 
+				{
+					headers: {
+						'adminUserId': aid,
+						'adminUserToken': atoken
+					}
+				})
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						var grid = res.data.data;
+						var articleList = grid.rows;
+						me.articleList = articleList;
+
+						var maxPage = grid.total; // 获得总页数
+						var total = grid.records; // 获得总记录数
+
+						this.maxPage = maxPage;
+						this.total = total;
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+
+			// 分页实现方法 跳转到page页
+			doPaging: function (page) {
+				this.page = page;
+				this.queryAllArticleList(page, this.pageSize, this.articleStatusType);
+			},
+			// 格式化日期
+			formatData(times) {
+				var date = moment(times).format('YYYY-MM-DD HH:mm:ss');
+				return date;	
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+		}
+	});
+
+</script>
+
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/categoryMng.css">
+	<link rel="stylesheet" href="libs/color-picker/css/jcolor.min.css">
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>文章分类 | 运营管理平台</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部黑色头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper">
+
+				<div class="right-me-info">
+					<!-- <img src="./img/face1.png" class="me-face"/> -->
+					<span class="me-nickname">{{adminUserLogin.userName}}</span>
+					<span class="sep-line">|</span>
+					<span class="logout" @click="doLogout">注销</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">管理中心</div>
+						</div>
+						<ul style="margin-top: 5px;">
+							<li class="menu-item"><a href="contentReview.html" class="menu-item-default">内容审核</a></li>
+							<li class="menu-item"><a href="userList.html" class="menu-item-default">用户管理</a></li>
+							<li class="menu-item"><a href="categoryMng.html" class="menu-item-select">文章分类</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li> -->
+							<li class="menu-item"><a href="friendLinks.html" class="menu-item-default">友情链接</a></li>
+							<li class="menu-item"><a href="blackList.html" class="menu-item-default">IP黑名单</a></li>
+							<li class="menu-item"><a href="adminMng.html" class="menu-item-default">设置管理员</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="main-page">
+				<div class="edit-box">
+					<div class="mng-box">
+						<div class="single-line-enter">
+							<div class="words-label">分类名称</div>
+							<input type="test" v-model="category.name" class="field-input" maxlength="4"/>
+							<input type="hidden" v-model="category.oldName" class="field-input"/>
+							<input type="hidden" v-model="category.id" class="field-input"/>
+						</div>
+						<div class="single-line-enter">
+							<div class="words-label" style="align-self: center;">分类颜色</div>
+							<div class="color-picker-category"></div>
+						</div>
+						<!-- <div class="single-line-enter" style="display: flex; flex-direction: row;">
+							<div class="words-label">是否开启</div>
+							
+							<input type="radio" name="sex" class="input-sex" v-model="category.isShow" value="1" style="align-self: center;"/>
+							<span style="align-self: center;margin-left: 5px;">开启</span>
+							
+							<input type="radio" name="sex" class="input-sex" v-model="category.isShow" value="0" style="margin-left: 20px;align-self: center;"/>
+							<span style="align-self: center;margin-left: 5px;">关闭</span>
+						</div> -->
+						<div class="single-line-enter btn-submit-wrapper">
+							<button class="clear-btn" @click="clearData" style="margin-left: 10px;">清空数据</button>
+
+							<button class="submit-btn" @click="saveOrUpdate">新增/更新</button>
+						</div>
+					</div>
+				</div>
+
+				<div id="user-list-wrapper" class="user-list-wrapper">
+					<div class="user-list">
+
+						<table class="table-user" >
+							<tr class="head-th"> 
+								<th style="width: 25%; text-align: left; padding-left: 30px;color: #222;">文章分类</th>
+								<th style="width: 25%; text-align: left; color: #222;">显示效果</th>
+								<th style="width: 25%; text-align: right; padding-right: 10px;color: #222;">标签颜色</th>
+							
+								<th style="width: 25%; text-align: right; padding-right: 30px;color: #222;">操作</th>
+							</tr>
+							
+							<tr class="user-single-line" v-for="(cat, index) in catList" :key="index">
+								<td class="table-td-left" style="padding-left: 30px;">{{cat.name}}</td>
+								<td class="table-td-left" style="padding-right: 10px;">
+									<div :style="[tagStyle, {color: cat.tagColor}]">{{cat.name}}</div>
+									<!-- <div :style="width:24px; font-size: 10px; color: #539464;padding: 1px 5px;border: 1px solid #539464;">{{cat.name}}</div> -->
+								</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{cat.tagColor}}</td>
+								<!-- <td class="table-td-right" style="padding-right: 10px;">{{cat.isShow == 1 ? '显示' : '不显示'}}</td> -->
+								<td class="table-td-right" style="padding-right: 30px;">
+									<a href="javascript:(0);" @click="modifyCategory(cat.id)">修改</a>
+									<a href="javascript:(0);" @click="delCategory(cat.id)">删除</a>
+								</td>
+							</tr>
+
+						</table>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.imooc.com" target="_blank">慕课网</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://class.imooc.com/sale/javaarchitect" target="_blank">架构师体系课</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/217.html" target="_blank">SpringBoot短视频实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/261.html" target="_blank">Netty仿微信聊天实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/201.html" target="_blank">Zookeeper入门</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 imooc.com All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="libs/color-picker/js/jcolor.min.js"></script>
+<script src="js/app.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			tagStyle: {
+				width: '24px',
+				fontSize: '10px',
+				padding: '1px 5px',
+				border: '1px solid'
+			},
+
+			adminUserLogin: {
+				adminId: "",
+				adminName: "",
+				adminToken: ""
+			},
+
+			category: {
+				id: "",				// 为空则新增，不为空则修改
+				name: "",
+				oldName: "",
+				show: true,
+				// isShow: 1,
+				tagColor: "#c9394a"
+			},
+
+			catList: []		// 分类列表
+		},
+		mounted() {
+			$('.color-picker-category').colorpicker({
+				color: '#c9394a',
+				colorSpace: 'rgb'
+			});
+
+		},
+		created() {
+			// 判断管理员是否登录
+			app.judgeAdminLogin(this);
+			
+			// 查询分类列表
+			this.getCatList();
+		},
+		methods: {
+			// 查询分类列表
+			getCatList() {
+				var me = this;
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+				var adminServerUrl = app.adminServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(adminServerUrl + '/categoryMng/getCatList',
+					{},
+					{
+						headers: {
+							'adminUserId': aid,
+							'adminUserToken': atoken
+						}
+					})
+				.then(res => {
+					// console.log(JSON.stringify(res.data));
+					if (res.data.status == 200) {
+						var catList = res.data.data;
+						me.catList = catList;
+						// console.log(catList);
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 管理员注销，退出登录
+			doLogout() {
+				app.doAdminLogout();
+			}, 
+			// 保存或更新
+			saveOrUpdate() {
+				var me = this;
+
+				if (app.isEmpty(me.category.name)) {
+					alert("分类名称不能为空");
+					return false;
+				}
+
+				var color = $('.color-picker-category').colorpicker().toString();
+
+				me.category.tagColor = color;
+
+				// 新增
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+				var adminServerUrl = app.adminServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(adminServerUrl + '/categoryMng/saveOrUpdateCategory',
+					me.category,
+					{
+						headers: {
+							'adminUserId': aid,
+							'adminUserToken': atoken
+						}
+					}
+				)
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						// 清空数据
+						this.clearData();
+
+						// 添加完毕以后重新查询分类列表
+						this.getCatList();
+					} else {
+						alert(res.data.msg);
+					}
+				});
+				// console.log(me.category);
+			},
+			// 清空表单数据
+			clearData() {
+				this.category.id = "";
+				this.category.name = "";
+				this.category.oldName = "";
+				this.category.show = true;
+				// this.category.isShow = 1;
+				this.category.tagColor = "#c9394a"
+
+				$('.color-picker-category').colorpicker().destroy();
+				$('.color-picker-category').colorpicker({
+					color: '#c9394a',
+					colorSpace: 'rgb'
+				});
+			},
+			// 修改分类名称
+			modifyCategory(catId) {
+				// console.log(catId);
+				var me = this;
+				// 根据catId循环拿出catList中的分类对象
+				var catList = me.catList;
+
+				var pendingCat = null;
+				for (var i = 0 ; i < catList.length ; i ++) {
+					if (catId == catList[i].id) {
+						pendingCat = catList[i];
+						// console.log(pendingCat);
+						break;
+					}
+				}
+
+				if (pendingCat == null) {
+					alert("你的数据有误，请刷新页面或联系管理员！");
+					return false;
+				}
+
+				$('.color-picker-category').colorpicker().destroy();
+				$('.color-picker-category').colorpicker({
+					color: pendingCat.tagColor,
+					colorSpace: 'rgb'
+				});
+
+				this.category.id = pendingCat.id;
+				this.category.name = pendingCat.name;
+				this.category.oldName = pendingCat.name;
+				// this.category.isShow = pendingCat.isShow;
+			},
+			// 删除
+			delCategory(catId) {
+				var me = this;
+				var bool = window.confirm("确认删除此文章分类吗？")
+				if (bool) {
+					var atoken = app.getCookie("atoken");
+					var aid = app.getCookie("aid");
+					var adminServerUrl = app.adminServerUrl;
+					axios.defaults.withCredentials = true;
+					axios.post(adminServerUrl + '/categoryMng/delCategory?categoryId=' + catId,
+						{},
+						{
+							headers: {
+								'adminUserId': aid,
+								'adminUserToken': atoken
+							}
+						})
+					.then(res => {
+						if (res.data.status == 200) {
+							// 清空数据
+						this.clearData();
+
+						// 添加完毕以后重新查询分类列表
+						this.getCatList();
+							
+						} else {
+							alert(res.data.msg);
+						}
+					});
+				}
+
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+
+		}
+	});
+
+</script>
+
+</html>

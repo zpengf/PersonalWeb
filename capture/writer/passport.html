@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>作家中心 - 注册/登录</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css"> -->
+	<link rel="stylesheet" href="assets/css/form-elements.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	
+	<link rel="shortcut icon" href="img/aa.ico" />
+</head>
+
+<body>
+	<div class="top-content">
+		
+		<div class="inner-bg">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-7 text">
+						<h1><strong>capturez</strong> capture-作家中心</h1>
+						<div class="description">
+							<p>用户可以在此注册或登录，待完善信息后即可成为作家发文噢~</p>
+						</div>
+					</div>
+					<div class="col-sm-5 form-box">
+						<div class="form-top">
+							<div class="form-top-left">
+								<h3>注册/登录</h3>
+								<p>已有账号则直接登录，否则需要注册:</p>
+							</div>
+							<div class="form-top-right">
+								<img src="./assets/img/writer.png" style="width: 60px; height: 60px;"/>
+							</div>
+						</div>
+						<div id="passport" class="form-bottom">
+							<!-- <form role="form" action="" method="post" class="registration-form"> -->
+								<div class="form-group">
+									<label class="sr-only" for="email">邮箱</label>
+									<input type="text" name="email" v-model="email" placeholder="邮箱..." class="form-first-name form-control" id="email">
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="emailCode">验证码</label>
+									<input type="text" name="emailCode" v-model="emailCode" placeholder="验证码..." class="form-last-name " id="emailCode" style="width: 70%;">
+									<button id="emailCode" type="submit" class="btn"
+										@click="sendCode"
+										style="height: 40px; 
+											line-height: 40px; 
+											font-size: 13px; 
+											padding: 0 10px; 
+											background-color: #4bb550;">{{sendCodeValue}}</button>
+								</div>
+								<button type="button" class="btn" style="width: 100%;" @click="display">一键注册/登录</button>
+							<!-- </form> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Javascript -->
+	<script src="libs/vue.min.js"></script>
+	<script src="libs/axios.min.js"></script>
+	<script src="assets/js/jquery-1.11.1.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/js/jquery.backstretch.min.js"></script>
+	<!-- <script src="assets/js/retina-1.1.0.min.js"></script> -->
+	<script src="assets/js/scripts.js"></script>
+	<script src="js/app.js"></script>
+
+	<script type="text/javascript">
+
+		var mainPage = new Vue({
+			el: "#passport",
+			data: {
+				email: "",
+				emailCode: "", 
+				sendCodeValue: "发送验证码",
+
+			},
+			mounted() {
+			},
+			created() {
+			},
+			beforeDestroy() {
+				// 关闭浏览器，定时器时间存入cookie，再次打开浏览器后，定时任务时间还是存在
+				var times = this.times;
+				app.setCookie("smsTimes", times);
+				console.log("beforeDestroy");
+			},
+			destroyed() {
+				console.log("destroyed");
+			},
+			methods: {
+				// 提交按钮，登录&注册
+				display () {
+					var me = this;
+
+					var email = me.email;
+					var emailIsNotEmpty = app.isNotEmpty(email);
+					if (!emailIsNotEmpty) {
+						alert("邮箱不能为空！");
+						return;
+					}
+
+					var emailCode = me.emailCode;
+					var emailCodeIsNotEmpty = app.isNotEmpty(emailCode);
+					if (!emailCodeIsNotEmpty) {
+						alert("邮箱验证码不能为空！");
+						return;
+					}
+
+					var registerLoginVO = {
+						email: email,
+						emailCode: emailCode
+					};
+
+					var serverUrl = app.userServerUrl;
+					// 发起请求调用短信发送接口
+					axios.defaults.withCredentials = true;
+					axios.post(serverUrl + '/passport/doLogin', registerLoginVO)
+					.then(res => {
+						// debugger;
+						console.log(res.data);
+						
+						if (res.data.status == 200) {
+							// 注册登录成功，跳转到首页或者作家中心
+							var userStatus = res.data.data;
+							if (userStatus == 0) {
+								// 未激活，用户状态未完善资料，则需要跳转到作家中心去完善用户的资料
+								alert("您的信息未完善，待完善后方可进行发文、评论等操作！");
+								window.location = app.writerInfoUrl;
+							} else if (userStatus == 1) {
+								// 已激活，用户状态已经完善资料，则跳转首页
+								window.location = app.portalIndexUrl;
+							}
+						} else {
+							// 如果用户状态已经被冻结，则提示无法登陆
+							alert(res.data.msg);
+						}
+					});
+				},
+				// 发送验证码
+				sendCode() {
+					var me = this;
+
+					var email = me.email;
+					var emailIsNotEmpty = app.isNotEmpty(email);
+					if (!emailIsNotEmpty) {
+						alert("邮箱不能为空！");
+						return;
+					}
+
+					var serverUrl = app.userServerUrl;
+					// 发起请求调用邮箱发送接口
+					axios.defaults.withCredentials = true;
+					axios.get(serverUrl + '/passport/getEmailCode?mail=' + email)
+					.then(res => {
+						// debugger;
+						console.log(res.data);
+						
+						if (res.data.status == 200) {
+							alert("验证码已发送至您邮箱，请查看哟~~");
+						} else {
+							alert(res.data.msg);
+						}
+
+						// 禁用发送短信验证码按钮，到时间恢复
+						$("#sendCode").attr("disabled", true);
+						// 时间倒计时
+						var times = 60;
+						me.sendCodeValue = "发送验证码("+ times +")";
+						// 倒计时
+						me.doTimer(times);
+					});
+					
+				},
+				// 发送验证码的倒计时方法
+				doTimer(times) {
+					var me = this;
+					// 倒计时定时器
+					var sendCodeBtnFunction = function(){
+						var left = times--;
+						// console.log(left);
+
+						if (left <= 0) {
+							$("#sendCode").attr("disabled", false);
+							me.sendCodeValue = "发送验证码";
+							clearInterval(smsTimer);
+						} else {
+							me.sendCodeValue = "发送验证码("+ left +")";
+						}
+					};
+					var smsTimer = setInterval(sendCodeBtnFunction, 1000);
+				}
+			}
+		});
+	
+	</script>
+
+</body>
+</html>

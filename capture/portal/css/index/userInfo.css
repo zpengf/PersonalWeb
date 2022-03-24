@@ -1,0 +1,96 @@
+/* 首页用户信息 by 风间影月 */
+.user-info {
+    padding: 20px 20px;
+    background-color: #f4f5f5;
+    border-radius: 3px;
+
+    margin-top: 15px;
+}
+
+.my-info {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 1px solid #f0eded;
+}
+
+.div-log-out {
+    align-self: flex-end;
+}
+
+.link-log-out {
+    color: #998;
+}
+.link-log-out:hover {
+    color: #208ed1;
+}
+
+.my-face {
+    align-self: center;
+}
+
+.my-face-img {
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+}
+
+.writer {
+    color: #222;
+    font-size: 16px;
+}
+
+.fans-info {
+    margin-top: 5px;
+    width: 250px;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.my-subscribe {
+    width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item-center {
+    align-self: center;
+}
+
+.my-fans {
+    width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.fans-info-num {
+    color: #222;
+    font-size: 20px;
+    margin-bottom: 3px;
+    font-weight: 600;
+    line-height: 22px;
+}
+
+.middle-line {
+    width: 1px;
+    height: 64px;
+    transform: scale(.5);
+    background-color: rgb(214, 209, 209);
+}
+
+.fans-info-word {
+    font-size: 15px;
+    color: #777;
+}

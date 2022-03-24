@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/friendLinks.css">
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>友情链接 | 运营管理平台</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部黑色头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper">
+				<img src="./img/logo.png" class="center-logo" @click="goIndex()"/>
+
+				<div class="right-me-info">
+					<!-- <img src="./img/face1.png" class="me-face"/> -->
+					<span class="me-nickname">{{adminUserLogin.userName}}</span>
+					<span class="sep-line">|</span>
+					<span class="logout" @click="doLogout">注销</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">管理中心</div>
+						</div>
+						<ul style="margin-top: 5px;">
+							<li class="menu-item"><a href="contentReview.html" class="menu-item-default">内容审核</a></li>
+							<li class="menu-item"><a href="userList.html" class="menu-item-default">用户管理</a></li>
+							<li class="menu-item"><a href="categoryMng.html" class="menu-item-default">文章分类</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li> -->
+							<li class="menu-item"><a href="friendLinks.html" class="menu-item-select">友情链接</a></li>
+							<li class="menu-item"><a href="blackList.html" class="menu-item-default">IP黑名单</a></li>
+							<li class="menu-item"><a href="adminMng.html" class="menu-item-default">设置管理员</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="main-page">
+				<div class="edit-box">
+					<div class="mng-box">
+						<div class="single-line-enter">
+							<div class="words-label">链接名称</div>
+							<input type="text" v-model="friendLink.linkName" class="field-input"/>
+							<input type="hidden" v-model="friendLink.id" class="field-input"/>
+						</div>
+						<div class="single-line-enter">
+							<div class="words-label" style="align-self: center;">链接地址</div>
+							<input type="text" v-model="friendLink.linkUrl" class="field-input"/>
+						</div>
+						<div class="single-line-enter" style="display: flex; flex-direction: row;">
+							<div class="words-label">是否删除</div>
+							
+							<input type="radio" name="sex" class="input-sex" v-model="friendLink.isDelete" value="0" checked style="align-self: center;"/>
+							<span style="align-self: center;margin-left: 5px;">保留</span>
+
+							<input type="radio" name="sex" class="input-sex" v-model="friendLink.isDelete" value="1" style="margin-left: 20px;align-self: center;"/>
+							<span style="align-self: center;margin-left: 5px;">删除</span>
+						</div>
+						<div class="single-line-enter btn-submit-wrapper">
+							<button class="clear-btn" @click="clearData" style="margin-left: 10px;">清空数据</button>
+
+							<button class="submit-btn" @click="saveOrUpdate">新增/更新</button>
+						</div>
+					</div>
+				</div>
+
+				<div id="user-list-wrapper" class="user-list-wrapper">
+					<div class="user-list">
+
+						<table class="table-user" >
+							<tr class="head-th"> 
+								<th style="width: 20%; text-align: left; padding-left: 30px;color: #222;">链接名称</th>
+								<th style="width: 25%; text-align: right; padding-right: 10px;color: #222;">链接地址</th>
+								<th style="width: 10%; text-align: right; padding-right: 10px;color: #222;">状态</th>
+								<th style="width: 30%; text-align: right; padding-right: 10px;color: #222;">操作时间</th>
+								<th style="width: 15%; text-align: right; padding-right: 30px;color: #222;">操作</th>
+							</tr>
+							
+							<tr class="user-single-line" v-for="(link, linkIndex) in  friendLinkList" :key="linkIndex">
+								<td class="table-td-left" style="padding-left: 30px;">{{link.linkName}}</td>
+								<td class="table-td-right" style="padding-right: 10px;">
+									<a :href="link.linkUrl" target="_blank">{{link.linkUrl}}</a>
+								</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{link.isDelete == 0 ? '保留' : '删除'}}</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{formatData(link.updateTime)}}</td>
+								<td class="table-td-right" style="padding-right: 30px;">
+									<a href="javascript:(0);" @click="modifyFriendLink(link.id)">修改</a>
+									&nbsp;&nbsp;
+									<a href="javascript:(0);" @click="deleteFriendLink(link.id)">删除</a>
+								</td>
+							</tr>
+
+						</table>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.imooc.com" target="_blank">慕课网</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://class.imooc.com/sale/javaarchitect" target="_blank">架构师体系课</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/217.html" target="_blank">SpringBoot短视频实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/261.html" target="_blank">Netty仿微信聊天实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/201.html" target="_blank">Zookeeper入门</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 imooc.com All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="js/app.js"></script>
+<script src="libs/moment-with-locales.min.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			adminUserLogin: {
+				adminId: "",
+				adminName: "",
+				adminToken: ""
+			},
+
+			friendLink: {
+				id: "",				// 为空则新增，不为空则修改
+				linkName: "",
+				linkUrl: "http://www.imooc.com",
+				isDelete: 0
+			},
+
+			friendLinkList:[]
+		},
+		mounted() {
+
+		},
+		created() {
+			// 判断管理员是否登录
+			app.judgeAdminLogin(this);
+
+			// 查询分类列表
+			this.getFriendLinkList();
+		},
+		methods: {
+			// 管理员注销，退出登录
+			doLogout() {
+				app.doAdminLogout();
+			}, 
+			// 查询分类列表
+			getFriendLinkList() {
+				var me = this;
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+				var adminServerUrl = app.adminServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(adminServerUrl + '/friendLinkMng/getFriendLinkList',
+					{},
+					{
+						headers: {
+							'adminUserId': aid,
+							'adminUserToken': atoken
+						}
+					})
+				.then(res => {
+					// console.log(JSON.stringify(res.data));
+					if (res.data.status == 200) {
+						var friendLinkList = res.data.data;
+						me.friendLinkList = friendLinkList;
+						// console.log(catList);
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 保存或更新
+			saveOrUpdate() {
+				var me = this;
+
+				if (app.isEmpty(me.friendLink.linkName)) {
+					alert("友情链接名称不能为空");
+					return false;
+				}
+
+				if (app.isEmpty(me.friendLink.linkUrl)) {
+					alert("友情链接地址不能为空");
+					return false;
+				}
+
+				if (!app.isURLSimple(me.friendLink.linkUrl)) {
+					alert("友情链接地址不正确");
+					return false;
+				}
+
+				// console.log(me.friendLink);
+
+				// 新增
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+				var adminServerUrl = app.adminServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(adminServerUrl + '/friendLinkMng/saveOrUpdateFriendLink',
+					me.friendLink,
+					{
+						headers: {
+							'adminUserId': aid,
+							'adminUserToken': atoken
+						}
+					}
+				)
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						// 清空数据
+						this.clearData();
+
+						// 添加完毕以后重新查询友情链接列表
+						this.getFriendLinkList();
+					} else {
+						// console.log(res.data);
+						alert(res.data.msg);
+					}
+				});
+				
+			},
+			// 清空表单数据
+			clearData() {
+				this.friendLink.id = "";
+				this.friendLink.linkName = "";
+				this.friendLink.linkUrl = "";
+				this.friendLink.isDelete = 0;
+			},
+			// 修改分类名称
+			modifyFriendLink(linkId) {
+				console.log(linkId);
+
+				var me = this;
+				// 根据linkId循环拿出catList中的分类对象
+				var friendLinkList = me.friendLinkList;
+
+				var pendingLink = null;
+				for (var i = 0 ; i < friendLinkList.length ; i ++) {
+					if (linkId == friendLinkList[i].id) {
+						pendingLink = friendLinkList[i];
+						console.log(pendingLink);
+						break;
+					}
+				}
+
+				this.friendLink.id = pendingLink.id;
+				this.friendLink.linkName = pendingLink.linkName;
+				this.friendLink.linkUrl = pendingLink.linkUrl;
+				this.friendLink.isDelete = pendingLink.isDelete;
+			},
+			// 删除友情链接
+			deleteFriendLink(linkId) {
+				var me = this;
+				var bool = window.confirm("确认删除此友情链接吗？")
+				if (bool) {
+					var atoken = app.getCookie("atoken");
+					var aid = app.getCookie("aid");
+					var adminServerUrl = app.adminServerUrl;
+					axios.defaults.withCredentials = true;
+					axios.post(adminServerUrl + '/friendLinkMng/delete?linkId=' + linkId,
+						{},
+						{
+							headers: {
+								'adminUserId': aid,
+								'adminUserToken': atoken
+							}
+						})
+					.then(res => {
+						// console.log(JSON.stringify(res.data));
+						if (res.data.status == 200) {
+							me.getFriendLinkList();
+							// console.log(catList);
+						} else {
+							alert(res.data.msg);
+						}
+					});
+				}
+			},
+			// 格式化日期
+			formatData(times) {
+				var date = moment(times).format('YYYY-MM-DD hh:mm:ss');
+				return date;	
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+		}
+	});
+
+</script>
+
+</html>

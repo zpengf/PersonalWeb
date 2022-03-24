@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" type="text/css" href="css/app.css" />
+    <link rel="stylesheet" type="text/css" href="css/index/topHeader.css" />
+
+    <link rel="stylesheet" type="text/css" href="css/writer.css" />
+    <link rel="stylesheet" type="text/css" href="css/index/articleList.css" />
+
+    <!-- 分页css -->
+    <link href="libs/vuePaging/VuePaging/zpageNav.css" rel="stylesheet" />
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title id="writerTitle">[作者名称]的个人主页</title>
+</head>
+
+<body>
+    <div id="writerContainer">
+        <!-- 顶部导航头 header -->
+        <div class="white-header">
+            <div class="white-bar">
+                <div class="left-part">
+                    <!-- <div class="logo-wrapper" @click="goIndex()">
+						<img src="./img/imooc-news-logo.png" class="big-logo"/>
+					</div> -->
+
+
+                    <div class="menus">
+                        <div class="single-default">
+							<a href="javascript:void(0);" class="white-header-left" @click="goIndex()">首页</a>
+						</div>
+                        <!-- single-selected -->
+                        <div class="single-default" v-bind:class="{'single-selected': (cat.id==selectedCatId)}" v-for="(cat, index) in catList" v-key="index">
+                            <!-- menu-selected -->
+                            <a :href="'index.html?catId='+cat.id" class="white-header-left" v-bind:class="{'menu-selected': (cat.id==selectedCatId)}">{{cat.name}}</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="right-part">
+                    <!-- 如果登录则不显示 -->
+                    <block v-if="userInfo == null">
+                        <a href="javascript:(0);" @click="doLogin()" target="_blank" class="white-header-right-start">登录 | 注册</a>
+                    </block>
+
+                    <a href="javascript:(0);" @click="goWriterCenter()" target="_blank" class="white-header-right">作家中心</a>
+					<a href="javascript:(0);" @click="goAdminCenter()" target="_blank" class="white-header-right" style="margin-right: 20px;">管理平台</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 中间主体部分 -->
+        <div class="container">
+
+            <div class="big-banner">
+                <div class="banner">
+                    <img src="./img/banner2.png"/>
+                </div>
+                <div class="basic-info-wrapper">
+                    <div class="writer-face-wrapper">
+                        <img :src="writerInfo.face" class="writer-face"/>
+                    </div>
+                    <div class="writer-name">{{writerInfo.nickname}}</div>
+                    <!-- <div class="writer-name">风间影月</div> -->
+                    <button class="pay-attention" @click="beYourFan(writerInfo.id, userInfo.id)" 
+                            v-show="!isFollowWriter && userInfo != null && userInfo != undefined">关注我</button>
+                    <button class="already-pay-attention" @click="notYourFan(writerInfo.id, userInfo.id)" 
+                            v-show="isFollowWriter && userInfo != null && userInfo != undefined">已关注</button>
+                </div>
+            </div>
+
+            <div class="main-info">
+
+                <div class="writer-articles-wrapper">
+
+                    <div class="tabs">
+                        <div class="tab-item">文章</div>
+                    </div>
+                    <div class="writer-articles">
+                        <div id="articleList" class="article-list">
+                            <ul class="blank-left">
+
+                                <li class="single-article-wrapper" v-for="(article, index) in articleList" :key="index">
+                                    <img :src="article.articleCover" class="article-cover" v-show="article.articleType == 1">
+            
+                                    <div class="single-article">
+                                        <div class="article-title">
+                                            <!-- TODO: 后期改为静态页面跳转 -->
+                                            <a :href="'detail.html?articleId='+article.id" target="_blank" class="link-article-title">{{article.title}}</a>
+                                        </div>
+                                        <div class="publisher">
+                                            <div class="category-tag" :style="{color: getCatTagColor(article.categoryId), borderColor: getCatTagColor(article.categoryId) }">{{getCatName(article.categoryId)}}</div>
+                                            
+                                            <img src="img/face1.png" class="publisher-face" v-if="article.publisherVO == null || article.publisherVO == undefined">
+                                            <div class="publisher-name" v-if="article.publisherVO == null || article.publisherVO == undefined">&nbsp;&nbsp;{{article.publishUserId}}&nbsp;⋅</div>
+                                            
+                                            <img :src="article.publisherVO.face" class="publisher-face" v-if="article.publisherVO != null && article.publisherVO != undefined">
+                                            <div class="publisher-name" v-if="article.publisherVO != null && article.publisherVO != undefined">&nbsp;&nbsp;{{article.publisherVO.nickname}}&nbsp;⋅</div>
+                                
+                                            
+                                            <div class="article-name">&nbsp;{{article.readCounts}}阅读&nbsp;⋅</div>
+                                            
+                                            <div class="publish-time">&nbsp;{{formatData(article.publishTime)}}</div>
+                                            <!-- <div class="publish-time">&nbsp;{{getDateBeforeNow(article.publishTime)}}</div> -->
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 分页 start-->
+                    <div class="wrap" id="wrap">
+                        <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+                            v-bind:max-page="maxPage"  v-on:pagehandler="doPaging">
+                        </zpagenav>
+                    </div>
+                    <!-- 分页 end-->
+                </div>
+
+                <div class="else-info-wrapper">
+
+                    <div class="counts-wrapper">
+                        <div class="padd">
+                            <div class="inner-flex sign">
+                                <span class="counts-words">{{writerInfo.myFollowCounts == null ? 0 : writerInfo.myFollowCounts}}</span>
+                                <span class="counts-cn-words">关注</span>
+                            </div>
+                            <div class="middle-line"></div>
+                            <div class="inner-flex">
+                                <span class="counts-words">{{writerInfo.myFansCounts == null ? 0 : writerInfo.myFansCounts}}</span>
+                                <span class="counts-cn-words">粉丝</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-wrapper">
+                        <div class="recent">
+                            <div class="recent-words">近期佳文</div>
+
+                            <div class="recent-articles">
+                                
+                                <div class="recent-article-wrapper" v-for="(article, goodIndex) in goodArticleList" :key="goodIndex">
+                                    <div class="recent-article-cover" v-show="article.articleType == 1">
+                                        <img :src="article.articleCover" class="recent-article-cover">
+                                    </div>
+                                    <div class="recent-article-title">
+                                       
+                                        <div class="recent-title"> <a :href="'detail.html?articleId='+article.id" target="_blank" class="link-article-title">{{article.title}}</a></div>
+                                        <div class="read-counts">{{article.readCounts}}阅读</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="libs/vue.min.js"></script>
+    <script src="libs/axios.min.js"></script>
+    <script src="libs/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="./libs/JqueryShare/jquery.share.min.js"></script> 
+    <script src="js/app.js"></script>
+    <script src="libs/vuePaging/VuePaging/zpageNav.js"></script>
+    <script src="libs/moment-with-locales.min.js"></script>
+
+    <script type="text/javascript">
+
+        var articleList = new Vue({
+            el: "#writerContainer",
+            data: {
+                userInfo: null,
+                writerInfo: {},
+                articleList:[],
+                goodArticleList:[],
+
+                isFollowWriter: false,  // 当前用户有没有关注或者取关作家
+
+                // 文章分类列表
+                catList: [],
+                selectedCatId: "",		// 被选中的当前的分类id
+                // isSelected = (cat.id==selectedCatId)
+
+                page: 1, // 分页页数
+                pageSize: 10, // 分页每页显示数量
+                maxPage: 1, // 总页数
+                total: 1, // 总记录数
+            },
+            created() {
+                var me = this;
+                // 通过cookie判断用户是否登录
+                app.judgeUserLoginStatus(me);
+
+                // 获得文章发布者id，查询相关内容
+                var writerId = app.getUrlParam("writerId");
+                me.writerId = writerId;
+                this.queryWriterInfo(writerId)
+                // console.log(writerId);
+
+                // 分页查询最新文章
+                this.queryMyArticles(writerId, 1, 10);
+                // 查询近期佳文
+                this.queryMyGoodArticles(writerId);
+
+                // 获得分类
+                this.getAllCategory();
+
+                // 查询当前用户是否关注作家 
+                var uid = app.getCookie("uid");
+                if (uid != null && uid != undefined) {
+                    this.isMeFollowThisWriter(writerId, uid);
+                }
+                
+            },
+            methods: {
+                // 查询当前用户是否关注作家 
+                isMeFollowThisWriter(writerId, fanId) {
+                    var me = this;
+                    var userServerUrl = app.userServerUrl;
+                    axios.post(
+                            userServerUrl + '/fans/isMeFollowThisWriter?writerId=' + writerId + "&fanId=" + fanId)
+                        .then(res => {
+                            if (res.data.status == 200) {
+                                var isFollowWriter = res.data.data;
+                                me.isFollowWriter = isFollowWriter;
+                            } else {
+                                console.log(res.data.msg);
+                                return false;
+                            }
+                        });
+                },
+                // 成为粉丝，关注作家
+                beYourFan(writerId, fanId) {
+                    var me = this;
+                    var utoken = app.getCookie("utoken");
+                    var uid = app.getCookie("uid");
+                    
+                    var userServerUrl = app.userServerUrl;
+                    axios.post(
+                            userServerUrl + '/fans/follow?writerId=' + writerId + "&fanId=" + fanId,
+                            {}, 
+                            {
+                                headers: {
+                                    'headerUserId': uid,
+                                    'headerUserToken': utoken
+                                }
+                            })
+                        .then(res => {
+                            if (res.data.status == 200) {
+                                me.isMeFollowThisWriter(writerId, fanId);
+                                me.queryWriterInfo(writerId);
+                            } else {
+                                console.log(res.data.msg);
+                                return false;
+                            }
+                        });
+                },
+                // 取消关注
+                notYourFan(writerId, fanId) {
+                    var me = this;
+                    var utoken = app.getCookie("utoken");
+                    var uid = app.getCookie("uid");
+
+                    var userServerUrl = app.userServerUrl;
+                    axios.post(
+                            userServerUrl + '/fans/unfollow?writerId=' + writerId + "&fanId=" + fanId,
+                            {}, 
+                            {
+                                headers: {
+                                    'headerUserId': uid,
+                                    'headerUserToken': utoken
+                                }
+                            })
+                        .then(res => {
+                            if (res.data.status == 200) {
+                                me.isMeFollowThisWriter(writerId, fanId);
+                                me.queryWriterInfo(writerId)
+                            } else {
+                                console.log(res.data.msg);
+                                return false;
+                            }
+                        });
+                }, 
+                // 查询作家信息与粉丝数与关注数
+                queryWriterInfo(writerId) {
+                    var me = this;
+                    var userServerUrl = app.userServerUrl;
+                    axios.post(
+                            userServerUrl + '/user/getUserInfo?userId=' + writerId)
+                        .then(res => {
+                            if (res.data.status == 200) {
+                                var userInfo = res.data.data;
+                                me.writerInfo = userInfo;
+                                $("#writerTitle").html(userInfo.nickname + "的个人主页 - 慕课新闻");
+                            } else {
+                                console.log(res.data.msg);
+                                // 发生错误，直接return null
+                                return false;
+                            }
+                        });
+                },
+                // 分页查询作家文章
+                queryMyArticles(writerId, page, pageSize) {
+                    var me = this;
+                    me.page = page;
+
+                    var articleServerUrl = app.articleServerUrl;
+                    axios.defaults.withCredentials = true;
+                    axios.get(articleServerUrl + "/portal/article/queryArticleListOfWriter?writerId=" + writerId +
+                                                                                            "&page=" + page + 
+                                                                                            "&pageSize=" + pageSize)
+                    .then(res => {
+                        // console.log(JSON.stringify(res.data));
+
+                        if (res.data.status == 200) {
+                            var grid = res.data.data;
+                            var articleList = grid.rows;
+                            me.articleList = articleList;
+
+                            var maxPage = grid.total; // 获得总页数
+                            var total = grid.records; // 获得总记录数
+
+                            this.maxPage = maxPage;
+                            this.total = total;
+                        } else {
+                            alert(res.data.msg);
+                        }
+                    });
+                },
+                doLogin() {
+                    window.location = app.writerLoginUrl;
+                },
+                goWriterCenter() {
+                    window.open(app.writerIndexUrl);
+                },
+                goAdminCenter() {
+                    window.open(app.adminCenterUrl);
+                },
+                // 查询近期佳文
+                queryMyGoodArticles(writerId) {
+                    var me = this;
+
+                    var articleServerUrl = app.articleServerUrl;
+                    axios.defaults.withCredentials = true;
+                    axios.get(articleServerUrl + "/portal/article/queryGoodArticleListOfWriter?writerId=" + writerId)
+                    .then(res => {
+                        console.log(JSON.stringify(res.data));
+
+                        if (res.data.status == 200) {
+                            var grid = res.data.data;
+                            var goodArticleList = grid.rows;
+                            me.goodArticleList = goodArticleList;
+                        } else {
+                            alert(res.data.msg);
+                        }
+                    });
+                },
+                
+                // 获得所有文章领域
+                getAllCategory() {
+                    var me = this;
+                    var adminServerUrl = app.adminServerUrl;
+                    axios.defaults.withCredentials = true;
+                    axios.get(adminServerUrl + "/categoryMng/getCats")
+                    .then(res => {
+                        console.log(JSON.stringify(res.data));
+
+                        if (res.data.status == 200) {
+                            var catList = res.data.data;
+                            me.catList = catList;
+                            // console.log(catList);
+                        } else {
+                            alert(res.data.msg);
+                        }
+                    });
+                },
+                // 根据分类Id获得tag颜色
+                getCatTagColor(catId) {
+                    var catList = this.catList;
+                    for (var i = 0 ; i < catList.length ; i ++) {
+                        if (catId == catList[i].id) {
+                            return catList[i].tagColor;
+                            break;
+                        }
+                    }
+                },
+                // 根据分类Id获得名称
+                getCatName(catId) {
+                    var catList = this.catList;
+                    for (var i = 0 ; i < catList.length ; i ++) {
+                        if (catId == catList[i].id) {
+                            return catList[i].name;
+                            break;
+                        }
+                    }
+                },
+                // 格式化日期
+                formatData(times) {
+                    var date = moment(times).format('YYYY-MM-DD hh:mm:ss');
+                    return date;	
+                },
+                // 分页实现方法 跳转到page页
+                doPaging: function (page) {
+                    this.page = page;
+                    this.queryMyArticles(this.writerId, page, this.pageSize);
+                },
+                // 前往首页
+                goIndex() {
+                    window.location = app.portalIndexUrl;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

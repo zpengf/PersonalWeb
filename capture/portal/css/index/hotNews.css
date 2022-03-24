@@ -1,0 +1,45 @@
+/* 首页热闻 by 风间影月 */
+.hot-news {
+    padding: 10px 20px;
+    margin-top: 15px;
+    background-color: #f4f5f5;
+    border-radius: 3px;
+    border-top: 2px solid #c9394a;
+}
+
+.hot-items {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.hot-title {
+    color: #222;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.hot-single {
+    margin-right: 10px;
+}
+
+.hot-img-wrapper {
+    width: 65px;height: 65px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    float: left;
+    background-image: url(../../img/car.jpeg);
+    background-position:center center;
+    background-size: cover;
+}
+
+.hot-img {
+    width: 65px;
+    height: 65px;
+}
+
+.link-hot-title-words {
+    font-size: 14px;
+}
+

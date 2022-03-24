@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>capture-web</title>
+</head>
+
+<body>
+	<div class="mybody">
+		<!-- 顶部头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper" @click="goIndex()">
+				<div class="right-me-info">
+					<img :src="userInfo.face" class="me-face"/>
+					<span class="me-nickname">{{userInfo.nickname}}</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/media-ico.png" class="word-ico"/>
+							<div class="menu-title">媒体中心</div>
+						</div>
+						<ul>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-select">内容管理</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-select">主页</a></li> -->
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">发头条</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">评论管理</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">打赏记录</a></li>
+						</ul>
+					</li>
+				</ul>
+
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/user-ico.png" class="word-ico"/>
+							<div class="menu-title">个人账号</div>
+						</div>
+						<ul>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">账号设置</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">我的粉丝</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">收益提现</a></li>
+						</ul>
+					</li>
+				</ul>
+
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">管理中心</div>
+						</div>
+						<ul>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">用户管理</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">轮播图</a></li> -->
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">文章分类</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">友情链接</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">IP黑名单</a></li>
+							<li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">设置管理员</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div id="mainPage" class="main-page">
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.imooc.com" target="_blank">慕课网</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://class.imooc.com/sale/javaarchitect" target="_blank">架构师体系课</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/217.html" target="_blank">SpringBoot短视频实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/261.html" target="_blank">Netty仿微信聊天实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/201.html" target="_blank">Zookeeper入门</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 imooc.com All Rights Reserved</span>
+		</div>
+	</div>
+
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+
+<script type="text/javascript">
+
+	var articleList = new Vue({
+		el: "#articleList",
+		data: {
+			indexMsg: "这里显示文章列表"
+		},
+		created() {
+			
+		},
+		methods: {
+			
+		}
+	});
+
+	var articleCategory = new Vue({
+		el: "#articleCategory",
+		data: {
+		},
+		created() {
+			
+		},
+		methods: {
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+		}
+	});
+</script>
+
+</html>

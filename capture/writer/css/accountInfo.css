@@ -1,0 +1,162 @@
+.main-page {
+    width: 980px;
+    margin-left: 20px;
+    background-color: white;
+    padding-bottom: 40px;
+}
+
+.title-box {
+    padding: 20px 0 10px 30px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.title-word {
+    color: #c9394a;
+    font-size: 20px;
+}
+
+
+.account-wrapper {
+    padding: 10px 0 10px 30px;
+}
+
+.middle-wrapper {
+    margin-top: 10px;
+}
+
+.every-line {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 40px;
+}
+
+.pre-label {
+    color: #666;
+    width: 120px;
+    font-size: 16px;
+}
+.info-words {
+    font-size: 16px;
+}
+
+.info-face {
+    display: flex;
+    flex-direction: column;
+}
+
+.choose-face-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+.user-face{
+    width: 120px;
+    height: 120px;
+    border: 1.2px solid #dbdbdb;
+}
+.user-face:hover {
+    border: 1.2px solid #e8e8e8;
+    cursor: pointer;
+}
+.user-face:hover .choose-face {
+    opacity: 0.6;
+}
+.inputPic { 
+    cursor: pointer;
+    opacity: 0;
+    width: 120px;
+    height: 120px;
+    position: relative;
+    /* left: -121px; */
+    left: -243px;
+    z-index: 9;
+}
+.choose-face {
+    color: white;
+    background-color: #666;
+    width: 120px;
+    height: 35px;
+    border-bottom: 1.2px solid #e8e8e8;
+    border-left: 1.2px solid #e8e8e8;
+    border-right: 1.2px solid #e8e8e8;
+    opacity: 0;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 36px;
+
+    position: relative;
+    top: 86px;
+    left: -122px;
+
+    z-index: 6;
+}
+/* .choose-face:hover {
+    opacity: 0.6;
+    cursor: pointer;
+} */
+
+.upload-suggest {
+    width: 450px;
+    color: #8a939e;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+
+/* 待完善用户信息 */
+.input-nickname {
+    outline: none;
+    height: 20px;
+    width: 180px;
+    font-size: 12px;
+    font-weight: 400;
+}
+.input-realname {
+    outline: none;
+    height: 20px;
+    width: 180px;
+    font-size: 12px;
+    font-weight: 400;
+}
+.input-idcard {
+    outline: none;
+    height: 20px;
+    width: 180px;
+    font-size: 12px;
+    font-weight: 400;
+}
+.input-sex {
+    outline: none;
+    height: 20px;
+    font-size: 12px;
+    font-weight: 400;
+}
+.input-email {
+    outline: none;
+    height: 20px;
+    width: 180px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.pick-city {
+    width: 300px;
+}
+
+.submit-wrapper {
+    text-align: center;
+}
+
+.submit-btn {
+    background-color: #c9394a;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+    outline: none;
+    border: 0px;
+    padding: 8px 26px;
+}
+.submit-btn:hover {
+    background-color: #d6495a;
+    cursor: pointer;
+}

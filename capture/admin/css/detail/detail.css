@@ -1,0 +1,196 @@
+.container {
+    width: 1050px;
+    margin: 0 auto;
+    margin-top: 16px;
+    min-height: 1500px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.big-title {
+    font-size: 40px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    color: #333;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.detail-really {
+    display: flex;
+    flex-direction: row;
+}
+
+/* 分享 */
+.left-social {
+    display: flex;
+    flex-direction: column;
+    margin-right: 40px;
+}
+
+
+.date-title {
+    margin-top: 10px;
+    /* margin-bottom: 18px; */
+    align-self: center;
+}
+
+.date-title .year {
+    color: #000;
+    font-family: "Georgia", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    width: 48px;
+    background-color: white;
+    padding: 0 8px;
+}
+
+.back-year-line {
+    border-top: 1px solid #dcdbdb;
+    position: relative;
+    top: -11px;
+    z-index: -2;
+}
+
+.date-md {
+    color: #222;
+    font-size: 28px;
+    line-height: 1;
+    font-family: "Georgia", Arial, Helvetica, sans-serif;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.date-times {
+    margin-top: 8px;
+
+    color: #222;
+    font-size: 18px;
+    line-height: 1;
+    font-family: "Georgia", Arial, Helvetica, sans-serif;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.writer-name {
+    margin-top: 18px;
+    color: #222;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.imooc-words {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.imooc-num {
+    color: #fff;
+    background-color: #c9394a;
+    padding: 1px 8px;
+    border-radius: 8px;
+}
+
+
+.share-title {
+    margin-top: 80px;
+    margin-bottom: 18px;
+
+    align-self: center;
+}
+
+.share-words {
+    display: inline-block;
+    background: #fff;
+    padding: 0 10px;
+    width: 50px;
+}
+
+.back-line {
+    border-top: 1px solid #dcdbdb;
+    position: relative;
+    top: -27px;
+    z-index: -2;
+}
+
+
+
+
+
+.social-line {
+    margin-top: 6px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.social-pic {
+    width: 38px;
+    height: 38px;
+}
+
+.social-words {
+    vertical-align: middle;
+    padding-left: 12px;
+    font-size: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-middle {
+    width: 680px;
+}
+
+.title {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 44px;
+    color: #222;
+}
+
+.basic-info {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.basic-info span {
+    color: #777;
+    margin-right: 2px;
+}
+
+.content {
+    font-size: 16px;
+    line-height: 28px;
+    color: #222;
+    word-wrap: break-word;
+
+    margin-bottom: 30px;
+}
+
+.declare {
+    font-size: 12px;
+    color: #bbb;
+    text-align: center;
+    padding: 20px 0 8px;
+
+    margin-bottom: 20px;
+}
+
+
+
+
+.blank-right {
+    width: 150px;
+    padding-top: 30px;
+}

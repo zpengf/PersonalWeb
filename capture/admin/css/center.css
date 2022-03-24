@@ -1,0 +1,127 @@
+body {
+    background-color: #eef0f1;
+    font-family: "PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,Helvetica Neue,Arial,sans-serif";
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    /* font-weight: 400; */
+
+    margin: 0; 
+	padding: 0;
+	border: 0;
+}
+
+.white-header {
+    background-color: #ffffff;
+    height: 58px;
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    z-index: 1000;
+    box-shadow: 0 2px 4px 0 rgba(9, 9, 9, 0.08);
+    min-width: 1220px;
+}
+
+.head_wrapper {
+    margin: 0 auto;
+    height: 100%;
+    z-index: 100;
+    width: 1180px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.center-logo {
+    width: 108px;
+    height: 27px;
+    vertical-align: middle;
+    align-self: center;
+    cursor: pointer;
+}
+
+.right-me-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.me-face {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+
+    align-self: center;
+}
+
+.me-nickname {
+    margin-left: 10px;
+    margin-right: 5px;
+    color: gray;
+    align-self: center;
+}
+
+.sep-line {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: gray;
+    align-self: center;
+}
+
+.logout {
+    margin-left: 5px;
+    margin-right: 5px;
+    color: gray;
+    align-self: center;
+
+    cursor: pointer;
+}
+
+.container {
+    width: 1170px;
+    margin: 0 auto;
+    margin-top: 80px;
+    /* min-height: 1500px; */
+    display: flex;
+    flex-direction: row;
+
+    /* 距离底部的空隙，不设置不好看，太短了 */
+    margin-bottom: 50px;
+}
+
+.mybody {
+    min-height: 95vh;position: relative;overflow: hidden;
+}
+
+/* footer */
+.footer {
+    height: 70px;
+    width: 100%;
+    background: #797d81;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    /* position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow:hidden; */
+    z-index: -100;
+    flex: 0 0 auto;
+}
+
+.all-words-wrapper {
+    align-self: center;
+}
+
+.footer-link {
+    color: #dadbdb;
+    font-size: 12px;
+    font-weight: 200;
+}
+.dian {
+    color: #dadbdb;
+}

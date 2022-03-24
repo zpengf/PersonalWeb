@@ -1,0 +1,27 @@
+/* 友情链接 by 风间影月 */
+.friend-links {
+    padding: 10px 20px;
+    margin-top: 15px;
+    background-color: #f4f5f5;
+    border-radius: 3px;
+    border-top: 2px solid #c9394a;
+}
+
+.friend-title {
+    color: #222;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.friend-link-item {
+    color: #777;
+    line-height: 1.6;
+    font-size: 14px;
+    margin: 6px;
+}
+
+a {
+    color: #777;
+    text-decoration: none;
+}

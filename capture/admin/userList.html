@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/userList.css">
+
+	<!-- 分页css -->
+	<link href="libs/vuePaging/VuePaging/zpageNav.css" rel="stylesheet" />
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>用户管理 | 运营管理平台</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部黑色头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper">
+				<img src="./img/logo.png" class="center-logo" @click="goIndex()"/>
+
+				<div class="right-me-info">
+					<!-- <img src="./img/face1.png" class="me-face"/> -->
+					<span class="me-nickname">{{adminUserLogin.userName}}</span>
+					<span class="sep-line">|</span>
+					<span class="logout" @click="doLogout">注销</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">管理中心</div>
+						</div>
+						<ul style="margin-top: 5px;">
+							<li class="menu-item"><a href="contentReview.html" class="menu-item-default">内容审核</a></li>
+							<li class="menu-item"><a href="userList.html" class="menu-item-select">用户管理</a></li>
+							<li class="menu-item"><a href="categoryMng.html" class="menu-item-default">文章分类</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li> -->
+							<li class="menu-item"><a href="friendLinks.html" class="menu-item-default">友情链接</a></li>
+							<li class="menu-item"><a href="blackList.html" class="menu-item-default">IP黑名单</a></li>
+							<li class="menu-item"><a href="adminMng.html" class="menu-item-default">设置管理员</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="main-page">
+				<div class="search-box">
+					<div class="status-wrapper">
+						<div class="all-status">
+							<span class="words-label">用户状态</span>
+							<span :class="['words-status', articleStatusType == 9 ? 'status-selected' : 'status-default']" @click="queryByType(9)">全部</span>
+							<span :class="['words-status', articleStatusType == 1 ? 'status-selected' : 'status-default']" @click="queryByType(1)">已激活</span>
+							<span :class="['words-status', articleStatusType == 0 ? 'status-selected' : 'status-default']" @click="queryByType(0)">未激活</span>
+							<span :class="['words-status', articleStatusType == 2 ? 'status-selected' : 'status-default']" @click="queryByType(2)">冻结</span>
+						</div>
+						<div class="search-me">
+							<div class="search-wrapper">
+								<input type="test" v-model="searchContent" placeholder="用户昵称" class="search-input" @keyup.enter="submitSearch"/>
+								<!-- <span class="search-btn">搜索</span> -->
+								<span class="search-ico-wrapper">
+									<img src="./img/icon-search.png" class="search-ico" @click="submitSearch"/>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="time-choose">
+						<div class="words-label">注册日期</div>
+						<div>
+							<input type="text" class="input-date-picker" placeholder="开始日期 ~ 结束日期" id="choose-date">
+						</div>
+					</div>
+				</div>
+
+				<div id="user-list-wrapper" class="user-list-wrapper">
+					<div class="user-list">
+
+						<table class="table-user" >
+							<tr class="head-th"> 
+								<th style="width: 10%; text-align: left; padding-left: 10px;color: #222;">用户编号</th>
+								<th style="width: 15%; text-align: right; padding-right: 10px;color: #222;">媒体号昵称</th>
+								<th style="width: 15%; text-align: right; padding-right: 10px;color: #222;">手机号</th>
+								<th style="width: 19%; text-align: right; padding-right: 10px;color: #222;">邮箱</th>
+								<th style="width: 8%; text-align: right; padding-right: 10px;color: #222;">状态</th>
+								<th style="width: 15%; text-align: right; padding-right: 10px;color: #222;">注册日期</th>
+								<th style="width: 8%; text-align: right; padding-right: 10px;color: #222;">操作</th>
+							</tr>
+							
+							<tr class="user-single-line" v-for="(user, index) in userList">
+								<td class="table-td-left" style="padding-left: 10px;">{{user.id}}</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{user.nickname}}</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{user.mobile}}</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{user.email}}</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{getStatus(user.activeStatus)}}</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{formatData(user.createdTime)}}</td>
+								<td class="table-td-right" style="padding-right: 10px;"><a :href="'userInfo.html?userId=' + user.id" target="_blank">查看</a></td>
+							</tr>
+
+						</table>
+
+					</div>
+
+					<!-- 分页 start-->
+					<div class="wrap" id="wrap">
+						<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+							v-bind:max-page="maxPage"  v-on:pagehandler="doPaging">
+						</zpagenav>
+					</div>
+					<!-- 分页 end-->
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.imooc.com" target="_blank">慕课网</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://class.imooc.com/sale/javaarchitect" target="_blank">架构师体系课</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/217.html" target="_blank">SpringBoot短视频实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/261.html" target="_blank">Netty仿微信聊天实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/201.html" target="_blank">Zookeeper入门</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 imooc.com All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="libs/vuePaging/VuePaging/zpageNav.js"></script>
+<script src="js/app.js"></script>
+<script src="libs/moment-with-locales.min.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			adminUserLogin: {
+				adminId: "",
+				adminName: "",
+				adminToken: ""
+			},
+
+			searchContent: "",			// 查询的昵称
+			articleStatusType: 9,		// 查询的文章状态，默认9：全部
+			startDateStr: "",			// 开始时间
+			endDateStr: "",				// 结束时间
+
+			userList: [],	// 用户列表结果集
+
+			page: 1, // 分页页数
+			pageSize: 10, // 分页每页显示数量
+			maxPage: 1, // 总页数
+			total: 1, // 总记录数
+		},
+		mounted() {
+			var me = this;
+			// 初始化日历控件
+			lay('#version').html('-v'+ laydate.v);
+			laydate.render({
+				elem: '#choose-date',
+				range: true,
+				done: function(value, startDate, endDate) { 	// 选择完后的回调
+					console.log(value); 			//得到日期生成的值，如：2017-08-18
+					console.log(startDate); 		//得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+					console.log(endDate); 			//得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+					
+					// 时间段查询
+					var dateArr = value.split(" - ");
+					var startDateStr = dateArr[0];
+					var endDateStr = dateArr[1];
+					console.log(startDateStr);
+					console.log(endDateStr);
+					me.startDateStr = startDateStr;
+					me.endDateStr = endDateStr;
+
+					var searchContent = me.searchContent;
+					var statusType = me.articleStatusType;
+					me.queryAllUserList(1, 10, searchContent, statusType, startDateStr, endDateStr);
+				}
+			});
+		},
+		created() {
+			// 判断管理员是否登录
+			app.judgeAdminLogin(this);
+			// console.log(this.adminUser);
+
+			// 默认查询所有用户列表
+			this.queryAllUserList(1, 10, "", 9, "", "");
+		},
+		methods: {
+			queryAllUserList(page, pageSize, nickname, status, startDate, endDate) {
+				var me = this;
+				me.page = page;
+
+				console.log("startDate = " + startDate);
+				console.log("endDate = " + endDate);
+
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+
+				var userServerUrl = app.userServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(userServerUrl + "/appUser/queryAll?nickname=" + nickname + 
+															"&status=" + status + 
+															"&startDate=" + startDate + 
+															"&endDate=" + endDate + 
+															"&page=" + page + 
+															"&pageSize=" + pageSize,
+				{}, 
+				{
+					headers: {
+						'adminUserId': aid,
+						'adminUserToken': atoken
+					}
+				})
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						var grid = res.data.data;
+						var userList = grid.rows;
+						me.userList = userList;
+
+						var maxPage = grid.total; // 获得总页数
+						var total = grid.records; // 获得总记录数
+
+						this.maxPage = maxPage;
+						this.total = total;
+						
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 管理员注销，退出登录
+			doLogout() {
+				app.doAdminLogout();
+			}, 
+			// 根据状态类型查询
+			queryByType(statusType) {
+				var me = this;
+				this.articleStatusType = statusType;
+				var startDateStr = me.startDateStr;
+				var endDateStr = me.endDateStr;
+				this.queryAllUserList(1, 10, this.searchContent, statusType, startDateStr, endDateStr);
+			},
+			submitSearch() {
+				var me = this;
+				var searchContent = me.searchContent;
+				var statusType = me.articleStatusType;
+				console.log(searchContent);
+				var startDateStr = me.startDateStr;
+				var endDateStr = me.endDateStr;
+				me.queryAllUserList(1, 10, searchContent, statusType, startDateStr, endDateStr);
+			},
+
+			// 分页实现方法 跳转到page页
+			doPaging: function (page) {
+				this.page = page;
+				var searchContent = this.searchContent;
+				var statusType = this.articleStatusType;
+				var startDateStr = this.startDateStr;
+				var endDateStr = this.endDateStr;
+				this.queryAllUserList(page, this.pageSize, searchContent, statusType, startDateStr, endDateStr);
+			},
+			// 获得用户状态
+			getStatus(status) {
+				if (status === 0) {
+					return "未激活";
+				} else if (status === 1) {
+					return "已激活";
+				} else if (status === 2) {
+					return "冻结";
+				}
+				return "";
+			},
+			// 格式化日期
+			formatData(times) {
+				var date = moment(times).format('YYYY-MM-DD');
+				return date;	
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+		}
+	});
+
+</script>
+
+</html>

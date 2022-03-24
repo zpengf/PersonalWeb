@@ -1,0 +1,124 @@
+.main-page {
+    width: 980px;
+    margin-left: 20px;
+    background-color: white;
+    padding-bottom: 40px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.title-box {
+    padding: 20px 0 10px 30px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.title-word {
+    color: #c9394a;
+    font-size: 20px;
+}
+
+.all-charts-wrapper {
+    padding: 20px 30px;
+
+    align-self: center;
+}
+
+/* 横向线型图 */
+.sex-lable {
+    font-size: 16px;
+    color: #222;
+}
+
+.sex-wrapper {
+    width: 820px;
+    margin-top: 10px;
+    border: 1px solid #e8e8e8;
+    padding: 20px 10px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.sex-line-wrapper {
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+
+    align-self: center;
+}
+.sex-man-line {
+    background-color: rgb(107, 208, 107);
+    height: 25px;
+}
+.sex-woman-line {
+    background-color: rgb(219, 135, 135);
+    height: 25px;
+}
+
+.sex-block-wrapper {
+    align-self: flex-start;
+    margin-left: 10px;
+    margin-top: 15px;
+}
+.sex-all-counts {
+    font-size: 14px;
+    color: #222;
+}
+.sex-man-counts {
+    font-size: 14px;
+    color: #222;
+
+    display: flex;
+    flex-direction: row;
+    margin-top: 3px;
+}
+.sex-woman-counts {
+    font-size: 14px;
+    color: #222;
+
+    display: flex;
+    flex-direction: row;
+    margin-top: 3px;
+}
+
+.sex-man-block {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(107, 208, 107);
+    margin-right: 8px;
+}
+.sex-woman-block {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(219, 135, 135);
+    margin-right: 8px;
+}
+
+
+/* 柱状图 */
+.histogram-wrapper {
+    border-bottom: 1px solid #e8e8e8;
+    border-left: 1px solid #e8e8e8;
+    border-right: 1px solid #e8e8e8;
+}
+
+
+/* 饼状图 */
+.pie-wrapper {
+    border-bottom: 1px solid #e8e8e8;
+    border-left: 1px solid #e8e8e8;
+    border-right: 1px solid #e8e8e8;
+}
+
+/* 地图地域显示 */
+.city-lable {
+    font-size: 16px;
+    color: #222;
+    margin-top: 20px;
+}
+
+.map-wrapper {
+    border: 1px solid #e8e8e8;
+    margin-top: 10px;
+}

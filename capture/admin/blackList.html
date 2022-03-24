@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/blackList.css">
+
+	<!-- 分页css -->
+	<link href="libs/vuePaging/VuePaging/zpageNav.css" rel="stylesheet" />
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>IP黑名单 | 运营管理平台</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部黑色头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper">
+				<img src="./img/logo.png" class="center-logo" @click="goIndex()"/>
+
+				<div class="right-me-info">
+					<!-- <img src="./img/face1.png" class="me-face"/> -->
+					<span class="me-nickname">{{adminUserLogin.userName}}</span>
+					<span class="sep-line">|</span>
+					<span class="logout" @click="doLogout">注销</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">管理中心</div>
+						</div>
+						<ul style="margin-top: 5px;">
+							<li class="menu-item"><a href="contentReview.html" class="menu-item-default">内容审核</a></li>
+							<li class="menu-item"><a href="userList.html" class="menu-item-default">用户管理</a></li>
+							<li class="menu-item"><a href="categoryMng.html" class="menu-item-default">文章分类</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li> -->
+							<li class="menu-item"><a href="friendLinks.html" class="menu-item-default">友情链接</a></li>
+							<li class="menu-item"><a href="blackList.html" class="menu-item-select">IP黑名单</a></li>
+							<li class="menu-item"><a href="adminMng.html" class="menu-item-default">设置管理员</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="main-page">
+				<div class="edit-box">
+					<div class="mng-box">
+						<div class="single-line-enter">
+							<div class="words-label">禁封IP</div>
+							<input type="text" v-model="blackList.blackIP" class="field-input" maxlength="20"/>
+						</div>
+						<div class="single-line-enter">
+							<div class="words-label" style="align-self: center;">备注</div>
+							<input type="text" v-model="blackList.remark" class="field-input" maxlength="20"/>
+						</div>
+						<div class="single-line-enter btn-submit-wrapper">
+							<button class="clear-btn" @click="clearData" style="margin-left: 10px;">清空数据</button>
+
+							<button class="submit-btn" @click="addBlack">确认添加</button>
+						</div>
+						<div class="single-line-enter notice">
+							* 添加IP到黑名单后，该IP用户将无法访问网站~
+						</div>
+					</div>
+				</div>
+
+				<div id="user-list-wrapper" class="user-list-wrapper">
+					
+					<div class="single-line-enter">
+						<input type="text" v-model="queryIp" class="field-input" maxlength="20" placeholder="查询IP"/>
+						<button class="query-btn" @click="addBlack">查询</button>
+					</div>
+
+					<div class="user-list">
+
+						<table class="table-user" >
+							<tr class="head-th"> 
+								<th style="width: 20%; text-align: left; padding-left: 30px;color: #222;">封禁IP</th>
+								<th style="width: 20%; text-align: right; padding-right: 10px;color: #222;">备注</th>
+								<th style="width: 20%; text-align: right; padding-right: 10px;color: #222;">操作时间</th>
+								<th style="width: 20%; text-align: right; padding-right: 30px;color: #222;">操作</th>
+							</tr>
+							
+							<tr class="user-single-line">
+								<td class="table-td-left" style="padding-left: 30px;">10.16.124.6</td>
+								<td class="table-td-right" style="padding-right: 10px;">
+									封了
+								</td>
+								<td class="table-td-right" style="padding-right: 10px;">2019-12-12 14:13:12</td>
+								<td class="table-td-right" style="padding-right: 30px;"><a href="javascript:(0);" @click="deleteIP(1011)">删除</a></td>
+							</tr>
+
+						</table>
+
+					</div>
+
+					<!-- 分页 start-->
+					<div class="wrap" id="wrap">
+						<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+							v-bind:max-page="maxPage"  v-on:pagehandler="doPaging">
+						</zpagenav>
+					</div>
+					<!-- 分页 end-->
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.imooc.com" target="_blank">慕课网</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://class.imooc.com/sale/javaarchitect" target="_blank">架构师体系课</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/217.html" target="_blank">SpringBoot短视频实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/261.html" target="_blank">Netty仿微信聊天实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/201.html" target="_blank">Zookeeper入门</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 imooc.com All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/vuePaging/VuePaging/zpageNav.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="js/app.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			adminUserLogin: {
+				adminId: "",
+				adminName: "",
+				adminToken: ""
+			},
+
+			blackList: {
+				blackIP: "",
+				remark: ""
+			},
+
+			queryIp: "",
+
+
+			page: 1, // 分页页数
+			pageSize: 10, // 分页每页显示数量
+			maxPage: 1, // 总页数
+			total: 1, // 总记录数
+		},
+		mounted() {
+
+		},
+		created() {
+
+			// 判断管理员是否登录
+			app.judgeAdminLogin(this);
+		},
+		methods: {
+			// 管理员注销，退出登录
+			doLogout() {
+				app.doAdminLogout();
+			}, 
+			// 保存或更新
+			addBlack() {
+				var me = this;
+
+				// 存mongodb或redis，数据库不需要存，没必要，不重要的数据一般放在mongodb即可
+
+				this.clearData();
+			},
+			// 清空表单数据
+			clearData() {
+				this.blackList.blackIP = "";
+				this.blackList.remark = "";
+			},
+			// 修改分类名称
+			deleteIP(blackId) {
+				console.log(blackId);
+
+			},
+
+			// 分页实现方法 跳转到page页
+			doPaging: function (page) {
+				this.page = page;
+				// this.renderOrderList(this.orderStatus, page, this.pageSize);
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+
+		}
+	});
+
+</script>
+
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<!-- 首页 -->
+	<link rel="stylesheet" type="text/css" href="css/app.css" />
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+	<link rel="stylesheet" type="text/css" href="css/index/topHeader.css" />
+
+	<link rel="stylesheet" type="text/css" href="css/index/articleList.css" />
+	<link rel="stylesheet" type="text/css" href="css/index/search.css" />
+	<link rel="stylesheet" type="text/css" href="css/index/userInfo.css" />
+	<link rel="stylesheet" type="text/css" href="css/index/hotNews.css" />
+	<link rel="stylesheet" type="text/css" href="css/index/friendLinks.css" />
+	<link rel="stylesheet" type="text/css" href="css/index/beiAn.css" />
+	
+
+	<style type="text/css">
+	</style>
+	<title>capture-web</title>
+</head>
+
+<body>
+	<div id="index">
+
+		<!-- 顶部导航头 header -->
+		<div class="white-header">
+			<div class="white-bar">
+				<div class="left-part">
+					<!-- <div class="logo-wrapper" @click="goIndex()">
+						<img src="./img/imooc-news-logo.png" class="big-logo"/>
+					</div> -->
+					<div class="menus">
+						<div class="single-default">
+							<a href="javascript:void(0);" class="white-header-left" @click="goIndex()">首页</a>
+						</div>
+						<!-- single-selected -->
+						<div class="single-default" v-bind:class="{'single-selected': (cat.id==selectedCatId)}" v-for="(cat, index) in catList" v-key="index">
+							<!-- menu-selected -->
+							<a href="javascript:void(0);" class="white-header-left" v-bind:class="{'menu-selected': (cat.id==selectedCatId)}" @click="queryByCategory(cat.id)">{{cat.name}}</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="right-part">
+					<!-- 如果登录则不显示 -->
+					<block v-if="userInfo == null">
+						<a href="javascript:(0);" @click="doLogin()" target="_blank" class="white-header-right-start">登录 | 注册</a>
+					</block>
+					<a href="javascript:(0);" @click="goWriterCenter()" target="_blank" class="white-header-right">作家中心</a>
+					<a href="javascript:(0);" @click="goAdminCenter()" target="_blank" class="white-header-right" style="margin-right: 20px;">管理平台</a>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 中间容器 -->
+		<div class="container">
+			<!-- 文章列表 -->
+			<div id="articleList" class="article-list">
+				<ul>
+					<li class="single-article-wrapper" v-for="(article, index) in articleList" :key="index">
+						<img :src="article.articleCover" class="article-cover" v-show="article.articleType == 1">
+
+						<div class="single-article">
+							<div class="article-title">
+								<!-- TODO: 后期改为静态页面跳转 -->
+								<!-- <a :href="'detail.html?articleId='+article.id" target="_blank" class="link-article-title">{{article.title}}</a> -->
+								<a :href="'./a/'+article.id+'.html'" target="_blank" class="link-article-title">{{article.title}}</a>
+							</div>
+							<div class="publisher">
+								<div class="category-tag" :style="{color: getCatTagColor(article.categoryId), borderColor: getCatTagColor(article.categoryId) }">{{getCatName(article.categoryId)}}</div>
+								<!-- TODO: 这里需要显示用户的昵称以及用户头像 -->
+									<img src="img/face1.png" class="publisher-face" v-if="article.publisherVO == null || article.publisherVO == undefined">
+									<div class="publisher-name" v-if="article.publisherVO == null || article.publisherVO == undefined">&nbsp;&nbsp;{{article.publishUserId}}&nbsp;⋅</div>
+								
+								
+									<img :src="article.publisherVO.face" class="publisher-face" v-if="article.publisherVO != null && article.publisherVO != undefined">
+								<a :href="'writer.html?writerId='+article.publisherVO.id" target="_blank">
+									<div class="publisher-name" v-if="article.publisherVO != null && article.publisherVO != undefined">&nbsp;&nbsp;{{article.publisherVO.nickname}}&nbsp;⋅</div>
+								</a>
+
+								<div class="article-name">&nbsp;{{article.readCounts}}阅读&nbsp;⋅</div>
+								
+								<!-- <div class="publish-time">&nbsp;{{formatData(article.publishTime)}}</div> -->
+								<div class="publish-time">&nbsp;{{getDateBeforeNow(article.publishTime)}}</div>
+							</div>
+						</div>
+					</li>
+	
+				</ul>
+	
+			</div>
+	
+			<!-- 右侧附带信息 -->
+			<div class="attached-info">
+				<!-- 搜索 -->
+				<div id="search">
+					<div class="search-box">
+						<div class="box-wrapper">
+							<input type="text" class="search-content" v-model="keyword" placeholder="请输入搜索内容">
+	
+							<button class="search-btn" @click="searchArticle">搜索</button>
+						</div>
+					</div>
+				</div>
+	
+				<!-- 用户信息，登录后显示，未登录不显示 -->
+				<div v-if="userInfo != null">
+					<div id="userInfo" class="user-info">
+						<div class="my-info">
+		
+							<div class="div-log-out">
+								<a href="javascript:void(0);" class="link-log-out" @click="logout">退出登录</a>
+							</div>
+		
+							<div class="my-face">
+								<a :href="'writer.html?writerId='+userInfo.id" target="_blank">
+									<img :src="userInfo.face" class="my-face-img">
+								</a>
+							</div>
+		
+							<div class="writer">{{userInfo.nickname}}</div>
+		
+							<div class="fans-info">
+								<div class="my-subscribe">
+									<div class="fans-info-num item-center">{{userInfo.myFollowCounts == null ? 0 : userInfo.myFollowCounts}}</div>
+									<div class="fans-info-word item-center">关注</div>
+								</div>
+		
+								<div class="middle-line"></div>
+		
+								<div class="my-fans">
+									<div class="fans-info-num item-center">{{userInfo.myFansCounts == null ? 0 : userInfo.myFansCounts}}</div>
+									<div class="fans-info-word item-center">粉丝</div>
+								</div>
+							</div>
+		
+						</div>
+					</div>
+				</div>
+	
+				<!-- 24小时热文 -->
+				<div id="hotNews" class="hot-news">
+					<div class="hot-title">最新热闻</div>
+	
+					<div class="hot-items" v-for="(hotArticle, hotIndex) in hotArticleList" :key="hotIndex">
+						<div class="hot-single" v-show="hotArticle.articleCover != ''">
+							<!-- <div class="hot-img-wrapper" style="background-image: url('./img/cover2.jpg');"></div> -->
+							<a :href="'detail.html?articleId='+hotArticle.id" class="link-hot-title-words" target="_blank">
+								<div class="hot-img-wrapper" :style="'background-image: url(' + hotArticle.articleCover + ');'">
+									<!-- <img src="img/car.jpeg" class="hot-img"> -->
+								</div>
+							</a>
+						</div>
+						<div>
+							<a :href="'detail.html?articleId='+hotArticle.id" class="link-hot-title-words" target="_blank">
+								{{hotArticle.title}}
+							</a>
+						</div>
+					</div>
+
+				</div>
+	
+				<!-- 友情链接 -->
+				<div id="friendLinks" class="friend-links">
+					<div class="friend-title">友情链接</div>
+					<a :href="link.linkUrl" target="_blank" class="friend-link-item" v-for="(link, lindex) in friendLinkList" :key="lindex">{{link.linkName}}</a>
+				</div>
+	
+				<!-- 备案信息 -->
+				<div id="beiAn" class="bei-an">
+					<p>© 2022 capture-web</p>
+					<p>声明：瞎说的！</p>
+					<p>capture-Web（<a href="https://capturez.xyz/" target="_blank">https://capturez.xyz</a>）</p>
+					<p>微信公众号：外憨论语</p>
+					<p><a href="https://capturez.xyz" target="_blank">QQ：971232132</a></p>
+					<p>备案号：没备案就是玩</p>
+				</div>
+			</div> 
+	
+		</div>
+
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="js/app.js"></script>
+<script src="libs/moment-with-locales.min.js"></script>
+
+<script type="text/javascript">
+
+	var index = new Vue({
+		el: "#index",
+		data: {
+			indexMsg: "这里显示文章列表",
+			keyword: "",
+			userInfo: null,
+
+			// 文章分类列表
+			catList: [],
+			selectedCatId: "",		// 被选中的当前的分类id
+			// isSelected = (cat.id==selectedCatId)
+
+			articleList:[],
+			friendLinkList: [],
+			hotArticleList: [],
+
+			page: 1, // 分页页数
+			pageSize: 15, // 分页每页显示数量
+			maxPage: 1, // 总页数
+			total: 1, // 总记录数
+		},
+		created() {
+			var me = this;
+			// 通过cookie判断用户是否登录
+			app.judgeUserLoginStatus(me);
+
+			// 有可能是从详情页或者作家页面点击分类过来的
+			var selectedCatId = app.getUrlParam("catId");
+			if (app.isEmpty(selectedCatId)) {
+				selectedCatId = ""
+			}
+			me.selectedCatId = selectedCatId;
+
+			this.getAllCategory();
+			this.getAllArticleList(1, 15, "", selectedCatId, true);
+			this.getFriendLinkList();
+			this.getHotArticleList();
+			
+		},
+		mounted() {
+		},
+		methods: {
+			// 查询热闻
+			getHotArticleList() {
+				var me = this;
+
+				var articleServerUrl = app.articleServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.get(articleServerUrl + "/portal/article/hotList")
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						var resultList = res.data.data;
+						me.hotArticleList = resultList;
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 页面向下滚动分页
+			renderByScroll () {
+				var me = this;
+				var keyword = me.keyword;
+				var catId = me.selectedCatId;
+				console.log("renderByScroll");
+				// debugger;
+				var page = me.page;
+				if (page == me.maxPage) {
+					// 分页和总页数匹配，则不分页
+					return false;
+				}
+				page ++;
+				me.getAllArticleList(page, 15, keyword, catId, false);
+			},
+			// 根据关键字搜索文章
+			searchArticle() {
+				var me = this;
+				var keyword = me.keyword;
+				me.selectedCatId = "";
+				console.log(keyword);
+
+				me.getAllArticleList(1, 15, keyword, "", true);
+			},
+			// 根据分类Id获得tag颜色
+			getCatTagColor(catId) {
+				var catList = this.catList;
+				for (var i = 0 ; i < catList.length ; i ++) {
+					if (catId == catList[i].id) {
+						return catList[i].tagColor;
+						break;
+					}
+				}
+			},
+			// 根据分类Id获得名称
+			getCatName(catId) {
+				var catList = this.catList;
+				for (var i = 0 ; i < catList.length ; i ++) {
+					if (catId == catList[i].id) {
+						return catList[i].name;
+						break;
+					}
+				}
+			},
+			// 查询首页文章列表		isNewList: 表示是否在查询的结果集中拼接现有list还是直接覆盖list
+			getAllArticleList(page, pageSize, keyword, category, isNewList) {
+				var me = this;
+				me.page = page;
+
+				var articleServerUrl = app.articleServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.get(articleServerUrl + "/portal/article/list?keyword=" + keyword + 
+															"&category=" + category + 
+															"&page=" + page + 
+															"&pageSize=" + pageSize)
+				.then(res => {
+					// console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						var grid = res.data.data;
+						var resultList = grid.rows;
+						var articleList = me.articleList;
+						// debugger;
+						if (isNewList) {
+							// 是重新查询的，搜索框搜索，分类搜索，直接把查询结果集展示
+							me.articleList = resultList;
+						} else {
+							// 分页的是用于拼接的
+							// console.log("isNewList=" + isNewList);
+							me.articleList = articleList.concat(resultList);
+						}
+						// me.articleList = resultList;
+						// console.log(articleList);
+
+						// console.log(grid.page)
+						me.page = grid.page;  // 当前页数累加1，用于后续页面滚动分页
+						// me.page = grid.page + 1;  // 当前页数累加1，用于后续页面滚动分页
+						var maxPage = grid.total; // 获得总页数
+						var total = grid.records; // 获得总记录数
+
+						this.maxPage = maxPage;
+						this.total = total;
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 查询首页友情链接
+			getFriendLinkList() {
+				var me = this;
+
+				var adminServerUrl = app.adminServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.get(adminServerUrl + "/friendLinkMng/portal/list")
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						var resultList = res.data.data;
+						me.friendLinkList = resultList;
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 根据分类id查询文章列表
+			queryByCategory(catId) {
+				var me = this;
+				me.selectedCatId = catId;
+				me.keyword = "";
+
+				me.getAllArticleList(1, 15, "", catId, true);
+			},
+			// 获得所有文章领域
+			getAllCategory() {
+				var me = this;
+				var adminServerUrl = app.adminServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.get(adminServerUrl + "/categoryMng/getCats")
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						var catList = res.data.data;
+						me.catList = catList;
+						// console.log(catList);
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 跳转登录
+			doLogin() {
+				window.location = app.writerLoginUrl;
+			},
+			goWriterCenter() {
+				window.open(app.writerIndexUrl);
+			},
+			goAdminCenter() {
+				window.open(app.adminCenterUrl);
+			},
+			logout() {
+				var me = this;
+				app.logout(me);
+			},
+			// 格式化日期
+			formatData(times) {
+				var date = moment(times).format('YYYY-MM-DD HH:mm:ss');
+				return date;	
+			},
+			getDateBeforeNow(time) {
+				// var nowTime = new Date();
+				// var day = nowTime.getDate();
+				// var date = moment(nowTime).format('YYYY-MM-DD hh:mm:ss');
+				// console.log("当前时间：" + date);
+				
+				var temp = this.formatData(time);
+				// console.log("处理后时间：" + temp);
+				console.log(app.getDateBeforeNow(temp));
+				
+				return app.getDateBeforeNow(temp);
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+		}
+	});
+
+</script>
+<script type="text/javascript">
+		
+	$(window).scroll(
+		function() {
+			// scrollTop为滚动条在Y轴上的滚动距离。
+			// clientHeight为内容可视区域的高度。
+			// scrollHeight为内容可视区域的高度加上溢出（滚动）的距离。
+			var scrollTop = $(this).scrollTop();
+			var scrollHeight = $(document).height();
+			var windowHeight = $(this).height();
+			if (scrollTop + windowHeight > (scrollHeight - 50) ) {
+			// 此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+			// console.log("123");
+			index.renderByScroll();
+		}
+	});
+
+</script>
+
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/adminMng.css">
+
+	<!-- 分页css -->
+	<link href="libs/vuePaging/VuePaging/zpageNav.css" rel="stylesheet" />
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>设置管理员 | 运营管理平台</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部黑色头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper">
+				<div class="right-me-info">
+					<!-- <img src="./img/face1.png" class="me-face"/> -->
+					<span class="me-nickname">{{adminUserLogin.userName}}</span>
+					<span class="sep-line">|</span>
+					<span class="logout" @click="doLogout">注销</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+			
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">管理中心</div>
+						</div>
+						<ul style="margin-top: 5px;">
+							<li class="menu-item"><a href="contentReview.html" class="menu-item-default">内容审核</a></li>
+							<li class="menu-item"><a href="userList.html" class="menu-item-default">用户管理</a></li>
+							<li class="menu-item"><a href="categoryMng.html" class="menu-item-default">文章分类</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li> -->
+							<li class="menu-item"><a href="friendLinks.html" class="menu-item-default">友情链接</a></li>
+							<li class="menu-item"><a href="blackList.html" class="menu-item-default">IP黑名单</a></li>
+							<li class="menu-item"><a href="adminMng.html" class="menu-item-select">设置管理员</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="main-page">
+				<div class="edit-box">
+					<div class="mng-box">
+						<div class="single-line-enter">
+							<div class="words-label">登录名</div>
+							<input type="text" v-model="adminUser.username"  @keyup="adminIsExist" class="field-input" maxlength="12"/>
+						</div>
+						<div class="single-line-enter">
+							<div class="words-label">负责人</div>
+							<input type="text" v-model="adminUser.adminName" class="field-input" maxlength="12"/>
+						</div>
+						<div class="single-line-enter">
+							<div class="words-label" style="align-self: center;">密码</div>
+							<input type="text" v-model="adminUser.password" class="field-input" maxlength="20"/>
+						</div>
+						<div class="single-line-enter">
+							<div class="words-label" style="align-self: center;">确认密码</div>
+							<input type="text" v-model="adminUser.confirmPassword" class="field-input" maxlength="20"/>
+						</div>
+						<div class="single-line-enter">
+							<div class="words-label" style="align-self: center;">人脸登录</div>
+							<input type="checkbox" v-model="adminUser.isFaceLogin" class="field-input" 
+									style="width: 102px; margin-top: 8px;" @change="doFace"/>
+
+							<button class="face-btn" @click="takeFace" v-show="adminUser.isFaceLogin && takeFaceStatus==1">获取人脸</button>
+							<button class="face-btn" @click="refreshFace" v-show="adminUser.isFaceLogin && takeFaceStatus==2">重新获取</button>
+						</div>
+						<div class="single-line-enter btn-submit-wrapper">
+							<button class="clear-btn" @click="clearData" style="margin-left: 10px;">清空数据</button>
+							<button class="submit-btn" @click="addAdmin">确认添加</button>
+						</div>
+						<div class="single-line-enter notice">
+							* 请确保你的电脑有摄像头~
+						</div>
+					</div>
+					<div class="face-box">
+						<div v-show="adminUser.isFaceLogin && takeFaceStatus==1">
+							<!-- <img src="./assets/img/bg1.png" style="width: 477px; height: 280px;" /> -->
+							<video id="video" width="477px" height="280px" autoplay="autoplay" style="border-radius: 8px;"></video>
+						</div>
+						<div v-show="adminUser.isFaceLogin && takeFaceStatus==2">
+							<canvas id="canvas" width="477px" height="280px" style="border-radius: 8px;"></canvas>
+						</div>
+					</div>
+				</div>
+
+				<div id="user-list-wrapper" class="user-list-wrapper">
+					<div class="user-list">
+
+						<table class="table-user" >
+							<tr class="head-th"> 
+								<th style="width: 20%; text-align: left; padding-left: 30px;color: #222;">登录名</th>
+								<th style="width: 20%; text-align: right; padding-right: 10px;color: #222;">负责人</th>
+								<th style="width: 20%; text-align: right; padding-right: 10px;color: #222;">创建时间</th>
+								<th style="width: 20%; text-align: right; padding-right: 30px;color: #222;">操作</th>
+							</tr>
+							
+							<tr class="user-single-line" v-for="(admin, index) in adminList">
+								<td class="table-td-left" style="padding-left: 30px;">{{admin.username}}</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{admin.adminName}}</td>
+								<td class="table-td-right" style="padding-right: 10px;">{{formatData(admin.createdTime)}}</td>
+								<td class="table-td-right" style="padding-right: 30px;"><a href="javascript:void(0);" @click="showFace(admin.faceId)" target="_blank">查看人脸</a></td>
+							</tr>
+
+						</table>
+
+					</div>
+
+					<!-- 分页 start-->
+					<div class="wrap" id="wrap">
+						<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total" 
+							v-bind:max-page="maxPage"  v-on:pagehandler="doPaging">
+						</zpagenav>
+					</div>
+					<!-- 分页 end-->
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.imooc.com" target="_blank">慕课网</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://class.imooc.com/sale/javaarchitect" target="_blank">架构师体系课</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/217.html" target="_blank">SpringBoot短视频实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/261.html" target="_blank">Netty仿微信聊天实战</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://coding.imooc.com/class/201.html" target="_blank">Zookeeper入门</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2020 imooc.com All Rights Reserved</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/vuePaging/VuePaging/zpageNav.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="js/app.js"></script>
+<script src="libs/moment-with-locales.min.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			adminUserLogin: {
+				adminId: "",
+				adminName: "",
+				adminToken: ""
+			},
+
+			// 录入管理人元的信息bean封装
+			adminUser: {
+				username: "",
+				adminName: "",
+				password: "",
+				confirmPassword: "",
+				isFaceLogin: false		// 用于标记是否人脸入库
+			},
+			adminUserIsExist: false,		// username是否存在，false，不存在，true：存在
+
+			// 用于人脸入库
+			mediaStreamTrack: null, 	// 全局视频对象
+			video: null,
+			isCameraOpen: false,
+			takeFaceStatus: 0,			// 0: 不使用人脸，1: 使用人脸，并初始化，2: 获取人脸在网页展示。用于标记页面上（展示层）按钮状态与图片的展示，仅仅用于前端交互
+			faceData64: "",				// 人脸数据，用于数据层交互，入库
+
+			// 用于分页
+			page: 1, // 分页页数
+			pageSize: 10, // 分页每页显示数量
+			maxPage: 1, // 总页数
+			total: 1, // 总记录数
+
+			adminList: []		// 管理元列表
+		},
+		mounted() {
+
+		},
+		created() {
+			// 判断管理员是否登录
+			app.judgeAdminLogin(this);
+			// 查询管理员列表
+			this.queryAdminList(1, 10);
+		},
+		methods: {
+			// 管理员注销，退出登录
+			doLogout() {
+				app.doAdminLogout();
+			}, 
+			// 查看人脸
+			showFace(faceId) {
+				// console.log(faceId);
+				var fsServerUrl = app.fsServerUrl;
+				// var requestUrl = fsServerUrl + "/fs/readInGridFS?faceId=" + faceId;
+				// window.open(fsServerUrl + "/fs/readInGridFS?faceId=" + faceId);
+				window.open("adminFace.html?faceId=" + faceId);
+			},
+			// 格式化日期
+			formatData(times) {
+				var date = moment(times).format('YYYY-MM-DD HH:mm:ss');
+				return date;	
+			},
+			// 查询管理员列表
+			queryAdminList(page, pageSize) {
+				var me = this;
+				me.page = page;
+
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+
+				var adminServerUrl = app.adminServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(adminServerUrl + "/adminMng/getAdminList?page=" + page + "&pageSize=" + pageSize,
+				{}, 
+				{
+					headers: {
+						'adminUserId': aid,
+						'adminUserToken': atoken
+					}
+				})
+				.then(res => {
+					// console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						var grid = res.data.data;
+						var adminList = grid.rows;
+						me.adminList = adminList;
+
+						var maxPage = grid.total; // 获得总页数
+						var total = grid.records; // 获得总记录数
+
+						this.maxPage = maxPage;
+						this.total = total;
+						
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 查询管理员是否存在
+			adminIsExist() {
+				var me = this;
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+
+				var adminServerUrl = app.adminServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(adminServerUrl + '/adminMng/adminIsExist?username=' + me.adminUser.username, 
+				{},
+				{
+					headers: {
+						'adminUserId': aid,
+						'adminUserToken': atoken
+					}
+				})
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						me.adminUserIsExist = false;
+					} else {
+						alert(res.data.msg);
+						me.adminUserIsExist = true;
+					}
+				});
+			},
+			// 新增管理员
+			addAdmin() {
+				var me = this;
+
+				// 基本验证
+				if (app.isEmpty(me.adminUser.username)) {
+					alert("登录名不能为空");
+					return false;
+				}
+				if (me.adminUserIsExist) {
+					alert("登录名已经存在，请换一个吧~");
+					return false;
+				}
+
+				if (app.isEmpty(me.adminUser.adminName)) {
+					alert("负责人姓名不能为空");
+					return false;
+				}
+
+				// 使用人脸进入的验证判断，人脸必填，密码选填
+				var faceData64 = me.faceData64;
+				if (me.adminUser.isFaceLogin) {
+					if (app.isEmpty(faceData64)) {
+						alert("请点击`获取人脸`按钮获得您的人脸信息");
+						return false;
+					}
+				} else {
+					// 不使用人脸进入的验证判断，密码必填
+					if (app.isEmpty(me.adminUser.password)) {
+						alert("密码不能为空");
+						return false;
+					}
+				}
+
+				// 如果填了密码，但是密码与确认密码不一致，则报错
+				if (app.isNotEmpty(me.adminUser.password)) {
+					if (me.adminUser.password != me.adminUser.confirmPassword) {
+						alert("两次输入密码不一致");
+						return false;
+					}
+				}
+
+				// 执行添加操作，判断如果有base64图片，则先上传，后添加
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+				if (me.adminUser.isFaceLogin) {
+					var img64 = faceData64.split("base64,")[1];
+					me.adminUser.img64 = img64;
+					var fsServerUrl = app.fsServerUrl;
+					axios.defaults.withCredentials = true;
+					axios.post(fsServerUrl + '/fs/uploadToGridFS',
+						me.adminUser,
+						{
+							headers: {
+								'adminUserId': aid,
+								'adminUserToken': atoken
+							}
+						}
+					)
+					.then(res => {
+						console.log(JSON.stringify(res.data));
+
+						if (res.data.status == 200) {
+							me.adminUser.faceId = res.data.data;
+							me.addNewAdmin(me.adminUser);
+						} else {
+							alert(res.data.msg);
+						}
+					});
+				} else {
+					// 如果没有base64图片，则直接添加
+					me.addNewAdmin(me.adminUser);
+				}
+
+			},
+			// 添加管理员抽出的公用方法
+			addNewAdmin(adminUser) {
+				var me = this;
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+				var adminServerUrl = app.adminServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(adminServerUrl + '/adminMng/addNewAdmin',
+					adminUser,
+					{
+						headers: {
+							'adminUserId': aid,
+							'adminUserToken': atoken
+						}
+					}
+				)
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						// 添加完毕以后重新查询列表
+						me.queryAdminList(1, 10);
+					} else {
+						alert(res.data.msg);
+					}
+					this.clearData();
+				});
+			},
+			// 清空表单数据
+			clearData() {
+				this.adminUser.username = "";
+				this.adminUser.adminName = "";
+				this.adminUser.password = "";
+				this.adminUser.confirmPassword = "";
+				this.adminUser.isFaceLogin = false;
+				this.adminUser.img64 = "";
+				this.adminUser.faceId = "";
+				this.adminUserIsExist = false;
+			},
+			// 重新刷新，重新获取人脸
+			refreshFace () {
+				// 之前存入的人脸信息清除
+				this.faceData64 = "";
+				// 重拍，回到状态1
+				this.takeFaceStatus = 1;
+			},
+			// 获取人脸照片信息
+			takeFace () {
+				var isFaceLogin = this.adminUser.isFaceLogin;
+				console.log(isFaceLogin);
+				if (isFaceLogin) {
+					let video = document.getElementById('video');
+					let canvas = document.getElementById('canvas');
+					let ctx = canvas.getContext('2d');
+					ctx.drawImage(video, 0, 0, 477, 280);
+
+					let img = document.getElementById('canvas').toDataURL();
+					// 截取base64，见：https://help.aliyun.com/knowledge_detail/53535.html
+					// base64的图片
+					console.log(img);
+					this.faceData64 = img;	// 赋值
+
+					// 拍照，标记装为2，表示拍过了
+					this.takeFaceStatus = 2;
+				}
+			},
+			// 使用人脸登录，人脸入库
+			doFace() {
+				var isFaceLogin = this.adminUser.isFaceLogin;
+				console.log(isFaceLogin);
+				if (isFaceLogin) {
+					// 如果勾选人脸登录，则需要人脸入库
+					this.openFace();
+					// 使用人脸，初始化
+					this.takeFaceStatus = 1;
+				} else {
+					// 不使用人脸
+					this.takeFaceStatus = 0;
+				}
+			},
+			// 打开人脸摄像头
+			openFace() {
+				var me = this;
+				// 如果摄像头已经打开了，就不再继续下方代码业务
+				if (me.isCameraOpen) {
+					return;
+				}
+
+				let constraints = {
+					video: { width: 477, height: 280 },
+					audio: false
+				};
+				// 获得video摄像头
+				video = document.getElementById('video');     
+				let promise = navigator.mediaDevices.getUserMedia(constraints);
+				promise.then((mediaStream) => {
+					mediaStreamTrack=mediaStream.getVideoTracks()
+					video.srcObject = mediaStream;
+					video.play();
+				});
+				video.onloadedmetadata = function () {
+					me.isCameraOpen = true;
+				};
+			},
+			// 关闭人脸摄像头
+			closeFace() {
+				let stream = document.getElementById('video').srcObject;
+				if (stream == null) {
+					return;
+				}
+				let tracks = stream.getTracks();
+
+				tracks.forEach(function(track) {
+					track.stop();
+				});
+				document.getElementById('video').srcObject = null;
+			},
+			// 分页实现方法 跳转到page页
+			doPaging: function (page) {
+				this.page = page;
+				this.queryAdminList(page, this.pageSize);
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+
+		}
+	});
+
+</script>
+
+</html>

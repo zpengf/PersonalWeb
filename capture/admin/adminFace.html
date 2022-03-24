@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/aa.ico" />
+
+	<title>查看人脸</title>
+</head>
+
+<body>
+	<div id="adminFace">
+		<img id="myFace" src=""/>
+	</div>
+
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="js/app.js"></script>
+
+<script type="text/javascript">
+
+	var adminFace = new Vue({
+		el: "#adminFace",
+		data: {
+			indexMsg: "这里显示文章列表"
+		},
+		created() {
+			
+		},
+		methods: {
+			
+		}
+	});
+
+	var articleCategory = new Vue({
+		el: "#articleCategory",
+		data: {
+		},
+		created() {
+			var atoken = app.getCookie("atoken");
+			var aid = app.getCookie("aid");
+
+			var faceId = app.getUrlParam("faceId");
+
+			var fsServerUrl = app.fsServerUrl;
+			var requestUrl = fsServerUrl + "/fs/readInGridFS?faceId=" + faceId;
+			axios.defaults.withCredentials = true;
+			axios.get(requestUrl, 
+				{	
+					headers: {
+						'adminUserId': aid,
+						'adminUserToken': atoken
+					},
+					responseType: 'arraybuffer'
+				})
+				.then(response => {
+					return 'data:image/png;base64,' + btoa(
+					new Uint8Array(response.data)
+						.reduce((data, byte) => data + String.fromCharCode(byte), '')
+					);
+				}).then(data => {
+					// console.log(data);
+					$("#myFace").attr("src", data);
+				});
+
+		},
+		methods: {
+			
+		}
+	});
+</script>
+
+</html>

@@ -1,0 +1,95 @@
+.main-page {
+    width: 980px;
+    margin-left: 20px;
+    background-color: white;
+}
+
+.title-box {
+    padding: 20px 0 10px 30px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.title-word {
+    color: #c9394a;
+    font-size: 15px;
+}
+
+.comment-list-wrapper {
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+.single-comment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.comment-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    width: 600px;
+    font-size: 16px;
+}
+
+.basic-wrapper {
+    margin-left: 20px;
+}
+.user-time {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.publish-time {
+    color: gray; 
+    font-size: 14px; 
+    line-height: 23px; 
+    margin-left: 10px;
+}
+
+.comment-content {
+    margin-top: 10px;
+}
+
+.operation-wrapper {
+    margin-top: 10px;
+}
+
+
+
+.article-basic-info {
+    margin-right: 30px;
+}
+
+.cover {
+    width: 175px; 
+    height: 110px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.every-title {
+    width: 170px;
+
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    position: relative;
+    top: -40px;
+
+    margin-left: 5px;
+    color: white;
+    font-size: 12px;
+}
+
+
