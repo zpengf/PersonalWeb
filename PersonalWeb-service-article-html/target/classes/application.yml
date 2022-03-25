@@ -24,6 +24,7 @@ spring:
     database: 0
     host: 127.0.0.1
     port: 6379
+    password: peng715
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -71,7 +72,7 @@ eureka:
     fetch-registry: true
     # 注册中心的服务地址
     service-url:
-      defaultZone: http://eureka-cluster:7001/eureka/,http://eureka:7000/eureka/
+      defaultZone: http://10.211.55.9:7001/eureka/,http://10.211.55.9:7000/eureka/
 
 # 配置hystrix
 hystrix:
@@ -94,15 +95,14 @@ hystrix:
 # 定义freemarker生成的html位置
 freemarker:
   html:
-    target: /Users/pengfeizhang/Desktop/javaProject/PerosonalWeb/freemarker_html/ #做初次使用freemarker 测试用的路径
-    article: /Users/apache-tomcat-8.5.50/webapps/imooc-news/portal/a
+    article: /usr/local/apache-tomcat-9.0.37/webapps/capture/portal/a
 # 定义接口地址
 transferInterface:
-  article: http://www.imoocnews.com:8001/
-  article_html: http://www.imoocnews.com:8002/
-  user: http://www.imoocnews.com:8003/
-  files: http://www.imoocnews.com:8004/
-  admin: http://www.imoocnews.com:8005/
+  article: http://10.211.55.9:8001/
+  article_html: http://10.211.55.9:8002/
+  user: http://10.211.55.9:8003/
+  files: http://10.211.55.9:8004/
+  admin: http://10.211.55.9:8005/
 # 设置域名，在java代码中获取，这里是资源配置
 website:
-  domain-name: imoocnews.com
+  domain-name: 10.211.55.9
