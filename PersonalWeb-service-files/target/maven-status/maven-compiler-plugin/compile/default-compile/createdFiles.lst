@@ -1,7 +1,0 @@
-com/capture/files/controller/FileUploaderController.class
-META-INF/spring-configuration-metadata.json
-com/capture/files/Application.class
-com/capture/files/service/UploaderService.class
-com/capture/files/service/impl/UploaderServiceImpl.class
-com/capture/files/GridFSConfig.class
-com/capture/files/resource/FileResource.class

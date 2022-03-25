@@ -1,5 +1,0 @@
-com/capture/article/html/controller/ArticleHTMLController.class
-com/capture/article/html/Application.class
-com/capture/article/html/GridFSConfig.class
-com/capture/article/html/RabbitMQConsumer.class
-com/capture/article/html/controller/ArticleHTMLComponent.class
