@@ -8,7 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="springcloud-eureka-cluster" />
         <module name="springcloud-config" />
-        <module name="PersonalWeb-service-api" />
+        <module name="PersonalWeb-service-article-html" />
         <module name="PersonalWeb-service-article" />
         <module name="mybatis-generator-database" />
         <module name="springcloud-zuul-server" />
@@ -16,7 +16,7 @@
         <module name="PersonalWeb-service-files" />
         <module name="PersonalWeb-common" />
         <module name="springcloud-eureka" />
-        <module name="PersonalWeb-service-article-html" />
+        <module name="PersonalWeb-service-api" />
         <module name="PersonalWeb-model" />
         <module name="PersonalWeb-service-admin" />
       </profile>
