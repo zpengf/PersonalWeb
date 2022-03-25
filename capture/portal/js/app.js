@@ -1,27 +1,34 @@
 window.app = {
-    
-    /* 
-    portalIndexUrl: "http://localhost:8080/capture/portal/index.html",           // 门户首页地址
-    writerIndexUrl: "http://localhost:8080/capture/writer/contentMng.html",      // 作家中心首页
-    writerInfoUrl: "http://localhost:8080/capture/writer/accountInfo.html",     // 用户信息完善页面
-    userServerUrl: "http://192.168.1.5:8003",   // 用户服务后端接口地址
+
+    portalIndexUrl: "http://10.211.55.9:9090/capture/portal/index.html",           // 门户首页地址
+    writerLoginUrl: "http://10.211.55.9:9090/capture/writer/passport.html",      // 登录页面
+    writerIndexUrl: "http://10.211.55.9:9090/capture/writer/contentMng.html",      // 作家中心首页
+    writerInfoUrl: "http://10.211.55.9:9090/capture/writer/accountInfo.html",     // 用户信息完善页面
+    adminCenterUrl: "http://10.211.55.9:9090/capture/admin/contentReview.html",     // 运营管理平台主页
+
+    userServerUrl: "http://10.211.55.9:8003",                                       // 用户服务后端接口地址
+    fsServerUrl: "http://10.211.55.9:8004",                                            // 文件服务后端接口地址
+    adminServerUrl: "http://10.211.55.9:8005",                                      // 运营管理服务后端接口地址
+    articleServerUrl: "http://10.211.55.9:8001",                                     // 文章服务后端接口地址
+
+
+    /*
+    portalIndexUrl: "http://capturez.xyz:9090/capture/portal/index.html",
+    writerLoginUrl: "http://capturez.xyz:9090/capture/writer/passport.html",
+    writerIndexUrl: "http://capturez.xyz:9090/capture/writer/contentMng.html",
+    writerInfoUrl: "http://capturez.xyz:9090/capture/writer/accountInfo.html",
+    adminCenterUrl: "http://capturez.xyz:9090/capture/admin/contentReview.html",
+
+    userServerUrl: "http://capturez.xyz:8003",
+    fsServerUrl: "http://capturez.xyz:8004",
+    adminServerUrl: "http://capturez.xyz:8005",
+    articleServerUrl: "http://capturez.xyz:8001",
     */
-
-    portalIndexUrl: "http://capturez.xyz:9090/capture/portal/index.html",           // 门户首页地址
-    writerLoginUrl: "http://capturez.xyz:9090/capture/writer/passport.html",      // 登录页面
-    writerIndexUrl: "http://capturez.xyz:9090/capture/writer/contentMng.html",      // 作家中心首页
-    writerInfoUrl: "http://capturez.xyz:9090/capture/writer/accountInfo.html",     // 用户信息完善页面
-    adminCenterUrl: "http://capturez.xyz:9090/capture/admin/contentReview.html",     // 运营管理平台主页
-
-    userServerUrl: "http://capturez.xyz:8003",        // 用户服务后端接口地址
-    fsServerUrl: "http://capturez.xyz:8004",         // 文件服务后端接口地址
-    adminServerUrl: "http://capturez.xyz:8005",      // 运营管理服务后端接口地址
-    articleServerUrl: "http://capturez.xyz:8001",      // 文章服务后端接口地址
-
     /**
      * 如果本地使用localhost测试可以不使用，如果是ip或者域名测试，cookieDomain改为对应的ip或者域名
      */
-    cookieDomain: "capturez.xyz",  
+    // cookieDomain: "capturez.xyz",
+    cookieDomain: "10.211.55.9",
 
     // 判断用户是否登录
     judgeUserLoginStatus: function(pageVue) {

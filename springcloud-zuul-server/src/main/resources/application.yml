@@ -21,6 +21,7 @@ spring:
     database: 0
     host: 127.0.0.1
     port: 6379
+    password: peng715
   zipkin:
     # 配置zipkin采集的服务地址，数据会发送到这里
     base-url: http://127.0.0.1:9411/
@@ -45,7 +46,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka-cluster:7001/eureka/,http://eureka:7000/eureka/
+      defaultZone: http://10.211.55.9:7001/eureka/,http://10.211.55.9:7000/eureka/
 
 # 路由规则: http://[网关地址]:[端口号]/[prefix]/[微服务实例id]/[请求地址路径]
 zuul:
